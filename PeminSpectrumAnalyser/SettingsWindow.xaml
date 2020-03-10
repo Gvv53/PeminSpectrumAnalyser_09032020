@@ -1,0 +1,86 @@
+﻿<Window x:Class="PeminSpectrumAnalyser.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PeminSpectrumAnalyser"
+        mc:Ignorable="d"
+        Title="НАСТРОЙКИ ПРИЛОЖЕНИЯ" Height="466.333" Width="899" WindowStartupLocation="CenterScreen" Topmost="True" Background="{x:Null}" Foreground="{x:Null}">
+    <Grid Background="#FF1A1A1A" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="578"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="LeftPanelPath" HorizontalAlignment="Stretch"    TextWrapping="Wrap" Text="не задано" VerticalAlignment="Stretch"  Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="3" BorderBrush="#FF007ACC" Background="{x:Null}"/>
+
+        <Label Content="ПАПКА ХРАНЕНИЯ ЭКСПЕРИМЕНТОВ " HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="391" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Grid.Row="4" Height="26" Grid.Column="1" Margin="0,24,0,0" Grid.RowSpan="2"/>
+        <Label Content="TRACE MODE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Grid.Row="7" Height="25" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <Label Content="ПОДКЛЮЧЕНИЕ" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="391" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="25" Grid.Column="1"/>
+        <TextBox x:Name="Address" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="192.168.12.233" VerticalAlignment="Stretch"  Grid.Column="3" Margin="35,0,453,0" Grid.Row="2" BorderBrush="#FF007ACC" Background="{x:Null}" RenderTransformOrigin="0.159,1.733"/>
+        <Label Content="IP Адрес прибора" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top" Width="117" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2"/>
+        <Label Content="Номер порта" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top" Width="88" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.Row="3" Grid.RowSpan="2"/>
+        <TextBox x:Name="Port" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="5025" VerticalAlignment="Stretch"  Grid.Column="3" Margin="35,0,453,0" Grid.Row="3" BorderBrush="#FF007ACC" Background="{x:Null}"/>
+        <TextBox x:Name="TraceModeSignal" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="AVERage" VerticalAlignment="Top"  Grid.Column="3" Margin="185,0,303,0" Grid.Row="8" BorderBrush="#FF007ACC" Background="{x:Null}" Height="25"/>
+        <Label Content="Для сигнала" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="133" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.Row="8" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <Label Content="Для шума" HorizontalAlignment="Left" Margin="284,22,0,0" VerticalAlignment="Top" Width="73" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2"/>
+        <TextBox x:Name="TraceModeNoise" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="POSitive" VerticalAlignment="Stretch"  Grid.Column="3" Margin="551,0,0,0" Grid.Row="8" BorderBrush="#FF007ACC" Background="{x:Null}" Grid.ColumnSpan="2"/>
+        <Label Content="СМЕЩЕНИЯ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Grid.Row="9" Height="25" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <Label Content="Смещение для пересчета DBbMkv" HorizontalAlignment="Left" Margin="0,24,0,0" VerticalAlignment="Top" Width="220" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.Row="9" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="DbMKvShift" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="108.75" VerticalAlignment="Stretch"  Grid.Column="3" Margin="185,0,303,0" Grid.Row="10" BorderBrush="#FF007ACC" Background="{x:Null}"/>
+        <Label Content="Дополнительное смещение (Db)" HorizontalAlignment="Left" Margin="275,22,0,0" VerticalAlignment="Top" Width="205" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.Row="9" Grid.RowSpan="2"/>
+        <TextBox x:Name="CommonShift" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="3" VerticalAlignment="Stretch"  Grid.Column="3" Margin="551,0,0,0" Grid.Row="10" BorderBrush="#FF007ACC" Background="{x:Null}" Grid.ColumnSpan="2"/>
+        <Label Content="НАКОПЛЕНИЕ СИГНАЛА И ТИП УСРЕДНЕНИЯ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="282" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Grid.Row="11" Height="25" Grid.ColumnSpan="3" Grid.Column="1"/>
+
+        <DockPanel Grid.Column="2" HorizontalAlignment="Left" Height="22" LastChildFill="False" Margin="0,2,-44,0" Grid.Row="13" VerticalAlignment="Top" Width="835" Grid.ColumnSpan="4">
+            <Label Content="Для сигнала" Margin="0, -5, 0, 0"  Width="133" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="28" />
+            <Label Content="Количество усреднений" Margin="0, -5, 0, 0"  Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="28" />
+            <TextBox x:Name="MiddleCounterSignal"   TextWrapping="Wrap" Text="3" Width="91"  Grid.Row="8" BorderBrush="#FF007ACC" Background="{x:Null}" Margin="0,0,0,-1"/>
+            <RadioButton x:Name="MiddleSwitchOffForSignal" Content="Выключено" Height="22"  Width="103" Foreground="#FFE6E6F0"/>
+            <RadioButton x:Name="MiddleMaxValueForSignal" Content="Максимум" Height="22"  Width="91" Foreground="#FFEFEFF8" />
+            <RadioButton x:Name="MiddleMiddleForSignal" Content="Среднее" Height="23"  Width="82" Foreground="#FFEFEFF8" Margin="0,0,0,-1"/>
+            <RadioButton x:Name="MiddleMinValueForSignal" Content="Минимум" Height="23"  Width="75" Foreground="#FFEFEFF8" Margin="0,0,0,-1"/>
+        </DockPanel>
+
+        <DockPanel Grid.Column="2" HorizontalAlignment="Left" Height="22" LastChildFill="False" Margin="0,2,-44,0" Grid.Row="12" VerticalAlignment="Top" Width="835" Grid.ColumnSpan="4">
+            <Label Content="Для шума" Margin="0, -5, 0, 0"  Width="133" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="28" />
+            <Label Content="Количество усреднений" Margin="0, -5, 0, 0"  Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="28" />
+            <TextBox x:Name="MiddleCounterNoise"   TextWrapping="Wrap" Text="3" Width="91"  Grid.Row="8" BorderBrush="#FF007ACC" Background="{x:Null}"/>
+            <RadioButton x:Name="MiddleSwitchOffForNoise" Content="Выключено" Height="22"  Width="103" Foreground="#FFE6E6F0"/>
+            <RadioButton x:Name="MiddleMaxValueForNoise" Content="Максимум" Height="22"  Width="91" Foreground="#FFEFEFF8"/>
+            <RadioButton x:Name="MiddleMiddleForNoise" Content="Среднее" Height="23"  Width="82" Foreground="#FFEFEFF8" Margin="0,0,0,-1"/>
+            <RadioButton x:Name="MiddleMinValueForNoise" Content="Минимум" Height="23"  Width="162" Foreground="#FFEFEFF8" Margin="0,0,0,-1"/>
+        </DockPanel>
+        <Button Content="ПРИМЕНИТЬ " HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.Row="15" Foreground="#FFFDFDFE" Grid.Column="3" Margin="514,0,0,0" Click="Button_Click" BorderBrush="#FF296FB6" Grid.ColumnSpan="2" Background="{x:Null}"/>
+        <CheckBox x:Name="Emulation"  Content="ВКЛЮЧИТЬ ЭМУЛЯЦИЮ СИГНАЛА" Grid.Column="3" HorizontalAlignment="Left" Margin="412,6,0,3" Foreground="#FF007ACC" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Content="Прибор" HorizontalAlignment="Left" Margin="185,0,0,0" VerticalAlignment="Top" Width="108" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2"/>
+        <ComboBox x:Name="HardwareComboBox"  SelectedIndex="0" Grid.Column="3" HorizontalAlignment="Left" Margin="275,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="25">
+            <ComboBoxItem Content="FSH4"/>
+            <ComboBoxItem Content="Agilent9xxx"/>
+        </ComboBox>
+        <Label Content="ВНИМАНИЕ! ИЗМЕНЕНИЕ ТИПА ПРИБОРА ВСТУПИТ &#xD;&#xA;В СИЛУ ТОЛЬКО ПОСЛЕ НАЖАТИЯ КНОПКИ &#xD;&#xA;&quot;ПРИМЕНИТЬ&quot; И ПЕРЕПОДКЛЮЧЕНИЯ К ПРИБОРУ" HorizontalAlignment="Left" Margin="185,0,0,0" VerticalAlignment="Top" Width="342" Foreground="#FFFF4B00" ForceCursor="True" FontWeight="Bold" Height="59" Grid.Column="3" Grid.RowSpan="3" Grid.Row="3"/>
+    </Grid>
+</Window>

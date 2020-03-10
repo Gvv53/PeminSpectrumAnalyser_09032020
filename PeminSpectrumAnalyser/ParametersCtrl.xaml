@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="PeminSpectrumAnalyser.ParametersCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PeminSpectrumAnalyser"
+             mc:Ignorable="d"   BorderThickness="2"  MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" Background="#FF3E3E42">
+    <Grid x:Name="mainGrid" >
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid x:Name="GridHand" Width="674" Height="30" Visibility="Visible">
+            <Button x:Name="DeleteButton_Copy" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="644,0,0,5"  Background="#FF672326" Click="Delete_Click" RenderTransformOrigin="0.6,0.2" />
+            <Button x:Name="showSignalAndNoise_Copy" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="0,0,616,5"  Background="{x:Null}" Click="ShowSignalAndNoise_Click" />
+            <local:FrequencyCtrl x:Name="HandCenterFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="63,0,455,5"/>
+            <Button x:Name="createPoints_Copy" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="224,0,324,4"  Background="{x:Null}" Click="CreatePoints_Click" />
+
+        </Grid>
+
+        <Grid x:Name="GridAuto" Width="674" Height="191" Grid.Row="1" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="532"/>
+                <ColumnDefinition Width="164"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="236"/>
+            </Grid.RowDefinitions>
+            <TabControl Background="#FF3E3E42" BorderBrush="{x:Null}" Foreground="#FF161619" TabStripPlacement="Left" Margin="0,0,0,49"  >
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="HeaderTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{TemplateBinding Content}">
+                                        <ContentPresenter.LayoutTransform>
+                                            <RotateTransform Angle="270" />
+                                        </ContentPresenter.LayoutTransform>
+                                    </ContentPresenter>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Padding" Value="5" />
+                    </Style>
+                </TabControl.Resources>
+
+
+                <TabItem Header="ИНТЕРВАЛ">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="491"/>
+
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="isReport" Content="ОТЧЕТ" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF3F3F8" FontSize="8" IsChecked="True" Height="15" Width="50" Margin="669,-17,-227,0" IsEnabled="False"/>
+                        <Label Content="ДИАПАЗОН" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Foreground="#FFF7F7FA" FontWeight="Bold" Height="25" Grid.Row="1" HorizontalContentAlignment="Right"/>
+                        <Label Content="- " HorizontalAlignment="Left" VerticalAlignment="Top" Width="24" Height="25" RenderTransformOrigin="0.485,0.31" Foreground="#FFF7F7FA" FontWeight="Bold" Grid.Row="1" Margin="304,0,0,0" HorizontalContentAlignment="Right"/>
+                        <local:FrequencyCtrl x:Name="StartFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="142,0,194,1" Grid.RowSpan="2"/>
+                        <local:FrequencyCtrl x:Name="StopFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="342,0,-6,23" Grid.RowSpan="2" Grid.Row="1"/>
+                        <Label Content="ШАГ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" Grid.Row="2" HorizontalContentAlignment="Right"/>
+                        <local:FrequencyCtrl x:Name="InnerStepFrequency"  ToolTip="Если значение равно 0 используется маркер центральной частоты" Grid.Row="2" Margin="142,1,194,0"/>
+                        <Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="171" Height="25" Foreground="#FFF7F7FC" FontWeight="Bold" Grid.Row="5" Margin="0,24,0,0" Grid.RowSpan="2"/>
+                        <Label Content="СТАРТ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" Height="25" Foreground="#FFF7F7FC" FontWeight="Bold" Grid.Row="5" HorizontalContentAlignment="Right" Margin="0,1,0,0" Grid.RowSpan="2"/>
+                        <local:FrequencyCtrl x:Name="centerFrequency"  ToolTip="Если значение равно 0 используется маркер центральной частоты" Grid.Row="5" Margin="144,0,193,1"/>
+                        <local:FrequencyCtrl x:Name="StepFrequency" ToolTip="ШАГ" Grid.Row="6" Margin="144,1,193,0"/>
+                        <local:FrequencyCtrl x:Name="Span" ToolTip="SPAN" Grid.Row="5" Margin="342,0,-6,0"/>
+                        <local:FrequencyCtrl x:Name="BandWidth" ToolTip="BAND WIDTH" Grid.Row="7" RenderTransformOrigin="0.486,0.344" Margin="342,1,-6,0" />
+                        <local:FrequencyCtrl x:Name="Band" ToolTip="BAND" Grid.Row="6" Margin="342,1,-6,0" />
+                        <Button x:Name="createPoints" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="11,15,355,10"  Background="{x:Null}" Grid.Row="3" Click="CreatePoints_Click" Grid.RowSpan="2" />
+                        <Label Content="ШАГ ПЕРЕСТРОЙКИ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Margin="10,0,0,0" Height="25" Foreground="#FFF8EFED" FontWeight="Bold" Grid.Row="6"/>
+                        <Label Content="VBW" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="304,0,0,0" Height="25" Grid.Row="7" Foreground="#FFEDEDFA" HorizontalContentAlignment="Right"/>
+                        <Label Content="SPAN" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Height="24" Foreground="#FFF7F7F8" Margin="304,0,0,0" Grid.Row="5" HorizontalContentAlignment="Right"/>
+                        <Label Content="RBW" HorizontalAlignment="Left" VerticalAlignment="Top" Width="43" Margin="298,1,0,0" Height="24" RenderTransformOrigin="0.587,0.577" Grid.Row="6" Foreground="#FFF7F7FA" HorizontalContentAlignment="Right"/>
+
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="ОБРАБОТКА">
+                    <Grid Background="#FF3E3E42" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="165"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label Padding="2"  Content="ПОРОГИ ДЛЯ ШУМА: МИНИУМ" Foreground="#FFFBFBFC" Height="25" VerticalAlignment="Top" Margin="0,0,305,0" HorizontalAlignment="Right" Width="183" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="minLimitNoise" HorizontalAlignment="Left" Height="20" Margin="208,1,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <Label Padding="2"  Content="МАКСИМУМ" Foreground="#FFFBFBFE" Height="22" VerticalAlignment="Top" Margin="0,0,111,0" HorizontalAlignment="Right" Width="82" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="maxLimitNoise" HorizontalAlignment="Left" Height="20" Margin="406,2,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <Label Padding="2"  Content="ДЛЯ СИГНАЛА: МИНИУМ" Foreground="#FFF7F7F8" Height="25" VerticalAlignment="Top" Margin="0,25,305,0" HorizontalAlignment="Right" Width="183" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="minLimitSignal" HorizontalAlignment="Left" Height="20" Margin="208,25,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <TextBox x:Name="maxLimitSignal" HorizontalAlignment="Left" Height="20" Margin="406,26,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <Label Padding="2"  Content="СДВИГ ДЛЯ ШУМА" Foreground="#FFF7F7FA" Height="26" VerticalAlignment="Top" Margin="0,49,305,0" HorizontalAlignment="Right" Width="169" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="ShiftNoise" HorizontalAlignment="Left" Height="20" Margin="208,51,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <TextBox x:Name="ShiftSignal" HorizontalAlignment="Left" Height="20" Margin="406,51,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <Label Padding="2"  Content="ПРЕДУСИЛИТЕЛЬ НАЧИНАЯ С" Foreground="#FFF1F1FC" Height="24" FontWeight="Bold" VerticalAlignment="Top" Margin="-10,75,305,0" HorizontalAlignment="Right" Width="203" HorizontalContentAlignment="Right"/>
+                            <Label Padding="2"  Content=" ДЛЯ СИГНАЛА" Foreground="#FFFBFBFE" Height="26" VerticalAlignment="Top" Margin="0,46,111,0" HorizontalAlignment="Right" Width="91" HorizontalContentAlignment="Right"/>
+                            <local:FrequencyCtrl x:Name="DeltaShiftStartFrequency" ToolTip="ЧАСТОТА НАЧАЛА ОБРАБОТКИ ПРЕДУСИЛИТЕЛЯ" Margin="208,77,77,66"/>
+                            <Button x:Name="computerButton" Click="ComputerButton_Click" Content="ОБРАБОТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="208,138,176,0"  Background="{x:Null}" />
+                            <Button x:Name="restoreButton" Click="RestoreButton_Click" Content="ВОССТАНОВИТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="341,138,55,0"  Background="{x:Null}" />
+                            <Label Padding="2"  Content="ДЕЛЬТА (СИГНАЛ-ШУМ)" Foreground="#FFFBFBFE" Height="20" VerticalAlignment="Top" Margin="0,99,309,0" HorizontalAlignment="Right" Width="189" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="SpecialDelta" HorizontalAlignment="Left" Height="20" Margin="208,106,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="62" Background="{x:Null}" BorderBrush="#FF535050" TextChanged="minLimitNoise_TextChanged"/>
+                            <Label Padding="2"  Content="МАКСИМУМ" Foreground="#FFFBFBFE" Height="22" VerticalAlignment="Top" Margin="0,22,111,0" HorizontalAlignment="Right" Width="82" HorizontalContentAlignment="Right"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="MSG">
+                    <Grid Background="#FF3E3E42" Margin="0,0,0,4">
+                        <TextBox x:Name="messageText1" HorizontalAlignment="Left" Height="50" Margin="116,6,0,0" TextWrapping="Wrap" Text="СМЕНИТЕ АНТЕННУ ПЕРЕД СМЕНОЙ ДИАПАЗОНА СКАНИРОВАНИЯ" VerticalAlignment="Top" Width="372" BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
+                        <TextBox x:Name="messageText2" HorizontalAlignment="Left" Height="49" Margin="116,61,0,0" TextWrapping="Wrap" Text="ПРОВЕРЬТЕ НАСТРОЙКУ BANDWIDTH НА ПРИБОРЕ" VerticalAlignment="Top" Width="372" BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
+                        <TextBox x:Name="messageText3" HorizontalAlignment="Left" Height="48" Margin="116,115,0,0" TextWrapping="Wrap" Text=".." VerticalAlignment="Top" Width="372" BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
+                        <CheckBox x:Name="message1Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFEFEFF8" Width="109" Height="15" Margin="2,10,0,0" BorderBrush="#FFF3F3F8" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message2Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF5F5FA" Width="109" Height="15" Margin="2,63,0,0" BorderBrush="#FFFBFBFC" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message3Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF8EFEF" Width="109" Height="15" Margin="2,117,0,0" BorderBrush="#FFF9F9FA" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message1EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFEFEFF8" Width="109" Height="15" Margin="2,30,0,0" BorderBrush="#FFF3F3F8" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message2EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF5F5FA" Width="109" Height="15" Margin="2,83,0,0" BorderBrush="#FFFBFBFC" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message3EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF8EFEF" Width="109" Height="15" Margin="2,137,0,0" BorderBrush="#FFF9F9FA" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+            <Button x:Name="delete" Content="X" BorderBrush="#FFFF4B00" Foreground="#FFFF4B00" Height="25" Margin="303,0,-171,231" Background="{x:Null}" Click="Delete_Click" Grid.Column="1" />
+            <Button x:Name="showSignalAndNoise" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,98,30,112"  Background="{x:Null}" Click="ShowSignalAndNoise_Click" Grid.Column="1" />
+            <Button x:Name="showSignalAndNoise_Signals" Content="ИСХ. СИГНАЛ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,128,30,82"  Background="{x:Null}" Click="ShowSignalAndNoise_Signals_Click" Grid.Column="1" />
+            <Button x:Name="showSignalAndNoise_Noises" Content="ИСХ. ШУМ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,158,30,52"  Background="{x:Null}" Click="ShowSignalAndNoise_Noises_Click" Grid.Column="1" />
+            <Button x:Name="DeleteButton" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="112,0,22,211"  Background="#FF672326" Click="Delete_Click" Grid.Column="1" RenderTransformOrigin="0.6,0.2" />
+            <CheckBox  x:Name="isActiveCheckBox"   IsChecked="True" Checked="isActiveCheckBox_Checked"  Unchecked="isActiveCheckBox_Unchecked" Grid.Column="1" HorizontalAlignment="Left" Margin="61,49,0,0" VerticalAlignment="Top"/>
+        </Grid>
+    </Grid>
+</UserControl>
