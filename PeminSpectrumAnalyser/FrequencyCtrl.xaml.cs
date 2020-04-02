@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace PeminSpectrumAnalyser
 {
@@ -65,7 +66,7 @@ namespace PeminSpectrumAnalyser
 
             _Value = result;
 
-            FrequencyCtrlChanged?.Invoke();
+            
         }
 
         public event Action FrequencyCtrlChanged;
@@ -111,6 +112,12 @@ namespace PeminSpectrumAnalyser
                     }
                 }
 
+        }
+
+        private void DataTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)   //завершён ввод тактовой частоты
+                FrequencyCtrlChanged?.Invoke();
         }
     }
 }

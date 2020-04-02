@@ -8,8 +8,21 @@
         mc:Ignorable="d"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Title="PEMIN SPECTRUM ANALYSER - Version 09.03.2020"   WindowStartupLocation="Manual" Closing="Window_Closing" Width="1460" MinWidth="1460" MaxWidth="1460" ResizeMode="CanResize" Background="#FF1A1A1A" Height="1032" VerticalAlignment="Top">
-    <Grid Background="#FF22222A" >
-        <Grid.ContextMenu>
+    <Window.Resources>
+        <Style BasedOn="{StaticResource {x:Type Button}}"
+           TargetType="Button"
+            x:Key="CommandButton">
+            <Setter Property="BorderBrush" Value="#FF3F3F46" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Margin" Value="10,0,10,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+    <!--<Grid Background="#FF22222A" >-->
+    <Grid  Background="#FF22222A" >
+            <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem x:Name="menuItemHide" Header="Свернуть" Click="MenuItemHide_Click"  />
                 <MenuItem x:Name="menuItemShow" Header="Развернуть" Click="MenuItemShow_Click"/>
@@ -18,7 +31,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1.667"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="6.333"/>
             <RowDefinition Height="97*"/>
             <RowDefinition Height="2"/>
@@ -28,25 +41,42 @@
             <ColumnDefinition Width="720"/>
             <ColumnDefinition Width="720"/>
         </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label Content="ТЕКУЩИЙ ФАЙЛ РЕШЕНИЯ: "  VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
+            <Label x:Name="CurrentSolutionLabel"  Content="НЕ ОПРЕДЕЛЕН"  Foreground="#FFFC4613" FontWeight="Bold" />
+        </StackPanel>
 
-        <local:SequenceCtrl x:Name="unit1"  VerticalAlignment="Stretch" Width="Auto" Background="#FF2E2C2C" Grid.Row="6" />
-        <local:SequenceCtrl x:Name="unit2" Grid.Column="1"  VerticalAlignment="Stretch" Width="Auto" Background="#FF2E2C2C" Grid.Row="6"/>
-        <Button x:Name="fullNoise" Content="ШУМ" HorizontalAlignment="Left" Margin="535,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25"   BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Click="FullNoise_Click" Grid.Row="2"/>
-        <Button x:Name="fullSignal" Content="СИГНАЛ " HorizontalAlignment="Left" Margin="652,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25" Click="FullSignal_Click"  BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2" Grid.ColumnSpan="2"/>
-        <Button x:Name="fullSave" Content="СОХРАНИТЬ" HorizontalAlignment="Left" Margin="361,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25" Click="FullSave_Click"  BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2"/>
-        <Button x:Name="fullNew" Click="FullNew_Click" Content="НОВЫЙ ЗАМЕР" HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25"  BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2"/>
-        <Button x:Name="fullClear" Click="fullClear_Click" Content="ОЧИСТИТЬ" HorizontalAlignment="Left" Margin="572,0,0,0" VerticalAlignment="Top" Width="86" Background="{x:Null}" Height="25"  BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2" Grid.Column="1"/>
 
-        <Button x:Name="fullLoad" Click="FullLoad_Click"  Content="ЗАГРУЗИТЬ" HorizontalAlignment="Left" Margin="244,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25"   BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2"/>
-        <Button x:Name="fullExport" Click="FullExport_Click"  Content="ЭКСПОРТ" HorizontalAlignment="Left" Margin="48,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25"   BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2" Grid.Column="1"/>
-        <Button x:Name="fullConnect" Click="FullConnect_Click"  Content="ПОДКЛЮЧИТСЯ" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="112" Background="{x:Null}" Height="25"  BorderBrush="#FF3F3F46" Foreground="White" FontSize="14" Grid.Row="2"/>
-        <ListView x:Name="DataLinesListView"  Grid.ColumnSpan="2" Background="#FF1B1B1C" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" BorderBrush="{x:Null}" Grid.Row="4"/>
-        <Button x:Name="NewDataLine"   Content="+" HorizontalAlignment="Left" Margin="671,1,0,0" VerticalAlignment="Top" Width="29" Background="{x:Null}" Height="24"  BorderBrush="#FF3F3F46" Foreground="White" FontSize="16" Grid.Column="1" Click="NewDataLine_Click" Grid.Row="2"/>
+        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Управление всеми ИП" Padding="0" Foreground="White" Opacity="0.9">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                <Button x:Name="fullConnect" Content="ПОДКЛЮЧИТЬСЯ" Click="FullConnect_Click" Style="{StaticResource CommandButton}"/>
+                <Button x:Name="fullNew" Content="НОВЫЙ ЗАМЕР" Click="FullNew_Click" Style="{StaticResource CommandButton}"/>
+                <Button x:Name="fullLoad" Content="ЗАГРУЗИТЬ" Click="FullLoad_Click" Style="{StaticResource CommandButton}"/>
+                <Button x:Name="fullSave" Content="СОХРАНИТЬ" Click="FullSave_Click" Style="{StaticResource CommandButton}"/>
+                <TextBox x:Name="CopyTextBox" ToolTip="Количество копий" TextWrapping="Wrap" Text="0" />
+                <Button x:Name="fullNoise" Content="ШУМ" Click="FullNoise_Click" Style="{StaticResource CommandButton}"/>
+                <Button x:Name="fullSignal" Content="СИГНАЛ" Click="FullSignal_Click" Style="{StaticResource CommandButton}"/>
+                <Button x:Name="fullExport" Content="ЭКСПОРТ" Click="FullExport_Click" Style="{StaticResource CommandButton}"/>
+                <CheckBox x:Name="NotChangeRBW"  Content="Не управлять RBW" Click="NotChangeRBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>
+                <CheckBox x:Name="NotChangeVBW" Content="Не управлять VBW" Click="NotChangeVBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>
+                <Button x:Name="fullClear" Click="fullClear_Click" Content="ОЧИСТИТЬ"  Style="{StaticResource CommandButton}"/>
+                <Button x:Name="NewDataLine" Content="+" Click="NewDataLine_Click" Style="{StaticResource CommandButton}"/>
+
+          </StackPanel >
+        </GroupBox>
+        <GroupBox Grid.Row="4" Padding="5" Header="Исследуемые режимы" Foreground="White" Grid.ColumnSpan="2" ToolTip="Список исследуемых режимов, переданных из задачи расчёта Оценки защищённости" Opacity="0.9" >
+            <ListView x:Name="DataLinesListView"  Grid.ColumnSpan="2" Background="#FF1B1B1C" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  BorderBrush="{x:Null}" />
+        </GroupBox>
+
         <GridSplitter  Grid.Row="5" Grid.ColumnSpan="2"  HorizontalAlignment="Stretch" Width="150"  ResizeDirection="Rows"  Background="#FFFF4B00" Margin="646,0"/>
-        <TextBox  x:Name="CopyTextBox"  Padding="0"  HorizontalAlignment="Left" Height="25" Margin="478,0,0,0" Grid.Row="2" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="52" FontSize="16"/>
-        <Label Content="ТЕКУЩИЙ ФАЙЛ РЕШЕНИЯ: " HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="178" Foreground="White" FontWeight="Bold"/>
-        <Label x:Name="CurrentSolutionLabel"  Content="НЕ ОПРЕДЕЛЕН" HorizontalAlignment="Left" Margin="188,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1105" Foreground="#FFFC4613" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="NotChangeRBW"  Content="Не управлять RBW" Grid.Column="1" HorizontalAlignment="Left" Margin="227,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="130" Height="18" Foreground="#FFFF4B00" Click="NotChangeRBW_Click"/>
-        <CheckBox x:Name="NotChangeVBW" Content="Не управлять VBW" Grid.Column="1" HorizontalAlignment="Left" Margin="362,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="130" Height="18" Foreground="#FFFF4B00" Click="NotChangeVBW_Click"/>
+        <GroupBox x:Name="gb1" x:FieldModifier="public" Grid.Row="6" Grid.Column="0" Padding="5" Header="Измерительный прибор 1" Foreground="White"
+                   HorizontalContentAlignment="Stretch" Opacity="0.9"  >
+        <local:SequenceCtrl x:Name="unit1" Grid.Row="6" Grid.Column="0" Background="#FF2E2C2C"/>
+        </GroupBox>
+        <GroupBox x:Name="gb2" x:FieldModifier="public" Grid.Row="6" Grid.Column="1" Padding="5" Header="Измерительный прибор 2" Foreground="White"
+                   HorizontalContentAlignment="Stretch" Opacity="0.9" >
+        <local:SequenceCtrl x:Name="unit2"   VerticalAlignment="Stretch" Grid.Row="6" Grid.Column="1" Background="#FF2E2C2C" />
+        </GroupBox>
     </Grid>
 </Window>

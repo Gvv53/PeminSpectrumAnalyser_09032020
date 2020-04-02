@@ -14,22 +14,22 @@ namespace PeminSpectrumData
         public int PointsQuantity { get; set; }   //зависит от типа ИП
         public long FrequencyStart { get; set; } = 1000000;
         public long FrequencyStop { get; set; } = 10000000;
-        public long FrequencyStep { get; set; } = 100000; //шаг сканирования 
+        public long FrequencyStep { get; set; }   = 100000; //шаг сканирования 
         public long FrequencyInnerStep { get; set; } = 0;   // заданный шаг сканирования
 
         public long BandWidth { get; set; } = 1000000;
-        public long Span { get; set; } = 1000000;
-        public long Band { get; set; } = 1000000;
+        public long Span { get; set; }      = 1000000;
+        public long Band { get; set; }      = 1000000;
 
         public bool isAuto { get; set; } = true;
         public long _HandCenterFrequency { get; set; } = 1000000;
-        public long HandCenterFrequency
-        {
+        public long HandCenterFrequency 
+        { 
             get => _HandCenterFrequency;
             set
             {
                 _HandCenterFrequency = value;
-                if (!isAuto) //для ДС
+                if(!isAuto) //для ДС
                 {
                     Span = value;
                     Band = value;
@@ -38,7 +38,7 @@ namespace PeminSpectrumData
                     FrequencyStart = _HandCenterFrequency - _HandCenterFrequency / 2;
                     FrequencyStop = _HandCenterFrequency + _HandCenterFrequency / 2;
                 }
-            }
+            } 
         }
 
         public string Message1BeforeStartMeasuring { get; set; } = "";
@@ -93,7 +93,7 @@ namespace PeminSpectrumData
         }
 
         [XmlIgnore]
-        public bool EnableMessage2BeforeStartMeasuringForNoise
+        public bool EnableMessage2BeforeStartMeasuringForNoise 
         {
             get => Flags[1];
             set => Flags[1] = value;

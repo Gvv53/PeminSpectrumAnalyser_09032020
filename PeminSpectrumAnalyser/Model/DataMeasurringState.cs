@@ -2,11 +2,12 @@
 {
     public enum  DataMeasuringState
     {
-        Undefined,
+        Undefined,        
         Start, 
         Pause, 
         Continue, 
         Finish, 
-        Interrupted
+        Interrupted,
+        Clear
     }
 }

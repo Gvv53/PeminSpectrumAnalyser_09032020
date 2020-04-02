@@ -3,8 +3,6 @@ using PeminSpectrumData;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System;
-using Forms = System.Windows.Forms;
 
 namespace PeminSpectrumAnalyser
 {
@@ -13,12 +11,6 @@ namespace PeminSpectrumAnalyser
     /// </summary>
     public partial class SequenceCtrl : UserControl
     {
-        //Тактовая частота для ДС
-        public double Ft
-        {
-            set;
-            get;
-        }
         public string Address
         {
             set => address.Content = value;
@@ -27,89 +19,28 @@ namespace PeminSpectrumAnalyser
 
         public ExperimentExplorer ExperimentExplorer = new ExperimentExplorer();
 
-        public event Action SolutionNameClear;
+
 
         public SequenceCtrl()
         {
             InitializeComponent();
-
 
             ExperimentExplorer.SequenceCtrl = this;
 
             ExperimentExplorer.IntervalChangeEvent += (quantity, count) => intervals.Dispatcher.Invoke(() => { intervals.Content = quantity + " / " + count; });
             ExperimentExplorer.PointChangeEvent += (quantity, count) => points.Dispatcher.Invoke(() => { points.Content = quantity + " / " + count; });
             ExperimentExplorer.ScanProcessEvent += (description) => scanProcess.Dispatcher.Invoke(() => { scanProcess.Content = description; });
-            ExperimentExplorer.SignalReadyEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
-            {
+            ExperimentExplorer.SignalReadyEvent += () => SignalStateLabel.Dispatcher.Invoke(()=> 
+            { 
                 SignalStateLabel.Content = "СИГНАЛ СНЯТ";
+
             });
-            ExperimentExplorer.NoiseReadyEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
-            {
+            ExperimentExplorer.NoiseReadyEvent += () => NoiseStateLabel.Dispatcher.Invoke(() => 
+            { 
                 NoiseStateLabel.Content = "ШУМ СНЯТ";
             });
-            ExperimentExplorer.SignalClearEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
-            {
-                SignalStateLabel.Content = "СИГНАЛ НЕ СНЯТ";
-
-            });
-            ExperimentExplorer.NoiseClearEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
-            {
-                NoiseStateLabel.Content = "ШУМ НЕ СНЯТ";
-            });
-            ExperimentExplorer.rbSSCheckedEvent += () => rbSS.Dispatcher.Invoke(() =>
-            {
-                spDS.IsEnabled = false;
-                buttonPlus.IsEnabled = true;
-                ParametersList.Items.Clear();
-                ExperimentExplorer.Experiment.Intervals.Clear();
-                AddNewInterval();
-            });
-            ExperimentExplorer.rbDSCheckedEvent += () => rbDS.Dispatcher.Invoke(() =>
-            {
-                spDS.IsEnabled = true;
-                buttonPlus.IsEnabled = false;
-                ParametersList.Items.Clear();
-                ExperimentExplorer.Experiment.Intervals.Clear();
-            });
-            //обработчик изменения тактовой частоты ДС
-            HandMode_Frequency.FrequencyCtrlChanged += () => HandMode_Frequency.Dispatcher.Invoke(() =>
-            {
-                if (this.ParametersList.Items.Count > 0)
-                {
-                    if (MessageBoxResult.No == MessageBox.Show("Изменилось значение тактовой частоты. Подтвердите удаление интервалов.", String.Empty, MessageBoxButton.YesNo))
-                    {
-                        if (MessageBoxResult.No == MessageBox.Show("Восстановить прежнее значение тактовой частоты? При отказе список интервалов будет удалён", String.Empty, MessageBoxButton.YesNo))
-                        {
-                            NewExperiment();
-                            return;
-                        }
-                        else
-                        {
-                            //восстановление тактовой частоты по значению частоты 1-го интервала
-                            HandMode_Frequency.Value = ((ParametersCtrl)ParametersList.Items[0]).centerFrequency.Value;
-                            return;
-                        }
-                    }
-                    NewExperiment();
-                }
-            });
-            //обработчик состояния подключения, управляет видимостью кнопок снятия измерений
-            //обработчик состояния подключения, управляет видимостью кнопок снятия измерений
-            ExperimentExplorer.ConnectionStateChanged += (bool isConnected) => buttonStartNOISE.Dispatcher.Invoke(() =>
-            {
-                buttonStartNOISE.IsEnabled = isConnected;
-                buttonStartSIGNAL.IsEnabled = isConnected;
-            });
         }
 
-        private void RbSS_Checked(object sender, RoutedEventArgs e)
-        {
-            ExperimentExplorer.rbSSChecked();
-        }
-        private void RbDS_Checked(object sender, RoutedEventArgs e)
-        {
-            ExperimentExplorer.rbDSChecked();
-        }
         public void Connect()
         {
             if (!ExperimentExplorer.IsConnected)
@@ -139,17 +70,10 @@ namespace PeminSpectrumAnalyser
         {
             ExperimentSettings oldExperimentSettings = ExperimentExplorer.Experiment.ExperimentSettings;
             ExperimentExplorer.Experiment = new Experiment();
-            ExperimentExplorer.Experiment.ExperimentSettings = oldExperimentSettings;     //установки оборудования сохраняем
+            ExperimentExplorer.Experiment.ExperimentSettings = oldExperimentSettings;
             ParametersList.Items.Clear();
-            //Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP; // не меняется
-            //сброс строки состояний в исходное значение
-            // DataMeasuringState oldState = ExperimentExplorer.DataMeasuringState;
-            ExperimentExplorer.DataMeasuringState = DataMeasuringState.Clear;
-            ExperimentExplorer.ShowPollingStatus();
-            if ((bool)rbSS.IsChecked) //для СС сразу добавляем окно интервала
-                AddNewInterval();
-            // ExperimentExplorer.DataMeasuringState = oldState;
-            SolutionNameClear?.Invoke(); //очистка названия загруженного файла
+            Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+
             return ExperimentExplorer.Experiment;
         }
 
@@ -169,7 +93,7 @@ namespace PeminSpectrumAnalyser
 
         private void ButtonPlus_Click(object sender, RoutedEventArgs e) => AddNewInterval();
 
-        //создание контрола ParametersCtrl со значениями элементов из interval
+
         public void LoadInterval(Interval interval)
         {
             interval.SetExperimentExplorer(ExperimentExplorer);
@@ -189,10 +113,9 @@ namespace PeminSpectrumAnalyser
 
             ParametersList.Items.Add(intervalParametersCtrl);
         }
-        //добавление контрола ParametersCtrl.Значения параметров по умолчанию - для СС
+        //добавление строки интервала
         public void AddNewInterval(Interval interval = null, bool isAutoStyle = true, long frequencyCenter = 1000000)
         {
-
             Interval newInterval = interval ?? new Interval();
 
             newInterval.SetExperimentExplorer(ExperimentExplorer);
@@ -214,18 +137,8 @@ namespace PeminSpectrumAnalyser
             intervalParametersCtrl.Interval = newInterval;
 
             newInterval.IntervalSettings.LinkToVisualControl = intervalParametersCtrl;
+
             intervalParametersCtrl.UIFrom(newInterval);
-
-            //кнопка РАССЧИТАТЬ для диф.спектра
-            if (!newInterval.IntervalSettings.isAuto)
-            {
-                intervalParametersCtrl.UITo(newInterval);
-                newInterval.BuildAutomaticPoints();
-                intervalParametersCtrl.UIFrom(newInterval);
-            }
-            //
-
-
 
             intervalParametersCtrl.Delete += (target) =>
             {
@@ -237,6 +150,7 @@ namespace PeminSpectrumAnalyser
             ParametersList.Items.Add(intervalParametersCtrl);
 
         }
+
 
 
         public void ClearIntervalsUIList()
@@ -286,25 +200,8 @@ namespace PeminSpectrumAnalyser
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
-            bool EmulationPrev = ExperimentExplorer.Emulation; //режим эмуляции  
             ExperimentExplorer.SettingsOpen();
-
-            if (EmulationPrev != ExperimentExplorer.Emulation) //изменился режим эмуляции, выполним переподключение
-            {
-                // NewExperiment(); //возврат в исходное состояние
-                if (ExperimentExplorer.Emulation)
-                {
-                    Disconnect();
-                    Connect();
-                }
-                else
-                {
-                    Disconnect(); //ExperimentExplorer.IsConnected = false;   
-                    connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
-                }
-            }
-            Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
-            ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
+            Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -320,19 +217,16 @@ namespace PeminSpectrumAnalyser
         private void HandMode_PlusMany_Click(object sender, RoutedEventArgs e)
         {
             int quantity = int.Parse(HandMode_Quantity.Text);
-            long startFrequency = HandMode_Frequency.Value; //тактовая частота для ДС
-            Ft = startFrequency;
+            long startFrequency = HandMode_Frequency.Value;
             long shiftFrequency = startFrequency;
 
             if (quantity > 0)
-                for (int counter = 0; counter < quantity; counter++)
+                for(int counter = 0; counter < quantity; counter++)
                 {
                     AddNewInterval(null, false, shiftFrequency);
                     shiftFrequency += startFrequency;
                 }
         }
-
-
     }
 
 }

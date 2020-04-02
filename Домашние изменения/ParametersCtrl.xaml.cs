@@ -17,10 +17,10 @@ namespace PeminSpectrumAnalyser
         IOMeasurementData.HardwareSettings _HardwareSettings;
 
         bool _IsAutoStyle = true;
-        public bool IsAutoStyle
+        public bool IsAutoStyle 
         {
             get => _IsAutoStyle;
-            set
+            set 
             {
                 _IsAutoStyle = value;
                 if (_IsAutoStyle)
@@ -34,7 +34,7 @@ namespace PeminSpectrumAnalyser
                     GridAuto.Visibility = Visibility.Collapsed;
                 }
             }
-        }
+        } 
 
         public ParametersCtrl(IOMeasurementData.HardwareSettings hardwareSettings)
         {
@@ -65,7 +65,7 @@ namespace PeminSpectrumAnalyser
 
                 if (value)
                 {
-                    BorderBrush = new SolidColorBrush(new Color() { A = 0xFF, R = 0xFF, G = 0x4B, B = 0x00 });
+                    BorderBrush = new SolidColorBrush(new Color() { A = 0xFF,  R = 0xFF,  G = 0x4B, B = 0x00});
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace PeminSpectrumAnalyser
             linkToInterval.IntervalSettings.ShiftNoise = Converters.DoubleValueFromUI(this.ShiftNoise.Text);
             linkToInterval.IntervalSettings.ShiftSignal = Converters.DoubleValueFromUI(this.ShiftSignal.Text);
             linkToInterval.IntervalSettings.DeltaShiftFrequency = this.DeltaShiftStartFrequency.Value;
-            linkToInterval.IntervalSettings.Message1BeforeStartMeasuring = this.messageText1.Text;
+            linkToInterval.IntervalSettings.Message1BeforeStartMeasuring   = this.messageText1.Text;
             linkToInterval.IntervalSettings.Message2BeforeStartMeasuring = this.messageText2.Text;
             linkToInterval.IntervalSettings.Message3BeforeStartMeasuring = this.messageText3.Text;
             linkToInterval.IntervalSettings.EnableMessage1BeforeStartMeasuring = (bool)this.message1Enable.IsChecked;
@@ -231,14 +231,14 @@ namespace PeminSpectrumAnalyser
         }
         private void ShowSignalAndNoise_Click(object sender, RoutedEventArgs e)
         {
-            Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.Noise,
-                (signalShift) => {
+            Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.Noise, 
+                (signalShift)=> {
                     this.ShiftSignal.Text = signalShift.ToString();
-                },
-                (noiseShift) => {
+                }, 
+                (noiseShift)=> {
                     this.ShiftNoise.Text = noiseShift.ToString();
-                },
-                (XShift) =>
+                }, 
+                (XShift)=>
                 {
                     this.HandCenterFrequency.Value = (long)XShift;
                 });

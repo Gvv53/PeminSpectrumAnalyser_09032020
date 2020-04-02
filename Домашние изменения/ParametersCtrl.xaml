@@ -61,32 +61,28 @@
                             <ColumnDefinition Width="491"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox x:Name="isReport" Content="ОТЧЕТ" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF3F3F8" FontSize="8" IsChecked="True" Height="15" Width="50" Margin="669,-17,-227,0" IsEnabled="False"/>
-                        <GroupBox Grid.Row="0" Grid.RowSpan="3" Header="Задаваемые значения" Foreground="White" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="12" Opacity="0.9">
+                        <GroupBox Grid.Row="0" Grid.RowSpan="3" Header="Задаваемые значения" Foreground="White">
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="61*"/>
-                                    <ColumnDefinition Width="35*"/>
-                                </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <Label Content="ДИАПАЗОН" HorizontalAlignment="Left" VerticalAlignment="Center" Width="137" Height="24" Foreground="#FFF7F7FA" FontWeight="Bold" Grid.Row="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="0,-2,0,18" Grid.RowSpan="2"/>
-                                <Label Content="- " HorizontalAlignment="Left" VerticalAlignment="Center" Width="24" Height="24" RenderTransformOrigin="0.485,0.31" Foreground="#FFF7F7FA" FontWeight="Bold"
-                                       Grid.Row="0" Margin="304,-2,0,18" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="5,0,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-                                <local:FrequencyCtrl x:Name="StartFrequency" ToolTip="НАЧАЛЬНАЯ ТОЧКА" Height="24" Margin="142,-2,19.457,18" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.RowSpan="2" />
+                                <Label Content="ДИАПАЗОН" HorizontalAlignment="Left" VerticalAlignment="Center" Width="137" Height="24" Foreground="#FFF7F7FA" FontWeight="Bold" Grid.Row="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                                <Label Content="- " HorizontalAlignment="Left" VerticalAlignment="Center" Width="24" Height="25" RenderTransformOrigin="0.485,0.31" Foreground="#FFF7F7FA" FontWeight="Bold"
+                                       Grid.Row="0" Margin="304,0,0,0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
+                                <local:FrequencyCtrl x:Name="StartFrequency" ToolTip="НАЧАЛЬНАЯ ТОЧКА" Height="24" Margin="142,0,194,1" VerticalAlignment="Center" VerticalContentAlignment="Center" />
                                 <!--<local:FrequencyCtrl x:Name="StartFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="142,0,194,1" Grid.RowSpan="2"/>-->
-                                <local:FrequencyCtrl x:Name="StopFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Height="24"  Margin="36.543,-4,1,0" Grid.Row="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-                                <Label Content="ШАГ" HorizontalAlignment="Left" VerticalAlignment="Center" Width="137" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0" Margin="0,18,0,-2" Grid.RowSpan="2"/>
-                                <local:FrequencyCtrl x:Name="InnerStepFrequency"  ToolTip="Если значение равно 0 используется маркер центральной частоты"
-                                                     Height="24" Margin="142,18,19.457,-2" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.RowSpan="2"/>
+                                <local:FrequencyCtrl x:Name="StopFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Height="24"  Margin="342,0,1,23" Grid.RowSpan="2" Grid.Row="0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="ШАГ" HorizontalAlignment="Left" VerticalAlignment="Center" Width="137" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" Grid.Row="1" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0"/>
+                                <local:FrequencyCtrl x:Name="InnerStepFrequency"  ToolTip="Если значение равно 0 используется маркер центральной частоты" Grid.Row="1"
+                                                     Height="24" Margin="142,1,194,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                             </Grid>
                         </GroupBox>
 
                         <!--<Label Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="171" Height="25" Foreground="#FFF7F7FC" FontWeight="Bold" Grid.Row="5" Margin="0,24,0,0" Grid.RowSpan="2"/>-->
                         <Button x:Name="createPoints" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="11,15,355,10"  Background="{x:Null}"
                                 Grid.Row="3" Click="CreatePoints_Click" Grid.RowSpan="2" ToolTip="Рассчитать точки измерений по заданным значениям"/>
-                        <GroupBox Grid.Row="5" Grid.RowSpan="3" Header="Рассчитанные значения" Foreground="White" HorizontalContentAlignment="Stretch"  VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="12" Opacity="0.9">
+                        <GroupBox Grid.Row="5" Grid.RowSpan="3" Header="Рассчитанные значения" Foreground="White" HorizontalContentAlignment="Stretch">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="9*"/>

@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="PeminSpectrumAnalyser.SequenceCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PeminSpectrumAnalyser"
+             mc:Ignorable="d" 
+             d:DesignHeight="1101.88" Width="700" >
+    <UserControl.Resources>
+
+    </UserControl.Resources>
+    <Grid Background="#FF22222A">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="26.667"/>
+            <RowDefinition Height="956.333"/>
+        </Grid.RowDefinitions>
+
+
+
+        <Rectangle x:Name="captionRectangle"  Opacity="0.7" Grid.RowSpan="4" Margin="25,0,15,0" Grid.Column="1"  />
+
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="3" Grid.ColumnSpan="18" Margin="0,0,0,-35">
+
+            <ItemsControl x:Name="ParametersList"      VirtualizingPanel.ScrollUnit="Pixel"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="#FF1B1B1C"  Margin="0" ScrollViewer.CanContentScroll="True"  />
+        </ScrollViewer>
+
+        <Button Click="ButtonLoad_Click" x:Name="buttonLoad" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="2" ToolTip="Загрузить" >
+            <Rectangle  Fill= "{StaticResource ButtonImageLoad}" Width="35" Height="35" />
+        </Button>
+        <Button Click="ButtonSave_Click" x:Name="buttonSave" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="3" ToolTip="Сохранить" >
+            <Rectangle  Fill= "{StaticResource ButtonImageSave}" Width="35" Height="35"/>
+        </Button>
+
+        <Button Click="ButtonPlus_Click" x:Name="buttonPlus" BorderBrush="{x:Null}"  Grid.Row="1" Margin="3,0,0,0" Grid.Column="6" ToolTip="Добавить">
+            <Rectangle Fill= "{StaticResource ButtonImagePlus}" Width="25" Height="25"/>
+        </Button>
+        <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE"    ToolTip="Начать съем шума" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1"  Grid.Column="9" >
+            <Grid>
+                <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35" />
+                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" >
+                    Ш
+                </Label>
+            </Grid>
+        </Button>
+        <Button Click="ButtonStartSIGNAL_Click" x:Name="buttonStartSIGNAL" ToolTip="Начать съем сигнала"  BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1" Grid.Column="10">
+            <Grid>
+                <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35"/>
+                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" >
+                    C
+                </Label>
+            </Grid>
+        </Button>
+        <Button Click="ButtonPause_Click" x:Name="buttonPause" ToolTip="Пауза" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1"  Grid.Column="12"  >
+            <Rectangle Fill= "{StaticResource ButtonImagePause}" Height="25" Width="25"/>
+        </Button>
+        <Button Click="ButtonStop_Click" x:Name="buttonStop" ToolTip="Прервать съем информации" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="13" >
+            <Rectangle Fill= "{StaticResource ButtonImageStop}" Width="25" Height="25"/>
+        </Button>
+        <Button Click="ButtonSettings_Click" x:Name="buttonSettings" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="16"  >
+            <Rectangle  Fill= "{StaticResource ButtonImageSettings}" Width="35" Height="35" />
+        </Button>
+        <Button Click="ButtonConnect_Click" x:Name="buttonConnect" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1">
+            <Rectangle  Fill= "{StaticResource ButtonImageSequence}" Width="25" Height="25"/>
+        </Button>
+        <Button Click="ButtonNew_Click" x:Name="buttonNew" Content="NEW" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFDDDDDD" FontWeight="Bold"
+                Grid.Row="1" Grid.Column="4" ToolTip="Новый эксперимент с параметрами по умолчанию" />
+        <Label x:Name="scanProcess" Content="ОЖИДАНИЕ ЗАПУСКА " Grid.Column="3"  FontSize="14" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="200" Foreground="#FFFD4B01" Grid.ColumnSpan="5" Margin="0,12,0,0"/>
+        <Label x:Name="intervals" Content="0 / 0" Grid.Column="8"  FontSize="14" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Height="20" Width="55" Foreground="#FFDD312A" Grid.ColumnSpan="2" Margin="10,12,0,0" ToolTip="Интервалы"/>
+        <Label x:Name="points" Content="0 / 0" Grid.Column="10"  FontSize="14" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Height="21" Width="63" Foreground="#FFEF4B00" Grid.ColumnSpan="2" Margin="0,12,0,0" ToolTip="Точки"/>
+        <Ellipse   x:Name="connectionState" Fill="#FFF1F1F6" Margin="15" RenderTransformOrigin="0.5,0.5" Grid.Row="1"  ToolTip="Состояние подключения ИП">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Label x:Name="address" Content="192.168.12.233"   FontSize="14" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" Width="105" Foreground="#FFF0F0F0" Grid.ColumnSpan="3" Margin="10,12,0,0"/>
+        <Label x:Name="NoiseStateLabel"  Content="ШУМ НЕ СНЯТ"  FontSize="14" Padding="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" Width="110" Foreground="#FFFF4B00" HorizontalContentAlignment="Left" Grid.ColumnSpan="4" Background="{x:Null}" Grid.Column="11" Margin="30,12,0,0"/>
+        <Label x:Name="SignalStateLabel" Content="СИГНАЛ НЕ СНЯТ"  FontSize="14" Padding="0" HorizontalAlignment="Left" Margin="20,12,0,0" VerticalAlignment="Top" Height="19" Width="120" Foreground="#FFFF4B00" HorizontalContentAlignment="Left" Grid.ColumnSpan="4" Background="{x:Null}" Grid.Column="14"/>
+        <TextBox x:Name="HandMode_Quantity" Grid.ColumnSpan="2" Grid.Column="13" HorizontalAlignment="Left" Height="19" Grid.Row="2" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="80" Background="{x:Null}"/>
+        <Button  x:Name="HandMode_PlusOne"  Content="+" Grid.Column="16" HorizontalAlignment="Left" Margin="0,1,0,0" Grid.Row="2" VerticalAlignment="Top" Width="40" Foreground="#FFDB3C13" Height="18" Click="HandMode_PlusOne_Click"/>
+        <local:FrequencyCtrl  x:Name="HandMode_Frequency" Value="1000000" Grid.ColumnSpan="4" Grid.Column="9" HorizontalAlignment="Left" Height="18" Margin="0,1,0,0" Grid.Row="2" VerticalAlignment="Top" Width="155"/>
+        <Button  x:Name="HandMode_PlusMany" Content="++" Grid.Column="15" HorizontalAlignment="Left" Margin="0,1,0,0" Grid.Row="2" VerticalAlignment="Top" Width="40" Foreground="#FFDB3C13" Height="18" Click="HandMode_PlusMany_Click"/>
+
+    </Grid>
+</UserControl>

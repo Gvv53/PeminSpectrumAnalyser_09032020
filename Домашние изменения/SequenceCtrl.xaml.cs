@@ -32,19 +32,19 @@ namespace PeminSpectrumAnalyser
         public SequenceCtrl()
         {
             InitializeComponent();
-
+            
 
             ExperimentExplorer.SequenceCtrl = this;
 
             ExperimentExplorer.IntervalChangeEvent += (quantity, count) => intervals.Dispatcher.Invoke(() => { intervals.Content = quantity + " / " + count; });
             ExperimentExplorer.PointChangeEvent += (quantity, count) => points.Dispatcher.Invoke(() => { points.Content = quantity + " / " + count; });
             ExperimentExplorer.ScanProcessEvent += (description) => scanProcess.Dispatcher.Invoke(() => { scanProcess.Content = description; });
-            ExperimentExplorer.SignalReadyEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
-            {
+            ExperimentExplorer.SignalReadyEvent += () => SignalStateLabel.Dispatcher.Invoke(()=> 
+            { 
                 SignalStateLabel.Content = "СИГНАЛ СНЯТ";
             });
-            ExperimentExplorer.NoiseReadyEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
-            {
+            ExperimentExplorer.NoiseReadyEvent += () => NoiseStateLabel.Dispatcher.Invoke(() => 
+            { 
                 NoiseStateLabel.Content = "ШУМ СНЯТ";
             });
             ExperimentExplorer.SignalClearEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
@@ -62,10 +62,10 @@ namespace PeminSpectrumAnalyser
                 buttonPlus.IsEnabled = true;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
-                AddNewInterval();
+                AddNewInterval();   
             });
             ExperimentExplorer.rbDSCheckedEvent += () => rbDS.Dispatcher.Invoke(() =>
-            {
+            {                
                 spDS.IsEnabled = true;
                 buttonPlus.IsEnabled = false;
                 ParametersList.Items.Clear();
@@ -118,7 +118,7 @@ namespace PeminSpectrumAnalyser
                     connectionState.Fill = new SolidColorBrush(Colors.Lime);
                 else
                     connectionState.Fill = new SolidColorBrush(Colors.Red);
-            }
+            }           
         }
 
         public void Disconnect()
@@ -133,7 +133,7 @@ namespace PeminSpectrumAnalyser
         }
 
         private void ButtonNew_Click(object sender, RoutedEventArgs e) => NewExperiment();
-
+       
 
         public Experiment NewExperiment()
         {
@@ -141,9 +141,9 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.Experiment = new Experiment();
             ExperimentExplorer.Experiment.ExperimentSettings = oldExperimentSettings;     //установки оборудования сохраняем
             ParametersList.Items.Clear();
-            //Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP; // не меняется
+           //Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP; // не меняется
             //сброс строки состояний в исходное значение
-            // DataMeasuringState oldState = ExperimentExplorer.DataMeasuringState;
+           // DataMeasuringState oldState = ExperimentExplorer.DataMeasuringState;
             ExperimentExplorer.DataMeasuringState = DataMeasuringState.Clear;
             ExperimentExplorer.ShowPollingStatus();
             if ((bool)rbSS.IsChecked) //для СС сразу добавляем окно интервала
@@ -200,7 +200,7 @@ namespace PeminSpectrumAnalyser
             newInterval.IntervalSettings.isAuto = isAutoStyle;
 
             newInterval.IntervalSettings.HandCenterFrequency = frequencyCenter;
-
+           
             ExperimentExplorer.Experiment.Intervals.Add(newInterval);
 
             ParametersCtrl intervalParametersCtrl = new ParametersCtrl(ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings);
@@ -325,14 +325,14 @@ namespace PeminSpectrumAnalyser
             long shiftFrequency = startFrequency;
 
             if (quantity > 0)
-                for (int counter = 0; counter < quantity; counter++)
+                for(int counter = 0; counter < quantity; counter++)
                 {
                     AddNewInterval(null, false, shiftFrequency);
                     shiftFrequency += startFrequency;
                 }
         }
 
-
+       
     }
 
 }

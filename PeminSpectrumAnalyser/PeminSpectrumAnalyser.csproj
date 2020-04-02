@@ -92,6 +92,9 @@
       <DependentUpon>DataLineCtrl.xaml</DependentUpon>
     </Compile>
     <Compile Include="HardwareSettings.cs" />
+    <Compile Include="Helpers\BaseViewModel.cs" />
+    <Compile Include="Helpers\NotificationObject.cs" />
+    <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Model\DataMeasuringType.cs" />
     <Compile Include="Model\DataMeasurringState.cs" />
     <Compile Include="Model\ExperimentExplorer.cs" />
@@ -112,6 +115,7 @@
     <Compile Include="ShiftTuner.xaml.cs">
       <DependentUpon>ShiftTuner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -185,7 +189,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="PeminSpectrumAnalyser_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -204,7 +207,7 @@
       <Name>UnitedTools.Chart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Communications\Communications.csproj">
-      <Project>{24A1A04C-773A-42F9-B0E6-C0B0E6D99C3D}</Project>
+      <Project>{24a1a04c-773a-42f9-b0e6-c0b0e6d99c3d}</Project>
       <Name>Communications</Name>
     </ProjectReference>
   </ItemGroup>
@@ -220,5 +223,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

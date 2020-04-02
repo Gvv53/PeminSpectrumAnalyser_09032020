@@ -38,7 +38,7 @@ namespace PeminSpectrumAnalyser
         {
             Settings.HardwareSettings.HardwareType = (HardwareType)HardwareComboBox.SelectedIndex;
 
-            Settings.HardwareSettings.IP = Address.Text;
+            Settings.HardwareSettings.IP =  Address.Text;
 
 
             if (int.TryParse(Port.Text, out int buffer))

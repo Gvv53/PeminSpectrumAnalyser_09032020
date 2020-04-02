@@ -13,9 +13,7 @@ namespace PeminSpectrumAnalyser
     public partial class MainWindow : Window
     {
         Solution Solution = new Solution();
-
         PIPEService Service = null;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -26,9 +24,9 @@ namespace PeminSpectrumAnalyser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(" Возникло исключение при вызове конструктора PIPEService().   ТЕКСТ ИСКЛЮЧЕНИЯ:  " + ex.ToString() + " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
+                MessageBox.Show(" Возникло исключение при вызове конструктора PIPEService().   ТЕКСТ ИСКЛЮЧЕНИЯ:  " +
+                    ex.ToString() + " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
             }
-
             Service.IncomingExchangeContract += (data) =>
             {
                 try
@@ -43,10 +41,10 @@ namespace PeminSpectrumAnalyser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(" Возникло исключение при вызове SendExchangeContract.   ТЕКСТ ИСКЛЮЧЕНИЯ:  " + ex.ToString() + " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
+                    MessageBox.Show(" Возникло исключение при вызове SendExchangeContract.   ТЕКСТ ИСКЛЮЧЕНИЯ:  " + 
+                        ex.ToString() + " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
                 }
             };
-
             Service.IncomingR2 += (id, r2) =>
             {
                 try
@@ -55,17 +53,18 @@ namespace PeminSpectrumAnalyser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(" Возникло исключение при вызове IncomingR2.   ТЕКСТ ИСКЛЮЧЕНИЯ:  " + ex.ToString() + " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
+                    MessageBox.Show(" Возникло исключение при вызове IncomingR2.   ТЕКСТ ИСКЛЮЧЕНИЯ:  " + ex.ToString() + 
+                        " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
                 }
             };
-
 
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             unit1.ExperimentExplorer.Experiment = Solution.Experiment1;
             unit2.ExperimentExplorer.Experiment = Solution.Experiment2;
-
             NewSolution();
+            unit1.SolutionNameClear += () => CurrentSolutionLabel.Dispatcher.Invoke(() => { CurrentSolutionLabel.Content = "НЕ ОПРЕДЕЛЁН"; });
+            unit2.SolutionNameClear += () => CurrentSolutionLabel.Dispatcher.Invoke(() => { CurrentSolutionLabel.Content = "НЕ ОПРЕДЕЛЁН"; });
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -80,10 +79,10 @@ namespace PeminSpectrumAnalyser
 
         private void NewSolution()
         {
-            unit1.NewExperiment();
+            unit1.NewExperiment();//список контролов с параметрами очищается, настройки оборудования сохраняются
             unit2.NewExperiment();
-            unit1.AddNewInterval();
-            unit2.AddNewInterval();
+            //unit1.AddNewInterval();// интервал для СС добавляется в NewExperiment()
+            //unit2.AddNewInterval();
 
             unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP = "192.168.12.233";
             unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP = "192.168.12.234";
@@ -96,7 +95,7 @@ namespace PeminSpectrumAnalyser
         {
             NewSolution();
         }
-
+        //кнопка ЗАГРУЗИТЬ 
         private void FullLoad_Click(object sender, RoutedEventArgs e)
         {
 
@@ -108,23 +107,70 @@ namespace PeminSpectrumAnalyser
 
             if (Solution != null)
             {
-
+                //очистка ParametersList
                 unit1.ClearIntervalsUIList();
                 unit2.ClearIntervalsUIList();
-
+                //установка признака спектра до загрузки интервалов
+                if (Solution.Experiment1.Intervals.Count > 0 && Solution.Experiment1.Intervals[0].IntervalSettings.isAuto)
+                {
+                    unit1.rbSS.IsChecked = true;
+                    //перед копированием окно параметров, созданное при изменении rbSS.Cheked, удалим
+                    unit1.ParametersList.Items.Clear();
+                    unit1.ExperimentExplorer.Experiment.Intervals.Clear();
+                }
+                else
+                    unit1.rbDS.IsChecked = true;
+                //установка признака спектра до загрузки интервалов
+                if (Solution.Experiment2.Intervals.Count > 0 && Solution.Experiment2.Intervals[0].IntervalSettings.isAuto)
+                {
+                    unit2.rbSS.IsChecked = true;
+                    //перед копированием окно параметров, созданное при изменении rbSS.Cheked, удалим
+                    unit2.ParametersList.Items.Clear();
+                    unit2.ExperimentExplorer.Experiment.Intervals.Clear();
+                }
+                else
+                    unit2.rbDS.IsChecked = true;
                 unit1.ExperimentExplorer.Experiment = Solution.Experiment1;
                 unit2.ExperimentExplorer.Experiment = Solution.Experiment2;
 
                 if (Solution.Experiment1.Intervals.Count > 0)
+                {
+                    
                     for (int counter = 0; counter < Solution.Experiment1.Intervals.Count; counter++)
-                        unit1.LoadInterval(Solution.Experiment1.Intervals[counter]);
-
+                        unit1.LoadInterval(Solution.Experiment1.Intervals[counter]);                    
+                }
                 if (Solution.Experiment2.Intervals.Count > 0)
+                {
+                    
                     for (int counter = 0; counter < Solution.Experiment2.Intervals.Count; counter++)
-                        unit2.LoadInterval(Solution.Experiment2.Intervals[counter]);
+                        unit2.LoadInterval(Solution.Experiment2.Intervals[counter]);                   
+                }
+                // unit1.AddressRefresh();
+                // unit2.AddressRefresh();
+                //индикация подключения
+                if (unit1.ExperimentExplorer.Emulation)
+                {
+                    unit1.Disconnect();
+                    unit1.Connect();
+                }
+                else
+                {
+                    unit1.Disconnect(); //ExperimentExplorer.IsConnected = false;   
+                    unit1.connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
+                }
+                unit1.Address = unit1.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+                if (unit2.ExperimentExplorer.Emulation)
+                {
+                    unit2.Disconnect();
+                    unit2.Connect();
+                }
+                else
+                {
+                    unit2.Disconnect(); //ExperimentExplorer.IsConnected = false;   
+                    unit2.connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
+                }
+                unit2.Address = unit2.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
 
-                unit1.AddressRefresh();
-                unit2.AddressRefresh();
             }
         }
 

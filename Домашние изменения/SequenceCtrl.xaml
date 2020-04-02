@@ -120,7 +120,7 @@
             <Button  x:Name="HandMode_PlusOne"  Content="+" HorizontalAlignment="Left" Margin="20,0,10,0" Foreground="#FFDB3C13" Click="HandMode_PlusOne_Click"
                      VerticalAlignment="Center" ToolTip="Добавить один интервал измерений для ДС"/>
         </StackPanel>
-        <GroupBox Grid.Row="3" Grid.ColumnSpan="18" Header="Интервалы измерений" Foreground="White" BorderThickness="1" Opacity="0.9" >
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="18" Header="Интервалы измерений" Foreground="White">
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="18" >
                 <ItemsControl x:Name="ParametersList"      VirtualizingPanel.ScrollUnit="Pixel"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="#FF1B1B1C"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="0,5,0,0"  />
             </ScrollViewer>

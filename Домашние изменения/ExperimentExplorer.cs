@@ -133,11 +133,11 @@ namespace PeminSpectrumAnalyser.Model
             bool result = false;
 
             Reader = new DataReader(Experiment.ExperimentSettings.HardwareSettings);
-
+     
 
             if (Emulation)
             {
-                // ConnectionStateChanged?.Invoke(true, "РЕЖИМ ЭМУЛЯЦИИ");
+               // ConnectionStateChanged?.Invoke(true, "РЕЖИМ ЭМУЛЯЦИИ");
                 result = true;
             }
             else
@@ -151,7 +151,7 @@ namespace PeminSpectrumAnalyser.Model
 
                 result = Reader.Connect();
 
-                //  ConnectionStateChanged?.Invoke(result);
+              //  ConnectionStateChanged?.Invoke(result);
             }
 
             IsConnected = result;
@@ -175,7 +175,7 @@ namespace PeminSpectrumAnalyser.Model
             if (Experiment.ExperimentSettings.AverageTypeForSignalMaximum)
                 averageType = AverageType.Maximum;
 
-            return Read(frequency, bandWidth, span, band,
+            return  Read(frequency, bandWidth, span, band,
                 Experiment.ExperimentSettings.HardwareSettings.TraceModeForSignal,
                 averageType,
                 Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
@@ -244,7 +244,7 @@ namespace PeminSpectrumAnalyser.Model
                     ResultsY[70] = 35;
                     ResultsY[80] = 30;
                 }
-
+                
 
                 NewData?.Invoke(ResultsX, ResultsY);
                 return true;
@@ -305,7 +305,7 @@ namespace PeminSpectrumAnalyser.Model
             if (DataMeasuringState == DataMeasuringState.Finish)
             {
                 ScanProcessEvent?.Invoke("СКАНИРОВАНИЕ ЗАВЕРШЕНО");
-
+       
                 if (DataMeasuringType == DataMeasuringType.Signal)
                     SignalReadyEvent?.Invoke();
 
@@ -494,7 +494,7 @@ namespace PeminSpectrumAnalyser.Model
 
                 if (DataMeasuringType == DataMeasuringType.Signal)
                     MessageBox.Show("СЪЕМ СИГНАЛА ЗАВЕРШЕН");
-
+            
                 if (DataMeasuringType == DataMeasuringType.Noise)
                     MessageBox.Show("СЪЕМ ШУМА ЗАВЕРШЕН");
             }
@@ -539,7 +539,7 @@ namespace PeminSpectrumAnalyser.Model
                 }
             }))).Start();
         }
-
+            
         //---------------------------------------------------------------------
         // Отображение шума и сигнала
         //---------------------------------------------------------------------
@@ -705,8 +705,8 @@ namespace PeminSpectrumAnalyser.Model
                 graphNoise.Color = new SolidColorBrush(Colors.Gray);
 
                 if (signal.Count() > 0)
-                    for (int counter = 0; counter < Experiment.ExperimentSettings.HardwareSettings.PointsQuantity; counter++)
-                        if (counter < frequencys.Count() & counter < signal.Count())
+                    for (int counter = 0; counter <  Experiment.ExperimentSettings.HardwareSettings.PointsQuantity; counter++)
+                        if (counter < frequencys.Count() &  counter < signal.Count())
                             graphSignal.Points.Add(new System.Windows.Point() { X = frequencys[counter], Y = signal[counter] + signalShift });
 
                 if (noise.Count() > 0)

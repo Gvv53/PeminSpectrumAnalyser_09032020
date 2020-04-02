@@ -12,7 +12,7 @@ namespace PeminSpectrumData
     public class Interval
     {
         public bool isActive { get; set; } = true; //для СС можно значение изменить из окна. Для ДС значение не визуализировано
-        public double Magic { get; set; } = PeminSpectrumAnalyser.Properties.Settings.Default.MAGIC;
+        public double Magic { get; set; } =  PeminSpectrumAnalyser.Properties.Settings.Default.MAGIC;
         /// <summary>
         /// Зарезервировано
         /// </summary>
@@ -20,7 +20,7 @@ namespace PeminSpectrumData
         [NonSerialized]
         [XmlIgnore]
         ExperimentExplorer _ExperimentExplorer;
-        public ExperimentExplorer GetExperimentExplorer() => _ExperimentExplorer;
+        public ExperimentExplorer GetExperimentExplorer() =>  _ExperimentExplorer;
         public void SetExperimentExplorer(ExperimentExplorer experimentExplorer)
         {
             _ExperimentExplorer = experimentExplorer;
@@ -44,7 +44,7 @@ namespace PeminSpectrumData
         public void GoToBegin() => CurrentIteration = 0;
         public void GoToEnd() => CurrentIteration = TotalIterations - 1;
 
-        public void GoToBegin1() { if (CurrentIteration > 0) CurrentIteration--; }
+        public void GoToBegin1() { if (CurrentIteration > 0) CurrentIteration--;}
         public void GoToEnd1() { if (CurrentIteration < TotalIterations - 1) CurrentIteration++; }
 
         public long CenterFrequency
@@ -54,11 +54,10 @@ namespace PeminSpectrumData
                 if (CenterFrequencys.Count > 0)
                     return CenterFrequencys[CurrentIteration];
                 else
-                    return 0;
-            }
+                    return 0;}
             set
             {
-                if (CenterFrequencys.Count > CurrentIteration)
+                if(CenterFrequencys.Count > CurrentIteration)
                     CenterFrequencys[CurrentIteration] = value;
             }
         }
@@ -246,7 +245,7 @@ namespace PeminSpectrumData
             foreach (double item in result)
                 OriginalNoise.Add(item);
 
-            Computer();
+            Computer(); 
         }
 
         //обработка данных измерений только для СС
@@ -278,7 +277,7 @@ namespace PeminSpectrumData
                     Noise.AddRange(buffer);
                 }
             }
-
+           
             if (IntervalSettings.MaxSignal != 0)
             {
                 var buffer = Signal.ToArray();
