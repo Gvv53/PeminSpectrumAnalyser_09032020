@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeminSpectrumAnalyser", "PeminSpectrumAnalyser\PeminSpectrumAnalyser.csproj", "{9194F039-96F6-4102-9C39-26475837DB14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitedTools.Chart", "..\UnitedTools.Chart\UnitedTools.Chart.csproj", "{122185FE-3630-4A39-9EA9-09AC8B22C1B3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOMeasurementData", "..\PeminDataReader.IOMeasurementData\IOMeasurementData.csproj", "{B8A7BC78-4D79-45D8-8F78-632285E41089}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitedTools.SettingsCtrl", "UnitedTools.SettingsCtrl\UnitedTools.SettingsCtrl.csproj", "{511479DA-05AE-412C-A8B4-9D0785C71DBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communications.ClientTest", "Communications.ClientTest\Communications.ClientTest.csproj", "{BC5DB5F4-5886-4057-BF5D-F174A6E0A836}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communications", "Communications\Communications.csproj", "{24A1A04C-773A-42F9-B0E6-C0B0E6D99C3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitedTools.Chart", "UnitedTools.Chart\UnitedTools.Chart.csproj", "{122185FE-3630-4A39-9EA9-09AC8B22C1B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOMeasurementData", "PeminDataReader.IOMeasurementData\IOMeasurementData.csproj", "{B8A7BC78-4D79-45D8-8F78-632285E41089}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,6 @@ Global
 		{9194F039-96F6-4102-9C39-26475837DB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9194F039-96F6-4102-9C39-26475837DB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9194F039-96F6-4102-9C39-26475837DB14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Release|Any CPU.Build.0 = Release|Any CPU
 		{511479DA-05AE-412C-A8B4-9D0785C71DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{511479DA-05AE-412C-A8B4-9D0785C71DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{511479DA-05AE-412C-A8B4-9D0785C71DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +37,14 @@ Global
 		{24A1A04C-773A-42F9-B0E6-C0B0E6D99C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A1A04C-773A-42F9-B0E6-C0B0E6D99C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A1A04C-773A-42F9-B0E6-C0B0E6D99C3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{122185FE-3630-4A39-9EA9-09AC8B22C1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8A7BC78-4D79-45D8-8F78-632285E41089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

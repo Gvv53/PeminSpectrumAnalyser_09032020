@@ -65,6 +65,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IOMeasurementData">
+      <HintPath>..\PeminDataReader.IOMeasurementData\bin\Debug\IOMeasurementData.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -78,6 +81,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UnitedTools.Chart">
+      <HintPath>..\UnitedTools.Chart\bin\Debug\UnitedTools.Chart.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -198,14 +204,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PeminDataReader.IOMeasurementData\IOMeasurementData.csproj">
-      <Project>{B8A7BC78-4D79-45D8-8F78-632285E41089}</Project>
-      <Name>IOMeasurementData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UnitedTools.Chart\UnitedTools.Chart.csproj">
-      <Project>{122185FE-3630-4A39-9EA9-09AC8B22C1B3}</Project>
-      <Name>UnitedTools.Chart</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Communications\Communications.csproj">
       <Project>{24a1a04c-773a-42f9-b0e6-c0b0e6d99c3d}</Project>
       <Name>Communications</Name>
