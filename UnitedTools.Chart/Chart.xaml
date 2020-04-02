@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="UnitedTools.Chart.ChartCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UnitedTools.Chart"
+             mc:Ignorable="d" 
+             d:DesignHeight="448.5" d:DesignWidth="404.586" Foreground="#FFF6EFEF">
+    <Grid x:Name="Chart" Background="#FF2D2D30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="GraphGrid" Grid.Column="1" SizeChanged="GraphGrid_SizeChanged" MinWidth="100" MinHeight="100"  MouseLeftButtonDown="GraphGrid_MouseLeftButtonDown"   MouseMove="GraphGrid_MouseMove" Background="White" >
+        </Grid>
+        <Grid  Background="#FFCDC1C1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26"/>
+                <RowDefinition/>
+                <RowDefinition Height="26"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="YAxisMax" Content="0.0" HorizontalContentAlignment="Right"  Foreground="#FF000003" />
+            <Label x:Name="YAxisMin" Content="0.0" HorizontalContentAlignment="Right"  Foreground="#FF000003"  Grid.Row="2"/>
+        </Grid>
+        <Grid   Background="#FFCDC1C1" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="XAxisMin" Content="0.0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF000003"  />
+            <Label x:Name="XAxisMax" Content="0.0" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#FF000003" />
+        </Grid>
+        <Grid  Background="#FFCDC1C1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="XRealMouse" Content="0.0" HorizontalAlignment="Left" Foreground="#FF000003"  />
+            <Label x:Name="YRealMouse" Content="0.0" HorizontalAlignment="Left" Foreground="#FF000003" Grid.Column="1"  />
+        </Grid>
+
+    </Grid>
+</UserControl>
