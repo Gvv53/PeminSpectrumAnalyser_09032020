@@ -70,7 +70,7 @@ namespace PeminSpectrumAnalyser
         }
 
         public event Action FrequencyCtrlChanged;
-        
+        public event Action ParameterCtrChanged; //изменились параметры для расчёта количества и фиксирования точек измерения
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -116,8 +116,19 @@ namespace PeminSpectrumAnalyser
 
         private void DataTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)   //завершён ввод тактовой частоты
-                FrequencyCtrlChanged?.Invoke();
+            if (e.Key == Key.Enter)   //завершён ввод
+            {
+                string name = ((FrequencyCtrl)((Grid)((TextBox)sender).Parent).Parent).Name;
+                if (name == "HandCenterFrequency") //тактовая частота
+                {
+                    FrequencyCtrlChanged?.Invoke();
+                    return;
+                }
+                if (name == "StartFrequency" ||
+                    name == "StopFrequency" ||
+                    name == "InnerStepFrequency") //параметры для расчёта количества точек измерения
+                    ParameterCtrChanged?.Invoke();
+            }
         }
     }
 }

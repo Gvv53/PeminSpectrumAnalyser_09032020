@@ -52,6 +52,9 @@ namespace PeminSpectrumAnalyser
             Span.FrequencyCtrlChanged += () => { UITo(Interval); };
             StepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             InnerStepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
+            StartFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
+            StopFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
+            InnerStepFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
         }
 
         bool _IsSelected = false;
@@ -122,6 +125,7 @@ namespace PeminSpectrumAnalyser
             linkToInterval.IntervalSettings.HandCenterFrequency = this.HandCenterFrequency.Value;
             linkToInterval.IntervalSettings.isAuto = this.IsAutoStyle;
 
+
         }
 
         public void UIFrom(Interval linkToInterval)
@@ -166,6 +170,7 @@ namespace PeminSpectrumAnalyser
 
                 this.HandCenterFrequency.Value = linkToInterval.IntervalSettings.HandCenterFrequency;
                 this.IsAutoStyle = linkToInterval.IntervalSettings.isAuto;
+                this.tbPoints.Text = linkToInterval.Markers.Count.ToString();
             }
             finally
             {
@@ -189,6 +194,8 @@ namespace PeminSpectrumAnalyser
             Interval.BuildAutomaticPoints();
 
             UIFrom(Interval);
+            if (Interval.IntervalSettings.isAuto) //СС
+                createPoints.IsEnabled = false;   //после выполнения расчёта точек измерения, кнопка деактивируется
         }
 
 

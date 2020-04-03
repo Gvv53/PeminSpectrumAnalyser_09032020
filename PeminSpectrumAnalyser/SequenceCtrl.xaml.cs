@@ -207,8 +207,9 @@ namespace PeminSpectrumAnalyser
 
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
-            if (newInterval.IntervalSettings.isAuto)
-                newInterval.Markers.Add(((newInterval.IntervalSettings.PointsQuantity - 1) / 2) + 1);
+            //Маркеры определяются при рассчёте
+            //if (newInterval.IntervalSettings.isAuto)
+            //    newInterval.Markers.Add(((newInterval.IntervalSettings.PointsQuantity - 1) / 2) + 1);
 
 
             intervalParametersCtrl.Interval = newInterval;
@@ -323,7 +324,7 @@ namespace PeminSpectrumAnalyser
             long startFrequency = HandMode_Frequency.Value; //тактовая частота для ДС
             Ft = startFrequency;
             long shiftFrequency = startFrequency;
-
+            //интервалы по гармоникам тактовой частоты
             if (quantity > 0)
                 for (int counter = 0; counter < quantity; counter++)
                 {

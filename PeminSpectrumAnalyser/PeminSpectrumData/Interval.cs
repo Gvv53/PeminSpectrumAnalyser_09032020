@@ -383,13 +383,13 @@ namespace PeminSpectrumData
                 }
 
                 long CurrentCenterFrequency; //частотный центр заданного диапазона
-
-                long innerStepQuantity = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart) / IntervalSettings.FrequencyInnerStep;
+                //расчётное количество точек измерения, включая
+                long innerStepQuantity = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart) / IntervalSettings.FrequencyInnerStep  ;
 
                 if (innerStepQuantity <= IntervalSettings.PointsQuantity - 1)    //расчётное число точек <= числа точек ИП
                 {
                     IntervalSettings.Span = IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart;
-
+                    //центральная частота диапазона 
                     CurrentCenterFrequency = IntervalSettings.FrequencyStart + IntervalSettings.Span / 2;
 
                     CenterFrequencys.Add(CurrentCenterFrequency);
@@ -405,7 +405,7 @@ namespace PeminSpectrumData
                 {
                     //диапазон, рассчитанный из заданного шага частоты и количества точек прибора
                     IntervalSettings.Span = (IntervalSettings.PointsQuantity - 1) * IntervalSettings.FrequencyInnerStep;
-                    //центр диапазона
+                    //центральная частота диапазона 
                     CurrentCenterFrequency = IntervalSettings.FrequencyStart + IntervalSettings.Span / 2;
                     CenterFrequencys.Add(CurrentCenterFrequency);
                     //пока
@@ -420,6 +420,7 @@ namespace PeminSpectrumData
                         Markers.Add(counter);
                     }
                 }
+                
             }
         }
     }
