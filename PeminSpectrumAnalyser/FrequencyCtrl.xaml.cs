@@ -119,7 +119,7 @@ namespace PeminSpectrumAnalyser
             if (e.Key == Key.Enter)   //завершён ввод
             {
                 string name = ((FrequencyCtrl)((Grid)((TextBox)sender).Parent).Parent).Name;
-                if (name == "HandCenterFrequency") //тактовая частота
+                if (name == "HandMode_Frequency") //тактовая частота
                 {
                     FrequencyCtrlChanged?.Invoke();
                     return;

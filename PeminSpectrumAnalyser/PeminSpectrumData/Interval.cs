@@ -36,7 +36,7 @@ namespace PeminSpectrumData
         public List<double> OriginalSignal { get; set; } = new List<double>();
         //точки в интервале(позиции в списках частот, сигналов, шумов), для которых проводятся измерения
         public List<int> Markers { get; set; } = new List<int>();
-        public List<long> CenterFrequencys { get; set; } = new List<long>(); //частоты, на которых проводятся измерения
+        public List<long> CenterFrequencys { get; set; } = new List<long>(); //середина частотного диапазона для СС
 
         public int CurrentIteration { get; set; } = 0;
         public int TotalIterations => CenterFrequencys.Count;
@@ -422,6 +422,8 @@ namespace PeminSpectrumData
                 }
                 
             }
+            
+            
         }
     }
 }

@@ -16,7 +16,7 @@ namespace PeminSpectrumAnalyser.Model
     {
         public SequenceCtrl SequenceCtrl;
         public event Action rbSSCheckedEvent, rbDSCheckedEvent; //изменение выбора режима СС/ДС
-
+        public event Action<string> HardTypeChanged;
         //---------------------------------------------------------------------
         // Данные эксперимента
         //---------------------------------------------------------------------
@@ -105,9 +105,13 @@ namespace PeminSpectrumAnalyser.Model
 
         public void SettingsOpen()
         {
+            String oldValue = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();
             SettingsWindow SettingsWindow = new SettingsWindow();
             SettingsWindow.Settings = Experiment.ExperimentSettings;
             SettingsWindow.ShowDialog();
+            String newValue = SettingsWindow.Settings.HardwareSettings.HardwareType.ToString();
+            if (oldValue != newValue)  //выбран другой ИП            
+                HardTypeChanged?.Invoke(newValue);
         }
 
         //---------------------------------------------------------------------
@@ -136,8 +140,7 @@ namespace PeminSpectrumAnalyser.Model
 
 
             if (Emulation)
-            {
-                // ConnectionStateChanged?.Invoke(true, "РЕЖИМ ЭМУЛЯЦИИ");
+            {           
                 result = true;
             }
             else
@@ -150,8 +153,6 @@ namespace PeminSpectrumAnalyser.Model
                 Reader.HardwareSettings.CommonShift = Experiment.ExperimentSettings.CommonShift;
 
                 result = Reader.Connect();
-
-                //  ConnectionStateChanged?.Invoke(result);
             }
 
             IsConnected = result;
@@ -231,8 +232,8 @@ namespace PeminSpectrumAnalyser.Model
                 for (int counter = 0; counter < Reader.HardwareSettings.PointsQuantity; counter++)
                 {
                     ResultsX[counter] = counter;
-                    if (DataMeasuringType != DataMeasuringType.Signal)  //шум
-                        ResultsY[counter] = Math.Sin(counter) * 30;
+                   // if (DataMeasuringType != DataMeasuringType.Signal)  //шум
+                    ResultsY[counter] = Math.Sin(counter) * 30;
                 }
                 if (DataMeasuringType == DataMeasuringType.Signal)
                 {
@@ -271,6 +272,7 @@ namespace PeminSpectrumAnalyser.Model
         public event Action<string, string> PointChangeEvent;
         public event Action<string> ScanProcessEvent;
         public event Action SignalReadyEvent, SignalClearEvent;
+        public event Action SignalReadyIntervalEvent, NoiseReadyIntervalEvent;
         public event Action NoiseReadyEvent, NoiseClearEvent;
 
         public DataMeasuringState DataMeasuringState;
@@ -324,7 +326,7 @@ namespace PeminSpectrumAnalyser.Model
                 if (DataMeasuringType == DataMeasuringType.Noise)
                     ScanProcessEvent?.Invoke("СКАНИРОВАНИЕ ШУМА");
             }
-
+            //индикация просканированных интервалов
             IntervalChangeEvent?.Invoke(Experiment.Intervals.Count.ToString(), (_LocalIntervalCount).ToString());
             PointChangeEvent?.Invoke(_LocalIntervalFrequencys.ToString(), (_LocalPointCount).ToString());
         }
@@ -412,10 +414,15 @@ namespace PeminSpectrumAnalyser.Model
                             currentInterval.NoiseClear();
 
                         currentInterval.Frequencys.Clear();
-
+                        //количество центральных частот в текущем интервале(>1, точек измерения получается больше, чем может отобразить прибор)
                         _LocalIntervalFrequencys = currentInterval.CenterFrequencys.Count;
                         _LocalPointCount = 0;
-
+                        if (currentInterval.CenterFrequencys.Count == 0)
+                        {
+                            MessageBox.Show("Не возможно выполнить измерения." + Environment.NewLine + "Вероятно Вы забыли нажать кнопку 'РАССЧИТАТЬ'");
+                            DataMeasuringState = DataMeasuringState.Clear;
+                            return;
+                        }
                         foreach (long currentFrequency in currentInterval.CenterFrequencys)
                         {
 
@@ -485,18 +492,26 @@ namespace PeminSpectrumAnalyser.Model
 
                         if (currentInterval.IntervalSettings.isAuto)//только для СС
                             currentInterval.Computer(); //обработка полученных сигналов измерения
-
+                        else
+                            currentInterval.Restore(); //для СС. Копирование ориг. значений без обработки
                         _LocalIntervalCount++;
                     }
-                }
+                }               
                 DataMeasuringState = DataMeasuringState.Finish;
                 ShowPollingStatus();
 
                 if (DataMeasuringType == DataMeasuringType.Signal)
-                    MessageBox.Show("СЪЕМ СИГНАЛА ЗАВЕРШЕН");
-
+                {
+                    SignalReadyIntervalEvent?.Invoke();
+                   MessageBox.Show(Experiment.ExperimentSettings.HardwareSettings.HardwareType
+                                           + "- -СЪЕМ СИГНАЛА ЗАВЕРШЕН");//+ Environment.NewLine
+                }
                 if (DataMeasuringType == DataMeasuringType.Noise)
-                    MessageBox.Show("СЪЕМ ШУМА ЗАВЕРШЕН");
+                {
+                    MessageBox.Show(Experiment.ExperimentSettings.HardwareSettings.HardwareType
+                                           + " - СЪЕМ ШУМА ЗАВЕРШЕН");
+                    NoiseReadyIntervalEvent?.Invoke();
+                }
             }
         }
 

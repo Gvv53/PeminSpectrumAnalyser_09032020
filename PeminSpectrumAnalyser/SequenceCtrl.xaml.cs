@@ -41,11 +41,34 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.ScanProcessEvent += (description) => scanProcess.Dispatcher.Invoke(() => { scanProcess.Content = description; });
             ExperimentExplorer.SignalReadyEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
             {
-                SignalStateLabel.Content = "СИГНАЛ СНЯТ";
+                SignalStateLabel.Content = "СИГНАЛ СНЯТ";                
+            });
+            ExperimentExplorer.SignalReadyIntervalEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
+            {             
+                //отобразим снятый сигнал для интервалов ДС
+                foreach (ParametersCtrl par in ParametersList.Items)
+                {
+                    if (par.Interval.IntervalSettings.isAuto)
+                        return;
+                    par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                }
             });
             ExperimentExplorer.NoiseReadyEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
             {
-                NoiseStateLabel.Content = "ШУМ СНЯТ";
+                NoiseStateLabel.Content = "ШУМ СНЯТ" ;
+                
+            });
+            ExperimentExplorer.NoiseReadyIntervalEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
+            {
+               
+                //отобразим снятый шум для интервалов ДС
+                foreach (ParametersCtrl par in ParametersList.Items)
+                {
+                    if (par.Interval.IntervalSettings.isAuto)
+                        return;
+                    par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
+                }
+
             });
             ExperimentExplorer.SignalClearEvent += () => SignalStateLabel.Dispatcher.Invoke(() =>
             {
@@ -54,7 +77,16 @@ namespace PeminSpectrumAnalyser
             });
             ExperimentExplorer.NoiseClearEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
             {
-                NoiseStateLabel.Content = "ШУМ НЕ СНЯТ";
+                NoiseStateLabel.Content ="ШУМ НЕ СНЯТ";
+            });
+            ExperimentExplorer.ConnectionStateChanged += (bool isConnected) => buttonStartNOISE.Dispatcher.Invoke(() =>
+            {
+                var intervals = ExperimentExplorer.Experiment.Intervals;
+                bool enabled = false;
+                if (intervals.Count > 0 && intervals[0].Markers.Count > 0)
+                    enabled = true;
+                buttonStartNOISE.IsEnabled = isConnected && enabled;
+                buttonStartSIGNAL.IsEnabled = isConnected && enabled;
             });
             ExperimentExplorer.rbSSCheckedEvent += () => rbSS.Dispatcher.Invoke(() =>
             {
@@ -63,6 +95,9 @@ namespace PeminSpectrumAnalyser
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 AddNewInterval();
+                //активность кнопок измерения
+                buttonStartNOISE.IsEnabled = false;
+                buttonStartSIGNAL.IsEnabled = false;
             });
             ExperimentExplorer.rbDSCheckedEvent += () => rbDS.Dispatcher.Invoke(() =>
             {
@@ -70,7 +105,11 @@ namespace PeminSpectrumAnalyser
                 buttonPlus.IsEnabled = false;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
+                //активность кнопок измерения
+                buttonStartNOISE.IsEnabled = false;
+                buttonStartSIGNAL.IsEnabled = false;
             });
+            
             //обработчик изменения тактовой частоты ДС
             HandMode_Frequency.FrequencyCtrlChanged += () => HandMode_Frequency.Dispatcher.Invoke(() =>
             {
@@ -86,7 +125,7 @@ namespace PeminSpectrumAnalyser
                         else
                         {
                             //восстановление тактовой частоты по значению частоты 1-го интервала
-                            HandMode_Frequency.Value = ((ParametersCtrl)ParametersList.Items[0]).centerFrequency.Value;
+                            HandMode_Frequency.Value = ((ParametersCtrl)ParametersList.Items[0]).HandCenterFrequency.Value;
                             return;
                         }
                     }
@@ -95,11 +134,9 @@ namespace PeminSpectrumAnalyser
             });
             //обработчик состояния подключения, управляет видимостью кнопок снятия измерений
             //обработчик состояния подключения, управляет видимостью кнопок снятия измерений
-            ExperimentExplorer.ConnectionStateChanged += (bool isConnected) => buttonStartNOISE.Dispatcher.Invoke(() =>
-            {
-                buttonStartNOISE.IsEnabled = isConnected;
-                buttonStartSIGNAL.IsEnabled = isConnected;
-            });
+            
+            
+                
         }
 
         private void RbSS_Checked(object sender, RoutedEventArgs e)
@@ -223,6 +260,7 @@ namespace PeminSpectrumAnalyser
                 intervalParametersCtrl.UITo(newInterval);
                 newInterval.BuildAutomaticPoints();
                 intervalParametersCtrl.UIFrom(newInterval);
+                ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
             }
             //
 

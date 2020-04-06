@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace PeminSpectrumAnalyser
 {
@@ -46,11 +47,11 @@ namespace PeminSpectrumAnalyser
 
             StartFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             StopFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
-            Band.FrequencyCtrlChanged += () => { UITo(Interval); };
-            BandWidth.FrequencyCtrlChanged += () => { UITo(Interval); };
-            centerFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
-            Span.FrequencyCtrlChanged += () => { UITo(Interval); };
-            StepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
+            //Band.FrequencyCtrlChanged += () => { UITo(Interval); };
+            //BandWidth.FrequencyCtrlChanged += () => { UITo(Interval); };
+            //centerFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
+            //Span.FrequencyCtrlChanged += () => { UITo(Interval); };
+            //StepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             InnerStepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             StartFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
             StopFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
@@ -94,12 +95,20 @@ namespace PeminSpectrumAnalyser
 
             linkToInterval.IntervalSettings.FrequencyStart = this.StartFrequency.Value;
             linkToInterval.IntervalSettings.FrequencyStop = this.StopFrequency.Value;
-            linkToInterval.IntervalSettings.FrequencyStep = this.StepFrequency.Value;
+          //  linkToInterval.IntervalSettings.FrequencyStep = long.Parse(this.tbStepFrequency.Value);//не используется
             linkToInterval.IntervalSettings.FrequencyInnerStep = this.InnerStepFrequency.Value;
 
-            linkToInterval.IntervalSettings.BandWidth = this.BandWidth.Value;
-            linkToInterval.IntervalSettings.Span = this.Span.Value;
-            linkToInterval.IntervalSettings.Band = this.Band.Value;
+            if (linkToInterval.IntervalSettings.isAuto) // CC
+            { 
+                linkToInterval.IntervalSettings.BandWidth = Converters.ValueFromUI(this.tbBandWidth.Text, 1000000);
+                linkToInterval.IntervalSettings.Band = Converters.ValueFromUI(tbBand.Text,1000000);
+            }
+            else //DS
+            {
+                linkToInterval.IntervalSettings.BandWidth = Converters.ValueFromUI(this.tbBandWidth_DS.Text,1000000);
+                linkToInterval.IntervalSettings.Band = Converters.ValueFromUI(this.tbBand_DS.Text,1000000);
+            }
+            // linkToInterval.IntervalSettings.Span = long.Parse(this.tbSpan.Text);//поле только для чтения
 
             linkToInterval.IntervalSettings.MaxNoise = Converters.DoubleValueFromUI(this.maxLimitNoise.Text);
             linkToInterval.IntervalSettings.MinNoise = Converters.DoubleValueFromUI(this.minLimitNoise.Text);
@@ -122,7 +131,7 @@ namespace PeminSpectrumAnalyser
 
             linkToInterval.IntervalSettings.SpecialSignalNoiseShift = Converters.DoubleValueFromUI(this.SpecialDelta.Text);
 
-            linkToInterval.IntervalSettings.HandCenterFrequency = this.HandCenterFrequency.Value;
+            linkToInterval.IntervalSettings.HandCenterFrequency = this.HandCenterFrequency.Value; 
             linkToInterval.IntervalSettings.isAuto = this.IsAutoStyle;
 
 
@@ -138,12 +147,21 @@ namespace PeminSpectrumAnalyser
 
                 this.StartFrequency.Value = linkToInterval.IntervalSettings.FrequencyStart;
                 this.StopFrequency.Value = linkToInterval.IntervalSettings.FrequencyStop;
-                this.StepFrequency.Value = linkToInterval.IntervalSettings.FrequencyStep;
+               // this.StepFrequency.Value = linkToInterval.IntervalSettings.FrequencyStep; // не используется
                 this.InnerStepFrequency.Value = linkToInterval.IntervalSettings.FrequencyInnerStep;
 
-                this.BandWidth.Value = linkToInterval.IntervalSettings.BandWidth;
-                this.Span.Value = linkToInterval.IntervalSettings.Span;
-                this.Band.Value = linkToInterval.IntervalSettings.Band;
+                if (linkToInterval.IntervalSettings.isAuto) // CC
+                {
+                    this.tbBandWidth.Text = ((double)linkToInterval.IntervalSettings.BandWidth/1000000).ToString();
+                    this.tbSpan.Text = ((double)linkToInterval.IntervalSettings.Span / 1000000).ToString();
+                    this.tbBand.Text = ((double)linkToInterval.IntervalSettings.Band / 1000000).ToString();
+                }
+                else
+                {
+                    this.tbBandWidth_DS.Text = ((double)linkToInterval.IntervalSettings.BandWidth / 1000000).ToString();
+                    //this.tbSpan.Text = linkToInterval.IntervalSettings.Span.ToString();
+                    this.tbBand_DS.Text = ((double)linkToInterval.IntervalSettings.Band / 1000000).ToString();
+                }
 
                 this.maxLimitNoise.Text = linkToInterval.IntervalSettings.MaxNoise.ToString();
                 this.minLimitNoise.Text = linkToInterval.IntervalSettings.MinNoise.ToString();
@@ -164,11 +182,11 @@ namespace PeminSpectrumAnalyser
                 this.message3EnableForNoise.IsChecked = linkToInterval.IntervalSettings.EnableMessage3BeforeStartMeasuringForNoise;
 
 
-                this.centerFrequency.Value = linkToInterval.CenterFrequency;
+                
 
                 this.SpecialDelta.Text = linkToInterval.IntervalSettings.SpecialSignalNoiseShift.ToString();
-
-                this.HandCenterFrequency.Value = linkToInterval.IntervalSettings.HandCenterFrequency;
+                this.HandCenterFrequency.Value = linkToInterval.IntervalSettings.HandCenterFrequency; //гармоники для ДС
+                this.tbCenterFrequency.Text = ((double)linkToInterval.CenterFrequency / 1000000).ToString(); //центр частотного диапазона для СС
                 this.IsAutoStyle = linkToInterval.IntervalSettings.isAuto;
                 this.tbPoints.Text = linkToInterval.Markers.Count.ToString();
             }
@@ -184,7 +202,7 @@ namespace PeminSpectrumAnalyser
         public Action<ParametersCtrl> ShowSignalAndNoise;
         public Action<ParametersCtrl> MoveStartPointToMarker;
         public Action<ParametersCtrl> Delete;
-        //кнопка РАСЧИТАТЬ для ДС
+        //кнопка РАСЧИТАТЬ для интервалов обоих спектров.
         private void CreatePoints_Click(object sender, RoutedEventArgs e)
         {
             Interval.ClearAll();
@@ -192,10 +210,17 @@ namespace PeminSpectrumAnalyser
             UITo(Interval);
 
             Interval.BuildAutomaticPoints();
+            
 
             UIFrom(Interval);
             if (Interval.IntervalSettings.isAuto) //СС
-                createPoints.IsEnabled = false;   //после выполнения расчёта точек измерения, кнопка деактивируется
+            {
+                createPoints.IsEnabled = false;   //после выполнения расчёта точек измерения, кнопка деактивируется, кнопки выполнения измерений активируются
+                Model.ExperimentExplorer EE = Interval.GetExperimentExplorer();
+                bool enabled = EE.IsConnected && Interval.Markers.Count > 0;
+                EE.SequenceCtrl.buttonStartNOISE.IsEnabled = enabled;
+                EE.SequenceCtrl.buttonStartSIGNAL.IsEnabled = enabled;
+            }
         }
 
 
@@ -227,15 +252,7 @@ namespace PeminSpectrumAnalyser
             UIFrom(Interval);
         }
 
-        private void GetNoise_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void GetSignal_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
         private void ShowSignalAndNoise_Click(object sender, RoutedEventArgs e)
         {
             Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.Noise,
@@ -320,6 +337,42 @@ namespace PeminSpectrumAnalyser
         private void isActiveCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             UITo(Interval);
+        }
+
+        private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {  
+            
+            if (e.Key == Key.Enter)   //завершён ввод
+            {
+                TextBox tb;
+                long Value;
+                try
+                {
+                    tb = (TextBox)sender;
+                    Value = long.Parse(tb.Text);
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Ошибка преобразования значения полосы пропускания. " + Environment.NewLine + ee.Message);
+                    return;
+                }
+                string name = tb.Name;
+                switch (name)
+                {
+                    case "tbBandWidth":
+                        this.Interval.IntervalSettings.BandWidth = Value;
+                        break;
+                    case "tbBand":
+                        this.Interval.IntervalSettings.Band = Value;
+                        break;
+                    case "tbBandWidth_DS":
+                        this.Interval.IntervalSettings.BandWidth = Value;
+                        break;
+                    case "tbBand_DS":
+                        this.Interval.IntervalSettings.Band = Value;
+                        break;
+                }
+            }
         }
     }
 }

@@ -97,7 +97,7 @@
     <Compile Include="DataLineCtrl.xaml.cs">
       <DependentUpon>DataLineCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HardwareSettings.cs" />
+    <Compile Include="HardwareSettings_.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />
     <Compile Include="Helpers\NotificationObject.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />

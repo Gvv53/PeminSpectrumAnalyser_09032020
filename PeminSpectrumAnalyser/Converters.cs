@@ -60,5 +60,16 @@ namespace PeminSpectrumAnalyser
                 return "0";
             }
         }
+        public static string ValueToUI(double value, long mul)
+        {
+            try
+            {
+                return (value / mul).ToString();
+            }
+            catch
+            {
+                return "0";
+            }
+        }
     }
 }

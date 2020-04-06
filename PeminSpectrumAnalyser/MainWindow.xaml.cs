@@ -60,11 +60,17 @@ namespace PeminSpectrumAnalyser
 
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            unit1.ExperimentExplorer.Experiment = Solution.Experiment1;
+            unit1.ExperimentExplorer.Experiment = Solution.Experiment1;            
             unit2.ExperimentExplorer.Experiment = Solution.Experiment2;
             NewSolution();
             unit1.SolutionNameClear += () => CurrentSolutionLabel.Dispatcher.Invoke(() => { CurrentSolutionLabel.Content = "НЕ ОПРЕДЕЛЁН"; });
             unit2.SolutionNameClear += () => CurrentSolutionLabel.Dispatcher.Invoke(() => { CurrentSolutionLabel.Content = "НЕ ОПРЕДЕЛЁН"; });
+            gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
+            gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
+            //обработчик изменения выбора ИП
+            unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
+            unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -98,8 +104,6 @@ namespace PeminSpectrumAnalyser
         //кнопка ЗАГРУЗИТЬ 
         private void FullLoad_Click(object sender, RoutedEventArgs e)
         {
-
-
             string solutionName = "";
             Solution = Solution.LoadSolution(unit1.ExperimentExplorer.Experiment.ExperimentSettings.ExperimentPath, out solutionName);
 
@@ -135,9 +139,17 @@ namespace PeminSpectrumAnalyser
 
                 if (Solution.Experiment1.Intervals.Count > 0)
                 {
-                    
+
                     for (int counter = 0; counter < Solution.Experiment1.Intervals.Count; counter++)
-                        unit1.LoadInterval(Solution.Experiment1.Intervals[counter]);                    
+                    {
+                        unit1.LoadInterval(Solution.Experiment1.Intervals[counter]);
+                        if (counter == 0)
+                        {
+                            //тактовая частота в стаканах по значению частоты 1-м интервале 1-го стакана,иначе ставится по умолчанию=1МГц
+                            unit1.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;
+                            unit2.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;
+                        }
+                    }
                 }
                 if (Solution.Experiment2.Intervals.Count > 0)
                 {
@@ -170,7 +182,22 @@ namespace PeminSpectrumAnalyser
                     unit2.connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
                 }
                 unit2.Address = unit2.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
-
+                //отобразим загруженные измерения для интервалов ДС
+                foreach (ParametersCtrl par in unit1.ParametersList.Items)
+                {
+                    if (par.Interval.IntervalSettings.isAuto)
+                        return;
+                    par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
+                    par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                }
+                foreach (ParametersCtrl par in unit2.ParametersList.Items)
+                {
+                    if (par.Interval.IntervalSettings.isAuto)
+                        return;
+                  
+                    par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
+                    par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                }
             }
         }
 
