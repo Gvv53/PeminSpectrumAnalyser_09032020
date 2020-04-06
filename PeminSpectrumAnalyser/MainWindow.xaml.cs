@@ -70,7 +70,7 @@ namespace PeminSpectrumAnalyser
             //обработчик изменения выбора ИП
             unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
             unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
-
+            unit2.spFrequencyMax.Visibility = Visibility.Hidden;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -114,6 +114,7 @@ namespace PeminSpectrumAnalyser
                 //очистка ParametersList
                 unit1.ClearIntervalsUIList();
                 unit2.ClearIntervalsUIList();
+               
                 //установка признака спектра до загрузки интервалов
                 if (Solution.Experiment1.Intervals.Count > 0 && Solution.Experiment1.Intervals[0].IntervalSettings.isAuto)
                 {
@@ -198,6 +199,7 @@ namespace PeminSpectrumAnalyser
                     par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
                     par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
                 }
+               
             }
         }
 
@@ -378,11 +380,55 @@ namespace PeminSpectrumAnalyser
         private void NotChangeRBW_Click(object sender, RoutedEventArgs e)
         {
             RBWAndVBW.RBW = (bool)NotChangeRBW.IsChecked;
+            ChangeEnabled_gbRBWVBW();           
         }
 
         private void NotChangeVBW_Click(object sender, RoutedEventArgs e)
         {
             RBWAndVBW.VBW = (bool)NotChangeVBW.IsChecked;
+            ChangeEnabled_gbRBWVBW();
+        }
+        //для ДС и включенной опции отключаем блок задания ручных значений
+        private void ChangeEnabled_gbRBWVBW()
+        {
+            if ((!RBWAndVBW.RBW || !RBWAndVBW.VBW)) //программное задание полосы фильтра
+            {
+                if ((bool)unit1.rbDS.IsChecked) //ДС 1 стакан                   
+                    unit1.gbRBWVBW.IsEnabled = true;
+                else  //СС 1 стакан 
+                {
+                    unit1.gbRBWVBW.IsEnabled = false;
+                    foreach (ParametersCtrl par in unit1.ParametersList.Items)
+                        par.gbFilter.IsEnabled = true;
+                }
+                if ((bool)unit2.rbDS.IsChecked) //ДС 2 стакан                   
+                    unit2.gbRBWVBW.IsEnabled = true;
+                else  //СС 1 стакан 
+                {
+                    unit2.gbRBWVBW.IsEnabled = false;
+                    foreach (ParametersCtrl par in unit2.ParametersList.Items)
+                        par.gbFilter.IsEnabled = true;
+                }
+            }
+            else //ручное управление полосами фильтра на ИП
+            {
+                if ((bool)unit1.rbDS.IsChecked) //ДС 1 стакан                   
+                    unit1.gbRBWVBW.IsEnabled = false;
+                else  //СС 1 стакан 
+                {
+                    unit1.gbRBWVBW.IsEnabled = false;
+                    foreach (ParametersCtrl par in unit1.ParametersList.Items)
+                        par.gbFilter.IsEnabled = false;
+                }
+                if ((bool)unit2.rbDS.IsChecked) //ДС 2 стакан                   
+                    unit2.gbRBWVBW.IsEnabled = false;
+                else  //СС 1 стакан 
+                {
+                    unit2.gbRBWVBW.IsEnabled = false;
+                    foreach (ParametersCtrl par in unit2.ParametersList.Items)
+                        par.gbFilter.IsEnabled = false;
+                }
+            }
         }
     }
 }

@@ -9,11 +9,11 @@
              d:DesignHeight="24.077" d:DesignWidth="123">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*" MinWidth="40"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <ComboBox x:Name="comboBox1"  Grid.Column="1" SelectionChanged="ComboBox1_SelectionChanged"  BorderBrush="#FF535050" Background="Black"
-                  Foreground="White" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="10" />
+                  Foreground="White" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="10" HorizontalContentAlignment="Center" />
         <TextBox x:Name="DataTextBox"  TextWrapping="Wrap" Text="0" TextChanged="DataTextBox_TextChanged_1" Background="{x:Null}" BorderBrush="#FF535050"
                  VerticalAlignment="Center" VerticalContentAlignment="Center" KeyDown="DataTextBox_KeyDown" HorizontalContentAlignment="Center"/>
     </Grid>

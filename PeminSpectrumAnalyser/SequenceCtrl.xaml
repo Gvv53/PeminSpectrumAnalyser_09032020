@@ -17,8 +17,9 @@
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="40"/>
@@ -33,56 +34,20 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
 
 
-        <Rectangle x:Name="captionRectangle"  Opacity="0.7" Grid.RowSpan="4" Margin="25,0,15,0" Grid.Column="1"  />
-
-
-
-        <Button Click="ButtonLoad_Click" x:Name="buttonLoad" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="2" ToolTip="Загрузить" >
-            <Rectangle  Fill= "{StaticResource ButtonImageLoad}" Width="35" Height="35" />
-        </Button>
-        <Button Click="ButtonSave_Click" x:Name="buttonSave" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="3" ToolTip="Сохранить" >
-            <Rectangle  Fill= "{StaticResource ButtonImageSave}" Width="35" Height="35"/>
-        </Button>
-
-       
-        <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE"    ToolTip="Начать съем шума" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1"  Grid.Column="9" IsEnabled="False" >
-            <Grid>
-                <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35" />
-                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
-                    Ш
-                </Label>
-            </Grid>
-        </Button>
-        <Button Click="ButtonStartSIGNAL_Click" x:Name="buttonStartSIGNAL" ToolTip="Начать съем сигнала"  BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1" Grid.Column="10" IsEnabled="False">
-            <Grid>
-                <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35"/>
-                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
-                    C
-                </Label>
-            </Grid>
-        </Button>
-        <Button Click="ButtonPause_Click" x:Name="buttonPause" ToolTip="Пауза" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1"  Grid.Column="12"  >
-            <Rectangle Fill= "{StaticResource ButtonImagePause}" Height="25" Width="25"/>
-        </Button>
-        <Button Click="ButtonStop_Click" x:Name="buttonStop" ToolTip="Прервать съем информации" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="13" >
-            <Rectangle Fill= "{StaticResource ButtonImageStop}" Width="25" Height="25"/>
-        </Button>
-        <Button Click="ButtonSettings_Click" x:Name="buttonSettings" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="16"  >
-            <Rectangle  Fill= "{StaticResource ButtonImageSettings}" Width="35" Height="35" />
-        </Button>
+        <!--<Rectangle x:Name="captionRectangle"  Opacity="0.7" Grid.RowSpan="4" Margin="25,0,15,0" Grid.Column="1"  />-->
         <Button Click="ButtonConnect_Click" x:Name="buttonConnect" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1">
             <Rectangle  Fill= "{StaticResource ButtonImageSequence}" Width="25" Height="25"/>
         </Button>
-        <Button Click="ButtonNew_Click" x:Name="buttonNew" Content="NEW" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFDDDDDD" FontWeight="Bold"
-                Grid.Row="1" Grid.Column="4" ToolTip="Новый эксперимент с параметрами по умолчанию" />
-        
-        <Ellipse   x:Name="connectionState" Fill="#FFF1F1F6" Margin="15" RenderTransformOrigin="0.5,0.5" Grid.Row="1"  ToolTip="Состояние подключения ИП">
+
+
+        <Ellipse   x:Name="connectionState" Fill="#FFF1F1F6" Margin="15" RenderTransformOrigin="0.5,0.5" 
+                   Grid.Row="1"  ToolTip="Состояние подключения ИП">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>
@@ -92,6 +57,56 @@
                 </TransformGroup>
             </Ellipse.RenderTransform>
         </Ellipse>
+
+        <Button Click="ButtonLoad_Click" x:Name="buttonLoad" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="2" ToolTip="Загрузить" >
+            <Rectangle  Fill= "{StaticResource ButtonImageLoad}" Width="35" Height="35" />
+        </Button>
+        <Button Click="ButtonSave_Click" x:Name="buttonSave" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="3" ToolTip="Сохранить" >
+            <Rectangle  Fill= "{StaticResource ButtonImageSave}" Width="35" Height="35"/>
+        </Button>
+        <Button Click="ButtonNew_Click" x:Name="buttonNew" Content="NEW" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFDDDDDD" FontWeight="Bold"
+                Grid.Row="1" Grid.Column="4" ToolTip="Новый эксперимент с параметрами по умолчанию" />
+        <GroupBox x:Name="gbRBWVBW" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Header="Фильтры для ДС" Foreground="White"  VerticalContentAlignment="Center" Opacity="0.85" 
+                       HorizontalContentAlignment="Stretch" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" VerticalAlignment="Center" IsEnabled="False" >
+            <StackPanel Orientation="Horizontal">
+                <Label Content="RBW,VBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Stretch" Padding="0" Height="24" />
+                <local:FrequencyCtrl  x:Name="HandRBWVBW" Value="1000000" VerticalAlignment="Center" Width="137"
+                                  ToolTip="Тактовая частота"  VerticalContentAlignment="Center" Height="24"  />
+                <!--<TextBox x:Name="tbBandWidth_DS" Foreground="White" Margin="10,0,0,0" Text="0" Width="50" HorizontalContentAlignment="Center"
+                                 VerticalAlignment="Center" VerticalContentAlignment="Center"  Height="24"/>
+                <Label Content="VBW" Foreground="White" Margin="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
+                <TextBox x:Name="tbBand_DS" Foreground="White" Margin="10,0,0,0" Text="0" Width="50" HorizontalContentAlignment="Center"
+                                 VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>-->
+            </StackPanel>
+        </GroupBox>
+
+        <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE" Grid.Row="1"  Grid.Column="5" ToolTip="Начать съем шума" BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" >
+            <Grid>
+                <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35" />
+                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
+                    Ш
+                </Label>
+            </Grid>
+        </Button>
+        <Button Click="ButtonStartSIGNAL_Click" x:Name="buttonStartSIGNAL" Grid.Row="1" Grid.Column="7" ToolTip="Начать съем сигнала"  BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False">
+            <Grid>
+                <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35"/>
+                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
+                    C
+                </Label>
+            </Grid>
+        </Button>
+        <Button Click="ButtonPause_Click" x:Name="buttonPause"  Grid.Row="1"  Grid.Column="9" ToolTip="Пауза" BorderBrush="{x:Null}" Background="{x:Null}" >
+            <Rectangle Fill= "{StaticResource ButtonImagePause}" Height="25" Width="25"/>
+        </Button>
+        <Button Click="ButtonStop_Click" x:Name="buttonStop" Grid.Row="1" Grid.Column="10"  ToolTip="Прервать съем информации" BorderBrush="{x:Null}" Background="{x:Null}"  >
+            <Rectangle Fill= "{StaticResource ButtonImageStop}" Width="25" Height="25"/>
+        </Button>
+        <Button Click="ButtonSettings_Click" x:Name="buttonSettings" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="17"  >
+            <Rectangle  Fill= "{StaticResource ButtonImageSettings}" Width="35" Height="35" />
+        </Button>
+
+
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="18">
             <Label x:Name="address" Content="192.168.12.233" FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
             <Label x:Name="scanProcess" Content="ОЖИДАНИЕ ЗАПУСКА " FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
@@ -100,29 +115,38 @@
             <Label x:Name="NoiseStateLabel"  Content="ШУМ НЕ СНЯТ" FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center"   Margin="10,0,10,0" VerticalContentAlignment="Center"/>
             <Label x:Name="SignalStateLabel" Content="СИГНАЛ НЕ СНЯТ" FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" VerticalContentAlignment="Center"/>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="10" Orientation="Horizontal">
-            
-            <RadioButton x:Name="rbSS" Content="Сплошной спектр" Foreground="#FFF0F0F0" VerticalContentAlignment="Center" IsChecked="True"
-                         Checked="RbSS_Checked" VerticalAlignment="Center" />
-            <RadioButton x:Name="rbDS" Content="Дифференцированный спектр" Foreground="#FFF0F0F0" VerticalContentAlignment="Center" 
-                         Checked="RbDS_Checked" VerticalAlignment="Center" Margin="15,0,10,0"/>
+        <StackPanel Grid.Row="1" Grid.Column="12" Grid.ColumnSpan="4" Orientation="Horizontal">
+
+            <RadioButton x:Name="rbSS" Content="СС" Foreground="#FFF0F0F0" VerticalContentAlignment="Center" IsChecked="True"
+                         Checked="RbSS_Checked" VerticalAlignment="Center" ToolTip="Сплошной спектр" />
             <Button Click="ButtonPlus_Click" x:Name="buttonPlus" BorderBrush="{x:Null}"   ToolTip="Добавить новый интервал измерений для СС" Margin="20,0,10,0">
                 <Rectangle Fill= "{StaticResource ButtonImagePlus}" Width="20" Height="20" />
             </Button>
+            <RadioButton x:Name="rbDS" Content="ДС" Foreground="#FFF0F0F0" VerticalContentAlignment="Center" 
+                         Checked="RbDS_Checked" VerticalAlignment="Center" Margin="15,0,0,0" ToolTip="Дифференцированный спектр"/>
+
         </StackPanel>
-        <StackPanel x:Name="spDS" Grid.Row="2" Grid.Column ="10"  Grid.ColumnSpan="8" Orientation="Horizontal" IsEnabled="False">
-            <local:FrequencyCtrl  x:Name="HandMode_Frequency" Value="1000000" HorizontalAlignment="Left" Margin="20,0,10,0" VerticalAlignment="Center"
-                                  ToolTip="Тактовая частота"/>
-            <Button  x:Name="HandMode_PlusMany" Content="++" Grid.Column="15" HorizontalAlignment="Left"  Foreground="#FFDB3C13"  Click="HandMode_PlusMany_Click" Margin="20,0,10,0" 
-                     VerticalAlignment="Center"  ToolTip="Добавить заданное количество интервалов измерений для ДС"/>
-            <TextBox x:Name="HandMode_Quantity" HorizontalAlignment="Left" TextWrapping="Wrap" Text="5" Background="{x:Null}" Margin="20,0,10,0" VerticalAlignment="Center"
-                      ToolTip="Количество интервалов измерений для ДС"/>
-            <Button  x:Name="HandMode_PlusOne"  Content="+" HorizontalAlignment="Left" Margin="20,0,10,0" Foreground="#FFDB3C13" Click="HandMode_PlusOne_Click"
+        <StackPanel x:Name="spDS" Grid.Row="2" Grid.Column ="5"  Grid.ColumnSpan="6" Orientation="Horizontal" IsEnabled="False" VerticalAlignment="Center">
+            <local:FrequencyCtrl  x:Name="HandMode_Frequency" Value="1000000"  VerticalAlignment="Center"
+                                  ToolTip="Тактовая частота"  Width="95" VerticalContentAlignment="Center"/>
+            <Button  x:Name="HandMode_PlusMany" Content="++" HorizontalAlignment="Left"  Foreground="#FFDB3C13"  Click="HandMode_PlusMany_Click" Margin="12,0,0,0" 
+                     VerticalAlignment="Center"  ToolTip="Добавить заданное количество интервалов измерений для ДС" />
+            <TextBox x:Name="HandMode_Quantity" HorizontalAlignment="Left" TextWrapping="Wrap" Width="30" Text="5" Background="{x:Null}" Margin="8,0,0,0" VerticalAlignment="Center"
+                      ToolTip="Количество интервалов измерений для ДС" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Button  x:Name="HandMode_PlusOne"  Content="+" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="#FFDB3C13" Click="HandMode_PlusOne_Click"
                      VerticalAlignment="Center" ToolTip="Добавить один интервал измерений для ДС"/>
+        </StackPanel>
+        <StackPanel x:Name="spFrequencyMax" Grid.Row="2" Grid.Column ="11"  Grid.ColumnSpan="8" Orientation="Horizontal" IsEnabled="False">
+            <CheckBox HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="10,0,0,0"
+                      VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Перенести в другой стакан c " Foreground="White"
+                      ToolTip="Перенести гармоники в другой стакан, начиная с заданной частоты" FontWeight="Light"/>
+            <local:FrequencyCtrl  x:Name="FrequencyMax" Value="0" Margin="10" VerticalAlignment="Center"
+                                  ToolTip="Предельная частота гармоники в левом стакане" Width="108"/>
+
         </StackPanel>
         <GroupBox Grid.Row="3" Grid.ColumnSpan="18" Header="Интервалы измерений" Foreground="White" BorderThickness="1" Opacity="0.9" >
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="18" >
-                <ItemsControl x:Name="ParametersList"      VirtualizingPanel.ScrollUnit="Pixel"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="#FF1B1B1C"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="0,5,0,0"  />
+                <ItemsControl x:Name="ParametersList"      VirtualizingPanel.ScrollUnit="Pixel"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Background="#FF1B1B1C"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"  />
             </ScrollViewer>
         </GroupBox>
     </Grid>

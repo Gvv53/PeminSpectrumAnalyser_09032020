@@ -23,17 +23,7 @@
                 <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Шум, оригинальное значение"/>
 
-                <GroupBox Foreground="White" Header="Полоса пропускания фильтров, MHz" VerticalContentAlignment="Stretch" Opacity="0.9" 
-                      Margin="15,0,0,0" HorizontalContentAlignment="Center" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" >
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="RBW" Foreground="White" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                        <TextBox x:Name="tbBandWidth_DS" Foreground="White" Margin="10,0,0,0" Text="0" Width="50" HorizontalContentAlignment="Center"
-                                 VerticalAlignment="Center" VerticalContentAlignment="Center"  Height="24"/>
-                        <Label Content="VBW" Foreground="White" Margin="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                        <TextBox x:Name="tbBand_DS" Foreground="White" Margin="10,0,0,0" Text="0" Width="50" HorizontalContentAlignment="Center"
-                                 VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                    </StackPanel>
-                </GroupBox>
+              
             </StackPanel>
             <Button x:Name="DeleteButton_Copy" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Width="30"
                     Background="#FF672326" Click="Delete_Click" RenderTransformOrigin="0.6,0.2" HorizontalAlignment="Right" HorizontalContentAlignment="Center" />
@@ -98,7 +88,8 @@
                                 <Label Content="ГРАНИЦЫ ДИАПАЗОНА" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FA" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
                                 <Label Content=" - "  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Width="24" Height="24"  Foreground="#FFF7F7FA" FontWeight="Bold"
                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" />
-                                <local:FrequencyCtrl x:Name="StartFrequency" Grid.Row="0" Grid.Column="1"  ToolTip="НАЧАЛЬНАЯ ТОЧКА" Height="24"  VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                <local:FrequencyCtrl x:Name="StartFrequency" Grid.Row="0" Grid.Column="1"  ToolTip="НАЧАЛЬНАЯ ТОЧКА" Height="24" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                                 <!--<local:FrequencyCtrl x:Name="StartFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="142,0,194,1" Grid.RowSpan="2"/>-->
                                 <local:FrequencyCtrl x:Name="StopFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Height="24"  Grid.Row="0" Grid.Column="3"  VerticalAlignment="Center" VerticalContentAlignment="Center" />
                                 <Label Content="ШАГ" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" HorizontalContentAlignment="Right"
@@ -164,7 +155,7 @@
 
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Row="5" Grid.RowSpan="3" Width="190" Foreground="White" Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
+                        <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3" Width="190" Foreground="White" Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
                                   HorizontalContentAlignment="Center" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" HorizontalAlignment="Right" >
                             <Grid>
                                 <Grid.RowDefinitions>

@@ -105,8 +105,13 @@ namespace PeminSpectrumAnalyser
             }
             else //DS
             {
-                linkToInterval.IntervalSettings.BandWidth = Converters.ValueFromUI(this.tbBandWidth_DS.Text,1000000);
-                linkToInterval.IntervalSettings.Band = Converters.ValueFromUI(this.tbBand_DS.Text,1000000);
+                if (!RBWAndVBW.RBW || !RBWAndVBW.VBW) //программное управление
+                {
+                    linkToInterval.IntervalSettings.BandWidth = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBWVBW.Value;
+                    linkToInterval.IntervalSettings.Band = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBWVBW.Value;
+                }
+                //  linkToInterval.IntervalSettings.BandWidth =  Converters.ValueFromUI(this.tbBandWidth_DS.Text,1000000);
+                //  linkToInterval.IntervalSettings.Band = Converters.ValueFromUI(this.tbBand_DS.Text,1000000);
             }
             // linkToInterval.IntervalSettings.Span = long.Parse(this.tbSpan.Text);//поле только для чтения
 
@@ -156,11 +161,17 @@ namespace PeminSpectrumAnalyser
                     this.tbSpan.Text = ((double)linkToInterval.IntervalSettings.Span / 1000000).ToString();
                     this.tbBand.Text = ((double)linkToInterval.IntervalSettings.Band / 1000000).ToString();
                 }
-                else
+                else //для ДС полосы пропускания находятся на уровне SequenceCtr
                 {
-                    this.tbBandWidth_DS.Text = ((double)linkToInterval.IntervalSettings.BandWidth / 1000000).ToString();
-                    //this.tbSpan.Text = linkToInterval.IntervalSettings.Span.ToString();
-                    this.tbBand_DS.Text = ((double)linkToInterval.IntervalSettings.Band / 1000000).ToString();
+                    if (!RBWAndVBW.RBW || !RBWAndVBW.VBW) //программное управление
+                    {
+                        linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBWVBW.Value = linkToInterval.IntervalSettings.BandWidth = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBWVBW.Value;
+                       // linkToInterval.IntervalSettings.Band = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBWVBW.Value;
+                    }
+
+                    //this.tbBandWidth_DS.Text = ((double)linkToInterval.IntervalSettings.BandWidth / 1000000).ToString();
+                    ////this.tbSpan.Text = linkToInterval.IntervalSettings.Span.ToString();
+                    //this.tbBand_DS.Text = ((double)linkToInterval.IntervalSettings.Band / 1000000).ToString();
                 }
 
                 this.maxLimitNoise.Text = linkToInterval.IntervalSettings.MaxNoise.ToString();

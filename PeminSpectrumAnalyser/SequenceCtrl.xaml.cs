@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System;
 using Forms = System.Windows.Forms;
+using IOMeasurementData;
 
 namespace PeminSpectrumAnalyser
 {
@@ -91,6 +92,8 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.rbSSCheckedEvent += () => rbSS.Dispatcher.Invoke(() =>
             {
                 spDS.IsEnabled = false;
+                spFrequencyMax.IsEnabled = false;
+                gbRBWVBW.IsEnabled = false;
                 buttonPlus.IsEnabled = true;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
@@ -102,7 +105,9 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.rbDSCheckedEvent += () => rbDS.Dispatcher.Invoke(() =>
             {
                 spDS.IsEnabled = true;
-                buttonPlus.IsEnabled = false;
+                spFrequencyMax.IsEnabled = true;
+                gbRBWVBW.IsEnabled = !RBWAndVBW.RBW && !RBWAndVBW.VBW;
+               buttonPlus.IsEnabled = false;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 //активность кнопок измерения
