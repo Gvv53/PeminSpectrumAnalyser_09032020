@@ -31,12 +31,13 @@ namespace PeminSpectrumData
                 _HandCenterFrequency = value;
                 if (!isAuto) //для ДС
                 {
-                    Span = value;
-                    Band = value;
-                    BandWidth = value;
+                    //заполняется при 
+                    //Span = value;
+                    //Band = value;
+                    //BandWidth = value;
                     //граничные частоты интервала сканирования. Для ДС не имеют смысла?, т.к. измерения проводятся только для центральной частоты
-                    FrequencyStart = _HandCenterFrequency - _HandCenterFrequency / 2;
-                    FrequencyStop = _HandCenterFrequency + _HandCenterFrequency / 2;
+                    //FrequencyStart = _HandCenterFrequency - _HandCenterFrequency / 2;
+                    //FrequencyStop = _HandCenterFrequency + _HandCenterFrequency / 2;
                 }
             }
         }

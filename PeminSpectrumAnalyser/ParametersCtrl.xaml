@@ -14,13 +14,13 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,30,0" VerticalAlignment="Center">
 
                 <Button x:Name="showSignalAndNoise_Copy" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Background="{x:Null}" Click="ShowSignalAndNoise_Click" />
-                <local:FrequencyCtrl x:Name="HandCenterFrequency" ToolTip="Гармоника тактовой частоты" Margin="10,0,0,0"/>
+                <local:FrequencyCtrl x:Name="HandCenterFrequency" ToolTip="Гармоника тактовой частоты" Margin="10,0,0,0" Width="137"/>
                 <!--<Button x:Name="createPoints_Copy" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="224,0,324,4"  Background="{x:Null}" Click="CreatePoints_Click" />-->
                 <Label Content="Сигнал" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox x:Name="tbSignal" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"
+                <TextBox x:Name="tbSignal" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Сигнал+Шум, оригинальное значение"/>
                 <Label Content="Шум" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"
+                <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Шум, оригинальное значение"/>
 
               
@@ -73,7 +73,8 @@
                             <ColumnDefinition Width="491"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox x:Name="isReport" Content="ОТЧЕТ" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF3F3F8" FontSize="8" IsChecked="True" Height="15" Width="50" Margin="669,-17,-227,0" IsEnabled="False"/>
-                        <GroupBox Grid.Row="0" Grid.RowSpan="3" Header="Задаваемые значения" Foreground="White" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="12" Opacity="0.9">
+                        <GroupBox Grid.Row="0" Grid.RowSpan="3" Header="Задаваемые значения" Foreground="White" VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center" FontSize="12" BorderThickness="0.3">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1.3*"/>
@@ -103,7 +104,7 @@
                         <Button x:Name="createPoints" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="11,15,355,10"  Background="{x:Null}"
                                 Grid.Row="3" Click="CreatePoints_Click" Grid.RowSpan="2" ToolTip="Рассчитать точки измерений по заданным значениям"/>
                         <GroupBox Grid.Row="5" Grid.RowSpan="3" Width="300" Header="Рассчитанные значения" Foreground="White" HorizontalContentAlignment="Stretch"  
-                                  VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="12" Opacity="0.9" HorizontalAlignment="Left">
+                                  VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="12" BorderThickness="0.3" HorizontalAlignment="Left">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="140*"/>
@@ -156,7 +157,8 @@
                             </Grid>
                         </GroupBox>
                         <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3" Width="190" Foreground="White" Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
-                                  HorizontalContentAlignment="Center" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" HorizontalAlignment="Right" >
+                                  HorizontalContentAlignment="Center" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" 
+                                  HorizontalAlignment="Right" BorderThickness="0.3" >
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -236,7 +238,8 @@
             <Button x:Name="showSignalAndNoise" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,98,30,112"  Background="{x:Null}" Click="ShowSignalAndNoise_Click" Grid.Column="1" />
             <Button x:Name="showSignalAndNoise_Signals" Content="ИСХ. СИГНАЛ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,128,30,82"  Background="{x:Null}" Click="ShowSignalAndNoise_Signals_Click" Grid.Column="1" />
             <Button x:Name="showSignalAndNoise_Noises" Content="ИСХ. ШУМ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,158,30,52"  Background="{x:Null}" Click="ShowSignalAndNoise_Noises_Click" Grid.Column="1" />
-            <Button x:Name="DeleteButton" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="112,0,22,211"  Background="#FF672326" Click="Delete_Click" Grid.Column="1" RenderTransformOrigin="0.6,0.2" />
+            <Button x:Name="DeleteButton" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="112,0,22,211" 
+                    Background="#FF672326" Click="Delete_Click" Grid.Column="1" RenderTransformOrigin="0.6,0.2" />
             <CheckBox  x:Name="isActiveCheckBox"   IsChecked="True" Checked="isActiveCheckBox_Checked"  Unchecked="isActiveCheckBox_Unchecked" Grid.Column="1" HorizontalAlignment="Left" Margin="61,49,0,0" VerticalAlignment="Top"/>
         </Grid>
     </Grid>

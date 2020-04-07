@@ -48,8 +48,12 @@
             <Label x:Name="CurrentSolutionLabel"  Content="НЕ ОПРЕДЕЛЕН"  Foreground="#FFFC4613" FontWeight="Bold" />
         </StackPanel>
 
-
-        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Управление всеми ИП" Padding="0" Foreground="White" Opacity="0.9">
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        <GroupBox Header="Управление всеми ИП" Padding="0" Foreground="White" BorderThickness="0.5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
                 <Button x:Name="fullConnect" Content="ПОДКЛЮЧИТЬСЯ" Click="FullConnect_Click" Style="{StaticResource CommandButton}"/>
                 <Button x:Name="fullNew" Content="НОВЫЙ ЗАМЕР" Click="FullNew_Click" Style="{StaticResource CommandButton}"/>
@@ -58,27 +62,32 @@
                 <TextBox x:Name="CopyTextBox" ToolTip="Количество копий" TextWrapping="Wrap" Text="0" />
                 <Button x:Name="fullNoise" Content="ШУМ" Click="FullNoise_Click" Style="{StaticResource CommandButton}"/>
                 <Button x:Name="fullSignal" Content="СИГНАЛ" Click="FullSignal_Click" Style="{StaticResource CommandButton}"/>
-                <Button x:Name="fullExport" Content="ЭКСПОРТ" Click="FullExport_Click" Style="{StaticResource CommandButton}"/>
-                <CheckBox x:Name="NotChangeRBW"  Content="Не управлять RBW" Click="NotChangeRBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>
-                <CheckBox x:Name="NotChangeVBW" Content="Не управлять VBW" Click="NotChangeVBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>
-                <Button x:Name="fullClear" Click="fullClear_Click" Content="ОЧИСТИТЬ"  Style="{StaticResource CommandButton}"/>
-                <Button x:Name="NewDataLine" Content="+" Click="NewDataLine_Click" Style="{StaticResource CommandButton}"/>
+                    <Button x:Name="fullExport" Content="ЭКСПОРТ" Click="FullExport_Click" Style="{StaticResource CommandButton}"/>
+                </StackPanel >
+            </GroupBox>
+                <!--<CheckBox x:Name="NotChangeRBW"  Content="Не управлять RBW" Click="NotChangeRBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>
+                <CheckBox x:Name="NotChangeVBW" Content="Не управлять VBW" Click="NotChangeVBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>-->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                <Button x:Name="fullClear" Click="fullClear_Click" Content="ОЧИСТИТЬ"  Style="{StaticResource CommandButton}" />
+                    <Button x:Name="NewDataLine" Content="+" Click="NewDataLine_Click" Style="{StaticResource CommandButton}" HorizontalAlignment="Center" Margin="40,0,10,0"/>
 
-          </StackPanel >
-        </GroupBox>
-        <GroupBox Grid.Row="4" Padding="5" Header="Исследуемые режимы" Foreground="White" Grid.ColumnSpan="2" ToolTip="Список исследуемых режимов, переданных из задачи расчёта Оценки защищённости" Opacity="0.9" >
+                </StackPanel >
+            
+        </Grid>
+        <GroupBox Grid.Row="4" Padding="5" Header="Исследуемые режимы" Foreground="White" Grid.ColumnSpan="2" 
+                  ToolTip="Список исследуемых режимов, переданных из задачи расчёта Оценки защищённости" BorderThickness="0.5" >
             <ListView x:Name="DataLinesListView"  Grid.ColumnSpan="2" Background="#FF1B1B1C" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"
                   BorderBrush="{x:Null}" />
         </GroupBox>
 
         <GridSplitter  Grid.Row="5" Grid.ColumnSpan="2"  HorizontalAlignment="Stretch" Width="150"  ResizeDirection="Rows"  Background="#FFFF4B00" Margin="646,0"/>
-        <GroupBox x:Name="gb1" x:FieldModifier="public" Grid.Row="6" Grid.Column="0" Padding="5" Header="Измерительный прибор 1" Foreground="White"
-                   HorizontalContentAlignment="Stretch" Opacity="0.9"  >
-        <local:SequenceCtrl x:Name="unit1" Grid.Row="6" Grid.Column="0" Background="#FF2E2C2C"/>
+        <GroupBox x:Name="gb1" x:FieldModifier="public" Grid.Row="6" Grid.Column="0"  Header="Измерительный прибор 1" Foreground="White"
+                   HorizontalContentAlignment="Stretch" BorderThickness="0.5"  >
+            <local:SequenceCtrl x:Name="unit1" Grid.Row="6" Grid.Column="0" Background="#FF2E2C2C"/>
         </GroupBox>
         <GroupBox x:Name="gb2" x:FieldModifier="public" Grid.Row="6" Grid.Column="1" Padding="5" Header="Измерительный прибор 2" Foreground="White"
-                   HorizontalContentAlignment="Stretch" Opacity="0.9" >
-        <local:SequenceCtrl x:Name="unit2"   VerticalAlignment="Stretch" Grid.Row="6" Grid.Column="1" Background="#FF2E2C2C" />
+                   HorizontalContentAlignment="Stretch" BorderThickness="0.5" >
+            <local:SequenceCtrl x:Name="unit2"   VerticalAlignment="Stretch" Grid.Row="6" Grid.Column="1" Background="#FF2E2C2C" />
         </GroupBox>
     </Grid>
 </Window>

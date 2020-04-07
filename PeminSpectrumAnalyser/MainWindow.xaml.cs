@@ -144,11 +144,12 @@ namespace PeminSpectrumAnalyser
                     for (int counter = 0; counter < Solution.Experiment1.Intervals.Count; counter++)
                     {
                         unit1.LoadInterval(Solution.Experiment1.Intervals[counter]);
-                        if (counter == 0)
+                        if ((bool)unit1.rbDS.IsChecked && counter == 0) 
                         {
                             //тактовая частота в стаканах по значению частоты 1-м интервале 1-го стакана,иначе ставится по умолчанию=1МГц
-                            unit1.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;
-                            unit2.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;
+                            unit1.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;   
+                            if ((bool)unit1.cbMove.IsChecked && (bool)unit2.rbDS.IsChecked)
+                               unit2.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;
                         }
                     }
                 }
@@ -377,58 +378,18 @@ namespace PeminSpectrumAnalyser
             }
         }
 
-        private void NotChangeRBW_Click(object sender, RoutedEventArgs e)
-        {
-            RBWAndVBW.RBW = (bool)NotChangeRBW.IsChecked;
-            ChangeEnabled_gbRBWVBW();           
-        }
+        //private void NotChangeRBW_Click(object sender, RoutedEventArgs e)
+        //{
+        //    RBWAndVBW.RBW = (bool)NotChangeRBW.IsChecked;
+        //   // ChangeEnabled_gbRBWVBW();           
+        //}
 
-        private void NotChangeVBW_Click(object sender, RoutedEventArgs e)
-        {
-            RBWAndVBW.VBW = (bool)NotChangeVBW.IsChecked;
-            ChangeEnabled_gbRBWVBW();
-        }
+        //private void NotChangeVBW_Click(object sender, RoutedEventArgs e)
+        //{
+        //    RBWAndVBW.VBW = (bool)NotChangeVBW.IsChecked;
+        //   // ChangeEnabled_gbRBWVBW();
+        //}
         //для ДС и включенной опции отключаем блок задания ручных значений
-        private void ChangeEnabled_gbRBWVBW()
-        {
-            if ((!RBWAndVBW.RBW || !RBWAndVBW.VBW)) //программное задание полосы фильтра
-            {
-                if ((bool)unit1.rbDS.IsChecked) //ДС 1 стакан                   
-                    unit1.gbRBWVBW.IsEnabled = true;
-                else  //СС 1 стакан 
-                {
-                    unit1.gbRBWVBW.IsEnabled = false;
-                    foreach (ParametersCtrl par in unit1.ParametersList.Items)
-                        par.gbFilter.IsEnabled = true;
-                }
-                if ((bool)unit2.rbDS.IsChecked) //ДС 2 стакан                   
-                    unit2.gbRBWVBW.IsEnabled = true;
-                else  //СС 1 стакан 
-                {
-                    unit2.gbRBWVBW.IsEnabled = false;
-                    foreach (ParametersCtrl par in unit2.ParametersList.Items)
-                        par.gbFilter.IsEnabled = true;
-                }
-            }
-            else //ручное управление полосами фильтра на ИП
-            {
-                if ((bool)unit1.rbDS.IsChecked) //ДС 1 стакан                   
-                    unit1.gbRBWVBW.IsEnabled = false;
-                else  //СС 1 стакан 
-                {
-                    unit1.gbRBWVBW.IsEnabled = false;
-                    foreach (ParametersCtrl par in unit1.ParametersList.Items)
-                        par.gbFilter.IsEnabled = false;
-                }
-                if ((bool)unit2.rbDS.IsChecked) //ДС 2 стакан                   
-                    unit2.gbRBWVBW.IsEnabled = false;
-                else  //СС 1 стакан 
-                {
-                    unit2.gbRBWVBW.IsEnabled = false;
-                    foreach (ParametersCtrl par in unit2.ParametersList.Items)
-                        par.gbFilter.IsEnabled = false;
-                }
-            }
-        }
+       
     }
 }

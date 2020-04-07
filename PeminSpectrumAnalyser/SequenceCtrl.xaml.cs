@@ -20,6 +20,9 @@ namespace PeminSpectrumAnalyser
             set;
             get;
         }
+        //полосы пропускания фильтра для ДС
+        public long BandWidth_DS { get; set; }
+        public long Band_DS { get; set; }
         public string Address
         {
             set => address.Content = value;
@@ -29,13 +32,16 @@ namespace PeminSpectrumAnalyser
         public ExperimentExplorer ExperimentExplorer = new ExperimentExplorer();
 
         public event Action SolutionNameClear;
-
+       
         public SequenceCtrl()
         {
             InitializeComponent();
 
 
             ExperimentExplorer.SequenceCtrl = this;
+
+            BandWidth_DS = new IntervalSettings().BandWidth;
+            Band_DS = new IntervalSettings().Band;
 
             ExperimentExplorer.IntervalChangeEvent += (quantity, count) => intervals.Dispatcher.Invoke(() => { intervals.Content = quantity + " / " + count; });
             ExperimentExplorer.PointChangeEvent += (quantity, count) => points.Dispatcher.Invoke(() => { points.Content = quantity + " / " + count; });
@@ -80,6 +86,7 @@ namespace PeminSpectrumAnalyser
             {
                 NoiseStateLabel.Content ="ШУМ НЕ СНЯТ";
             });
+            //обработчик состояния подключения, управляет видимостью кнопок снятия измерений            
             ExperimentExplorer.ConnectionStateChanged += (bool isConnected) => buttonStartNOISE.Dispatcher.Invoke(() =>
             {
                 var intervals = ExperimentExplorer.Experiment.Intervals;
@@ -89,31 +96,37 @@ namespace PeminSpectrumAnalyser
                 buttonStartNOISE.IsEnabled = isConnected && enabled;
                 buttonStartSIGNAL.IsEnabled = isConnected && enabled;
             });
-            ExperimentExplorer.rbSSCheckedEvent += () => rbSS.Dispatcher.Invoke(() =>
+            //режим СС
+            ExperimentExplorer.rbSSCheckedEvent += () => 
             {
-                spDS.IsEnabled = false;
-                spFrequencyMax.IsEnabled = false;
-                gbRBWVBW.IsEnabled = false;
-                buttonPlus.IsEnabled = true;
+                gbDS.IsEnabled = false;
+                //spFrequencyMax.IsEnabled = false;
+                //gbRBWVBW.IsEnabled = false;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 AddNewInterval();
                 //активность кнопок измерения
                 buttonStartNOISE.IsEnabled = false;
                 buttonStartSIGNAL.IsEnabled = false;
-            });
-            ExperimentExplorer.rbDSCheckedEvent += () => rbDS.Dispatcher.Invoke(() =>
+            };
+            //режим ДС
+            ExperimentExplorer.rbDSCheckedEvent += () =>
             {
-                spDS.IsEnabled = true;
-                spFrequencyMax.IsEnabled = true;
-                gbRBWVBW.IsEnabled = !RBWAndVBW.RBW && !RBWAndVBW.VBW;
-               buttonPlus.IsEnabled = false;
+                gbDS.IsEnabled = true;                 
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 //активность кнопок измерения
                 buttonStartNOISE.IsEnabled = false;
                 buttonStartSIGNAL.IsEnabled = false;
-            });
+                //полоса фильтра активна только для FSH4
+                if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+                    gbRBWVBW.IsEnabled = true;
+                else
+                    gbRBWVBW.IsEnabled = false;
+                HandRBW.IsEnabled = (bool)cbRBW.IsChecked;
+                HandVBW.IsEnabled = (bool)cbVBW.IsChecked;
+                CheckMsg();
+            };
             
             //обработчик изменения тактовой частоты ДС
             HandMode_Frequency.FrequencyCtrlChanged += () => HandMode_Frequency.Dispatcher.Invoke(() =>
@@ -137,11 +150,21 @@ namespace PeminSpectrumAnalyser
                     NewExperiment();
                 }
             });
-            //обработчик состояния подключения, управляет видимостью кнопок снятия измерений
-            //обработчик состояния подключения, управляет видимостью кнопок снятия измерений
-            
-            
-                
+            //обработчик изменения ширины полосы пропускания фильтров для ДС
+            HandRBW.HandRBWChanged += (long value) => {
+                foreach (ParametersCtrl par in ParametersList.Items)
+                {                    
+                    par.Interval.IntervalSettings.BandWidth = value;
+                }
+            };
+            HandVBW.HandVBWChanged += (long value) => {
+                foreach (ParametersCtrl par in ParametersList.Items)
+                {
+                    par.Interval.IntervalSettings.Band = value;                   
+                }
+            };
+
+
         }
 
         private void RbSS_Checked(object sender, RoutedEventArgs e)
@@ -246,6 +269,12 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.Experiment.Intervals.Add(newInterval);
 
             ParametersCtrl intervalParametersCtrl = new ParametersCtrl(ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings);
+            //для СС для полоса фильтра активна только для FSH4
+            if ((bool)rbSS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)            
+                intervalParametersCtrl.gbFilter.IsEnabled = true;
+            else
+                intervalParametersCtrl.gbFilter.IsEnabled = false;
+
 
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
@@ -349,6 +378,25 @@ namespace PeminSpectrumAnalyser
             }
             Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
             ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
+            //активность полос фильтра в зависимости от ИП и режима(СС/ДС)
+            if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+                if ((bool)rbDS.IsChecked)
+                    gbRBWVBW.IsEnabled = true;
+                else
+                    foreach (ParametersCtrl par in ParametersList.Items)
+                        par.gbFilter.IsEnabled = true;
+
+           else
+                if ((bool)rbDS.IsChecked)
+                    gbRBWVBW.IsEnabled = false;
+                else
+                    foreach (ParametersCtrl par in ParametersList.Items)
+                        par.gbFilter.IsEnabled = false;
+
+            //if ((bool)rbDS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+            //    gbRBWVBW.IsEnabled = true;
+            //else
+            //    gbRBWVBW.IsEnabled = false;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -376,7 +424,24 @@ namespace PeminSpectrumAnalyser
                 }
         }
 
+        private void CbRBW_Click(object sender, RoutedEventArgs e)
+        {
+            HandRBW.IsEnabled = (bool)cbRBW.IsChecked;
+            CheckMsg();
+        }
 
+        private void CbVBW_Click(object sender, RoutedEventArgs e)
+        {
+            HandVBW.IsEnabled = (bool)cbVBW.IsChecked;
+            CheckMsg();
+        }
+        private void CheckMsg()
+        {
+            if ((bool)rbDS.IsChecked && (!HandRBW.IsEnabled || !HandVBW.IsEnabled))
+                MsgBand.Visibility = Visibility.Visible;
+            else
+                MsgBand.Visibility = Visibility.Hidden;
+        }
     }
 
 }

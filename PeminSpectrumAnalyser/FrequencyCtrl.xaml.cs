@@ -70,7 +70,9 @@ namespace PeminSpectrumAnalyser
         }
 
         public event Action FrequencyCtrlChanged;
-        public event Action ParameterCtrChanged; //изменились параметры для расчёта количества и фиксирования точек измерения
+        public event Action ParameterCtrChanged;//изменились параметры для расчёта количества и фиксирования точек измерения СС
+        public event Action<long> HandRBWChanged; //изменились параметры для расчёта количества и фиксирования точек измерения ДСС
+        public event Action<long> HandVBWChanged; //изменились параметры для расчёта количества и фиксирования точек измерения ДСС
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -119,16 +121,39 @@ namespace PeminSpectrumAnalyser
             if (e.Key == Key.Enter)   //завершён ввод
             {
                 string name = ((FrequencyCtrl)((Grid)((TextBox)sender).Parent).Parent).Name;
-                if (name == "HandMode_Frequency") //тактовая частота
+                switch (name)
                 {
-                    FrequencyCtrlChanged?.Invoke();
-                    return;
+                    case "HandRBW":  //ширина полосы пропускания фильтров ДС
+                        HandRBWChanged?.Invoke(Value);
+                        break;
+                    case "HandVBW":  //ширина полосы пропускания фильтров ДС
+                        HandVBWChanged?.Invoke(Value);
+                        break;
+                    case "HandMode_Frequency":  //тактовая частота
+                        FrequencyCtrlChanged?.Invoke();
+                        break;
+                    //параметр для расчёта количества точек измерения CC
+                    case "StartFrequency":
+                        ParameterCtrChanged?.Invoke();
+                        break;
+                    case "StopFrequency":
+                        ParameterCtrChanged?.Invoke();
+                        break;
+                    case "InnerStepFrequency":
+                        ParameterCtrChanged?.Invoke();
+                        break;
                 }
-                if (name == "StartFrequency" ||
-                    name == "StopFrequency" ||
-                    name == "InnerStepFrequency") //параметры для расчёта количества точек измерения
-                    ParameterCtrChanged?.Invoke();
             }
+            //    if (name == "HandMode_Frequency") //тактовая частота
+            //    {
+            //        FrequencyCtrlChanged?.Invoke();
+            //        return;
+            //    }
+            //    if (name == "StartFrequency" ||
+            //        name == "StopFrequency" ||
+            //        name == "InnerStepFrequency") //параметры для расчёта количества точек измерения CC
+            //        ParameterCtrChanged?.Invoke();
+            //}
         }
     }
 }
