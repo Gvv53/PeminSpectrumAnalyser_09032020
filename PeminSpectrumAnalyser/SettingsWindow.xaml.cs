@@ -110,7 +110,7 @@ namespace PeminSpectrumAnalyser
 
             Address.Text = Settings.HardwareSettings.IP;
 
-            Port.Text = Settings.HardwareSettings.Port.ToString();
+            Port.Text = (int)Settings.HardwareSettings.HardwareType == 1 ? "5025" : "5555";// Settings.HardwareSettings.Port.ToString();
 
             LeftPanelPath.Text = Settings.ExperimentPath;
             TraceModeNoise.Text = Settings.HardwareSettings.TraceModeForNoise;
@@ -132,6 +132,20 @@ namespace PeminSpectrumAnalyser
             MiddleMinValueForSignal.IsChecked = Settings.AverageTypeForSignalMinimum;
 
             Emulation.IsChecked = Settings.Emulation;
+        }
+
+        private void HardwareComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (HardwareComboBox.SelectedIndex == 0)
+            {   
+                 Settings.HardwareSettings.Port = 5025;
+                 Port.Text = "5025";
+            }
+            else
+            {
+                Settings.HardwareSettings.Port = 5555;
+                Port.Text = "5555";
+            }
         }
     }
 }

@@ -163,8 +163,20 @@ namespace PeminSpectrumAnalyser
                     par.Interval.IntervalSettings.Band = value;                   
                 }
             };
-
-
+            //заполнение статус бара из потока
+            ExperimentExplorer.TimeStart += () => stbBegin.Dispatcher.Invoke(() => {stbBegin.Text = DateTime.Now.ToLongTimeString();});
+            ExperimentExplorer.TimeEnd += () => stbEnd.Dispatcher.Invoke(() => {stbEnd.Text = DateTime.Now.ToLongTimeString();});
+            ExperimentExplorer.WriteThreadId += (int numberId) => stbThread.Dispatcher.Invoke(() => { stbThread.Text = numberId.ToString(); });
+            ExperimentExplorer.pBarMax += (int pbMax) => stbThread.Dispatcher.Invoke(() => {  if (pbMax == 0)
+                {                   
+                    stbThread.Text = String.Empty;
+                    stbBegin.Text = String.Empty;
+                    stbEnd.Text = String.Empty;
+                }
+            //else
+            //     pBar.Maximum = pbMax;
+            });
+            ExperimentExplorer.pBarValue += (int pbValue) => stbThread.Dispatcher.Invoke(() => { pBar.Value = pbValue; });
         }
 
         private void RbSS_Checked(object sender, RoutedEventArgs e)
@@ -376,7 +388,8 @@ namespace PeminSpectrumAnalyser
                     connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
                 }
             }
-            Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+            Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":"+
+                                                                        ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
             ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
             //активность полос фильтра в зависимости от ИП и режима(СС/ДС)
             if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)

@@ -37,11 +37,12 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <!--<Rectangle x:Name="captionRectangle" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0"  Grid.ColumnSpan="19" Fill="#FF573D3D" />-->
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="18">
-            <Label x:Name="address" Content="192.168.12.233" FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
+            <Label x:Name="address" Content="192.168.12.233" FontSize="14" Foreground="Red" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
             <Label x:Name="scanProcess" Content="ОЖИДАНИЕ ЗАПУСКА " FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
             <Label x:Name="intervals" Content="0 / 0" FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,10,0" VerticalContentAlignment="Center" ToolTip="Интервалы"/>
             <Label x:Name="points" Content="0 / 0" Grid.Column="10"  FontSize="14" Foreground="#FFF0F0F0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" VerticalContentAlignment="Center" ToolTip="Точки"/>
@@ -74,7 +75,7 @@
         </Button>
         <Button Click="ButtonNew_Click" x:Name="buttonNew" Content="NEW" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFDDDDDD" FontWeight="Bold"
                 Grid.Row="1" Grid.Column="4" ToolTip="Новый эксперимент с параметрами по умолчанию" />
-        
+
 
         <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE" Grid.Row="1"  Grid.Column="5" ToolTip="Начать съем шума" BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" >
             <Grid>
@@ -155,7 +156,7 @@
                         <Label x:Name="MsgBand" Content="Не забудьте настроить фильтры на ИП!" Foreground="Red"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
                                VerticalAlignment="Center" Padding="5" Margin="10,0,0,0" Visibility="Hidden" />
                     </StackPanel>
-                    
+
                 </GroupBox>
             </Grid>
         </GroupBox>
@@ -167,5 +168,43 @@
                               ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"  />
             </ScrollViewer>
         </GroupBox>
+        <StatusBar Grid.Row="5" Grid.ColumnSpan="19" Background="Gray" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1">
+            <StatusBar.ItemsPanel >
+                <ItemsPanelTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*" />
+                        <ColumnDefinition Width="0.3*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </ItemsPanelTemplate>
+        </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" HorizontalContentAlignment="Right" VerticalAlignment="Center" Padding="0" >
+                <Label Foreground="White" Content ="Поток -"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Padding="0">
+                <TextBox x:Name="stbThread"  Foreground="White" Padding="0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            </StatusBarItem >
+            <StatusBarItem Grid.Column="2" HorizontalContentAlignment="Right" VerticalAlignment="Center" Padding="0" >
+                <Label Foreground="White" Content ="Сканирование: начало -"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Padding="0">
+                <TextBox x:Name="stbBegin"  Foreground="White" Padding="0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            </StatusBarItem >
+            <StatusBarItem Grid.Column="4">
+                <Label  Foreground="White" Content ="окончание -" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch">
+                <TextBox x:Name="stbEnd" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+            </StatusBarItem>       
+            <StatusBarItem Grid.Column="6" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" Padding="0">
+                <ProgressBar x:Name="pBar" Value="0" Height="16" />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </UserControl>

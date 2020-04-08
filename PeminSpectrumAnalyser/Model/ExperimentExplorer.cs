@@ -9,14 +9,16 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UnitedTools.Chart;
+using Forms=System.Windows.Forms;
 
 namespace PeminSpectrumAnalyser.Model
 {
     public class ExperimentExplorer
     {
         public SequenceCtrl SequenceCtrl;
-        public event Action rbSSCheckedEvent, rbDSCheckedEvent; //изменение выбора режима СС/ДС
+        public event Action rbSSCheckedEvent, rbDSCheckedEvent,TimeStart,TimeEnd; //изменение выбора режима СС/ДС
         public event Action<string> HardTypeChanged;
+        public event Action<int> WriteThreadId, pBarValue,pBarMax;
         //---------------------------------------------------------------------
         // Данные эксперимента
         //---------------------------------------------------------------------
@@ -391,7 +393,8 @@ namespace PeminSpectrumAnalyser.Model
         int _LocalIntervalCount = 0;
         int _LocalIntervalFrequencys = 0;
         int _LocalPointCount = 0;
-        public void Polling()
+        public delegate void InvokeDelegate();
+        public void Polling(int ThreadId)
         {
             ShowPollingStatus();
             if (DataMeasuringState == DataMeasuringState.Start)
@@ -399,6 +402,11 @@ namespace PeminSpectrumAnalyser.Model
                 _LocalIntervalCount = 0;
 
                 ShowPollingStatus();
+                WriteThreadId?.Invoke(ThreadId);
+                TimeStart?.Invoke();
+                pBarMax?.Invoke(Experiment.Intervals.Count);
+                int Value = 0;
+                
                 foreach (Interval currentInterval in Experiment.Intervals)
                 {
                     if (currentInterval.isActive)
@@ -423,6 +431,7 @@ namespace PeminSpectrumAnalyser.Model
                             DataMeasuringState = DataMeasuringState.Clear;
                             return;
                         }
+                        
                         foreach (long currentFrequency in currentInterval.CenterFrequencys)
                         {
 
@@ -496,7 +505,10 @@ namespace PeminSpectrumAnalyser.Model
                             currentInterval.Restore(); //для СС. Копирование ориг. значений без обработки
                         _LocalIntervalCount++;
                     }
-                }               
+                    Value++;
+                    pBarValue?.Invoke(Value);
+                }
+                TimeEnd?.Invoke();
                 DataMeasuringState = DataMeasuringState.Finish;
                 ShowPollingStatus();
 
@@ -504,14 +516,19 @@ namespace PeminSpectrumAnalyser.Model
                 {
                     SignalReadyIntervalEvent?.Invoke();
                    MessageBox.Show(Experiment.ExperimentSettings.HardwareSettings.HardwareType
-                                           + "- -СЪЕМ СИГНАЛА ЗАВЕРШЕН");//+ Environment.NewLine
+                                           + "- -СЪЕМ СИГНАЛА ЗАВЕРШЕН"+ Environment.NewLine
+                                           + "Поток - " + ThreadId.ToString());                   
                 }
                 if (DataMeasuringType == DataMeasuringType.Noise)
                 {
                     MessageBox.Show(Experiment.ExperimentSettings.HardwareSettings.HardwareType
-                                           + " - СЪЕМ ШУМА ЗАВЕРШЕН");
+                                           + " - СЪЕМ ШУМА ЗАВЕРШЕН" + Environment.NewLine
+                                           + "Поток - " + ThreadId.ToString());
                     NoiseReadyIntervalEvent?.Invoke();
                 }
+                pBarValue?.Invoke(0);
+                pBarMax?.Invoke(0);
+
             }
         }
 
@@ -535,7 +552,7 @@ namespace PeminSpectrumAnalyser.Model
                     {
                         try
                         {
-                            Polling();
+                            Polling(_PollingThread.ManagedThreadId);
                         }
                         catch (Exception ex)
                         {
