@@ -77,7 +77,8 @@
                 Grid.Row="1" Grid.Column="4" ToolTip="Новый эксперимент с параметрами по умолчанию" />
 
 
-        <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE" Grid.Row="1"  Grid.Column="5" ToolTip="Начать съем шума" BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" >
+        <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE" Grid.Row="1"  Grid.Column="5" ToolTip="Начать съем шума" 
+                BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged" >
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35" />
                 <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
@@ -85,7 +86,8 @@
                 </Label>
             </Grid>
         </Button>
-        <Button Click="ButtonStartSIGNAL_Click" x:Name="buttonStartSIGNAL" Grid.Row="1" Grid.Column="7" ToolTip="Начать съем сигнала"  BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False">
+        <Button Click="ButtonStartSIGNAL_Click" x:Name="buttonStartSIGNAL" Grid.Row="1" Grid.Column="7" ToolTip="Начать съем сигнала" 
+                BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False"  IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged">
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35"/>
                 <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
@@ -113,7 +115,8 @@
                          Checked="RbDS_Checked" VerticalAlignment="Center" Margin="15,0,0,0" ToolTip="Дифференцированный спектр"/>
 
         </StackPanel>
-        <GroupBox x:Name="gbDS" Header="Параметры ДС" Grid.Row="2" Grid.RowSpan="2" Grid.Column ="0"  Grid.ColumnSpan="19" BorderThickness="0.5" VerticalContentAlignment="Center" IsEnabled="False">
+        <GroupBox x:Name="gbDS" Header="Параметры ДС" Grid.Row="2" Grid.RowSpan="2" Grid.Column ="0"  Grid.ColumnSpan="19" BorderThickness="0.5"
+                  VerticalContentAlignment="Center" IsEnabled="False" Visibility="Hidden">
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>

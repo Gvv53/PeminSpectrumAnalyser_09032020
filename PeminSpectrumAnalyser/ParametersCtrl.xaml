@@ -23,7 +23,7 @@
                 <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Шум, оригинальное значение"/>
 
-              
+
             </StackPanel>
             <Button x:Name="DeleteButton_Copy" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Width="30"
                     Background="#FF672326" Click="Delete_Click" RenderTransformOrigin="0.6,0.2" HorizontalAlignment="Right" HorizontalContentAlignment="Center" />
@@ -102,14 +102,14 @@
 
 
                         <Button x:Name="createPoints" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="11,15,355,10"  Background="{x:Null}"
-                                Grid.Row="3" Click="CreatePoints_Click" Grid.RowSpan="2" ToolTip="Рассчитать точки измерений по заданным значениям"/>
-                        <GroupBox Grid.Row="5" Grid.RowSpan="3" Width="300" Header="Рассчитанные значения" Foreground="White" HorizontalContentAlignment="Stretch"  
+                                Grid.Row="3" Click="CreatePoints_Click" Grid.RowSpan="2" ToolTip="Рассчитать точки измерений по заданным значениям" IsEnabledChanged="CreatePoints_IsEnabledChanged"/>
+                        <GroupBox Grid.Row="5" Grid.RowSpan="3" Width="270" Header="Рассчитанные значения" Foreground="White" HorizontalContentAlignment="Stretch"  
                                   VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="12" BorderThickness="0.3" HorizontalAlignment="Left">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="140*"/>
-                                    <ColumnDefinition Width="40*"/>
-                                    <ColumnDefinition Width="120*"/>
+                                    <ColumnDefinition Width="14*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="12*"/>
 
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -156,7 +156,7 @@
 
                             </Grid>
                         </GroupBox>
-                        <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3" Width="190" Foreground="White" Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
+                        <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3" Width="220" Foreground="White" Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
                                   HorizontalContentAlignment="Center" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" 
                                   HorizontalAlignment="Right" BorderThickness="0.3" >
                             <Grid>
@@ -166,22 +166,29 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="RBW" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" HorizontalAlignment="Center"
+                                    <Label Content="RBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center"
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                                    <Label Content=" MHz" Foreground="White"  HorizontalAlignment="Center"
-                                           VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" FontSize="10"/>
-                                    <TextBox x:Name="tbBandWidth" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"
-                                             
-                                 VerticalAlignment="Bottom" VerticalContentAlignment="Center"  Height="24"/>
+                                    <local:FrequencyCtrl x:Name="BandWidth" Grid.Row="0" Grid.Column="1"  ToolTip="Полоса пропускания фильтра RBW" Height="24" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137"/>
+                                    <CheckBox x:Name="cbBandWidth"  HorizontalContentAlignment="Center" Margin="10,0,0,5" ToolTip="Программное правление RBW " 
+                                              Click="cbBandWidth_Click" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
+                                    <!--<TextBox x:Name="tbBandWidth" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"                                             
+                                             VerticalAlignment="Bottom" VerticalContentAlignment="Center"  Height="24"/>-->
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                    <Label Content="VBW" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" HorizontalAlignment="Center" 
+                                    <Label Content="VBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center" 
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                                    <Label Content=" MHz" Foreground="White"  HorizontalAlignment="Center"
-                                           VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" FontSize="10"/>
-                                    <TextBox x:Name="tbBand" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"
-                                 VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" HorizontalAlignment="Right"/>
+                                    <local:FrequencyCtrl x:Name="Band" Grid.Row="0" Grid.Column="1"  ToolTip="Полоса пропускания фильтра VBW" Height="24" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137"/>
+                                    <CheckBox x:Name="cbBand"  HorizontalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Программное правление RBW " 
+                                              Click="cbBand_Click" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+                                   
+                                    <!--<TextBox x:Name="tbBand" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"-->
+                                    <!--VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" HorizontalAlignment="Right"/>-->
                                 </StackPanel>
+                                <Label Grid.Row="2" x:Name="MsgBand" Content="Настроить фильтры на ИП!" Foreground="Red" 
+                                           HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
+                                           VerticalAlignment="Center" Padding="5" Margin="10,0,0,0" HorizontalContentAlignment="Center"/>
                             </Grid>
                         </GroupBox>
                     </Grid>

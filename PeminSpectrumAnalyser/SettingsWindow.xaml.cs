@@ -110,7 +110,7 @@ namespace PeminSpectrumAnalyser
 
             Address.Text = Settings.HardwareSettings.IP;
 
-            Port.Text = (int)Settings.HardwareSettings.HardwareType == 1 ? "5025" : "5555";// Settings.HardwareSettings.Port.ToString();
+            Port.Text = (int)Settings.HardwareSettings.HardwareType == 0 ? "5025" : "5555";// Settings.HardwareSettings.Port.ToString();
 
             LeftPanelPath.Text = Settings.ExperimentPath;
             TraceModeNoise.Text = Settings.HardwareSettings.TraceModeForNoise;

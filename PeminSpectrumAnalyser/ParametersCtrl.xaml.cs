@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
+using PeminSpectrumAnalyser.Model;
 
 namespace PeminSpectrumAnalyser
 {
@@ -47,8 +48,8 @@ namespace PeminSpectrumAnalyser
 
             StartFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             StopFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
-            //Band.FrequencyCtrlChanged += () => { UITo(Interval); };
-            //BandWidth.FrequencyCtrlChanged += () => { UITo(Interval); };
+            Band.FrequencyCtrlChanged += () => { UITo(Interval); };
+            BandWidth.FrequencyCtrlChanged += () => { UITo(Interval); };
             //centerFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             //Span.FrequencyCtrlChanged += () => { UITo(Interval); };
             //StepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
@@ -80,8 +81,8 @@ namespace PeminSpectrumAnalyser
 
         public Interval Interval;
 
-
         bool DisableUITo = false;
+        
         //актуализация значений из UI в объект класса Interval  
         public void UITo(Interval linkToInterval)
         {
@@ -100,8 +101,8 @@ namespace PeminSpectrumAnalyser
 
             if (linkToInterval.IntervalSettings.isAuto) // CC
             { 
-                linkToInterval.IntervalSettings.BandWidth = Converters.ValueFromUI(this.tbBandWidth.Text, 1000000);
-                linkToInterval.IntervalSettings.Band = Converters.ValueFromUI(tbBand.Text,1000000);
+                linkToInterval.IntervalSettings.BandWidth = BandWidth.Value;
+                linkToInterval.IntervalSettings.Band = Band.Value;
             }
             else //DS
             {
@@ -152,9 +153,9 @@ namespace PeminSpectrumAnalyser
 
                 if (linkToInterval.IntervalSettings.isAuto) // CC
                 {
-                    this.tbBandWidth.Text = ((double)linkToInterval.IntervalSettings.BandWidth / 1000000).ToString();
-                    this.tbSpan.Text = ((double)linkToInterval.IntervalSettings.Span / 1000000).ToString();
-                    this.tbBand.Text = ((double)linkToInterval.IntervalSettings.Band / 1000000).ToString();
+                    BandWidth.Value = linkToInterval.IntervalSettings.BandWidth;
+                    this.tbSpan.Text = ((double)linkToInterval.IntervalSettings.Span / 1000000).ToString();//рассчитывается, пользователем не меняется
+                    Band.Value = linkToInterval.IntervalSettings.Band;
                 }
                 else //для ДС полосы пропускания находятся на уровне SequenceCtr
                 {                   
@@ -337,40 +338,64 @@ namespace PeminSpectrumAnalyser
             UITo(Interval);
         }
 
-        private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {  
+        //private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        //{  
             
-            if (e.Key == Key.Enter)   //завершён ввод
-            {
-                TextBox tb;
-                long Value;
-                try
-                {
-                    tb = (TextBox)sender;
-                    Value = long.Parse(tb.Text);
-                }
-                catch (Exception ee)
-                {
-                    MessageBox.Show("Ошибка преобразования значения полосы пропускания. " + Environment.NewLine + ee.Message);
-                    return;
-                }
-                string name = tb.Name;
-                switch (name)
-                {
-                    case "tbBandWidth":
-                        this.Interval.IntervalSettings.BandWidth = Value;
-                        break;
-                    case "tbBand":
-                        this.Interval.IntervalSettings.Band = Value;
-                        break;
-                    case "tbBandWidth_DS":
-                        this.Interval.IntervalSettings.BandWidth = Value;
-                        break;
-                    case "tbBand_DS":
-                        this.Interval.IntervalSettings.Band = Value;
-                        break;
-                }
-            }
+        //    if (e.Key == Key.Enter)   //завершён ввод
+        //    {
+        //        TextBox tb;
+        //        long Value;
+        //        try
+        //        {
+        //            tb = (TextBox)sender;
+        //            Value = long.Parse(tb.Text);
+        //        }
+        //        catch (Exception ee)
+        //        {
+        //            MessageBox.Show("Ошибка преобразования значения полосы пропускания. " + Environment.NewLine + ee.Message);
+        //            return;
+        //        }
+        //        string name = tb.Name;
+        //        switch (name)
+        //        {
+        //            case "tbBandWidth":
+        //                this.Interval.IntervalSettings.BandWidth = Value;
+        //                break;
+        //            case "tbBand":
+        //                this.Interval.IntervalSettings.Band = Value;
+        //                break;
+        //            case "tbBandWidth_DS":
+        //                this.Interval.IntervalSettings.BandWidth = Value;
+        //                break;
+        //            case "tbBand_DS":
+        //                this.Interval.IntervalSettings.Band = Value;
+        //                break;
+        //        }
+        //    }
+        //}
+
+        private void CreatePoints_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            ExperimentExplorer EE = Interval.GetExperimentExplorer();
+            EE.ConnectionStateChanged?.Invoke(EE.IsConnected);
+        }
+        private void cbBandWidth_Click(object sender, RoutedEventArgs e)
+        {
+            BandWidth.IsEnabled = (bool)cbBandWidth.IsChecked;
+            CheckMsg();
+        }
+
+        private void cbBand_Click(object sender, RoutedEventArgs e)
+        {
+            Band.IsEnabled = (bool)cbBand.IsChecked;
+            CheckMsg();
+        }
+        private void CheckMsg()
+        {
+            if ((!BandWidth.IsEnabled || !Band.IsEnabled))
+                MsgBand.Visibility = Visibility.Visible;
+            else
+                MsgBand.Visibility = Visibility.Hidden;
         }
     }
 }

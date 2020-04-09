@@ -71,6 +71,17 @@ namespace PeminSpectrumAnalyser
             unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
             unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
             unit2.spFrequencyMax.Visibility = Visibility.Hidden;
+            //активность кнопок запуска измерений зависит от активности соотв.кнопок в стаканах
+            unit1.ChangedButtonEnabled += () =>
+            {
+                fullSignal.IsEnabled = unit1.buttonStartSIGNAL.IsEnabled && unit2.buttonStartSIGNAL.IsEnabled;
+                fullNoise.IsEnabled = unit1.buttonStartNOISE.IsEnabled && unit2.buttonStartSIGNAL.IsEnabled;
+            };
+            unit2.ChangedButtonEnabled += () =>
+            {
+                fullSignal.IsEnabled = unit1.buttonStartSIGNAL.IsEnabled && unit2.buttonStartSIGNAL.IsEnabled;
+                fullNoise.IsEnabled = unit1.buttonStartNOISE.IsEnabled && unit2.buttonStartSIGNAL.IsEnabled;
+            };
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -91,8 +102,9 @@ namespace PeminSpectrumAnalyser
             //unit2.AddNewInterval();
 
             unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP = "192.168.12.233";
+            unit1.address.Content = "192.168.12.233";
             unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP = "192.168.12.234";
-
+            unit2.address.Content = "192.168.12.234";
             Solution.Experiment1 = unit1.ExperimentExplorer.Experiment;
             Solution.Experiment2 = unit2.ExperimentExplorer.Experiment;
         }
@@ -172,7 +184,8 @@ namespace PeminSpectrumAnalyser
                     unit1.Disconnect(); //ExperimentExplorer.IsConnected = false;   
                     unit1.connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
                 }
-                unit1.Address = unit1.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+                unit1.Address = unit1.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":" +
+                                                                        unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
                 if (unit2.ExperimentExplorer.Emulation)
                 {
                     unit2.Disconnect();
@@ -183,7 +196,8 @@ namespace PeminSpectrumAnalyser
                     unit2.Disconnect(); //ExperimentExplorer.IsConnected = false;   
                     unit2.connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
                 }
-                unit2.Address = unit2.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+                unit2.Address = unit2.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":" +
+                                                                        unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
                 //отобразим загруженные измерения для интервалов ДС
                 foreach (ParametersCtrl par in unit1.ParametersList.Items)
                 {

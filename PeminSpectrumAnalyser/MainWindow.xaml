@@ -60,8 +60,8 @@
                 <Button x:Name="fullLoad" Content="ЗАГРУЗИТЬ" Click="FullLoad_Click" Style="{StaticResource CommandButton}"/>
                 <Button x:Name="fullSave" Content="СОХРАНИТЬ" Click="FullSave_Click" Style="{StaticResource CommandButton}"/>
                 <TextBox x:Name="CopyTextBox" ToolTip="Количество копий" TextWrapping="Wrap" Text="0" />
-                <Button x:Name="fullNoise" Content="ШУМ" Click="FullNoise_Click" Style="{StaticResource CommandButton}"/>
-                <Button x:Name="fullSignal" Content="СИГНАЛ" Click="FullSignal_Click" Style="{StaticResource CommandButton}"/>
+                <Button x:Name="fullNoise" Content="ШУМ" Click="FullNoise_Click" Style="{StaticResource CommandButton}" IsEnabled="False"/>
+                    <Button x:Name="fullSignal" Content="СИГНАЛ" Click="FullSignal_Click" Style="{StaticResource CommandButton}" IsEnabled="False"/>
                     <Button x:Name="fullExport" Content="ЭКСПОРТ" Click="FullExport_Click" Style="{StaticResource CommandButton}"/>
                 </StackPanel >
             </GroupBox>
@@ -69,9 +69,8 @@
                 <CheckBox x:Name="NotChangeVBW" Content="Не управлять VBW" Click="NotChangeVBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>-->
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
                 <Button x:Name="fullClear" Click="fullClear_Click" Content="ОЧИСТИТЬ"  Style="{StaticResource CommandButton}" />
-                    <Button x:Name="NewDataLine" Content="+" Click="NewDataLine_Click" Style="{StaticResource CommandButton}" HorizontalAlignment="Center" Margin="40,0,10,0"/>
-
-                </StackPanel >
+                <Button x:Name="NewDataLine" Content="+" Click="NewDataLine_Click" Style="{StaticResource CommandButton}" HorizontalAlignment="Center" Margin="40,0,10,0"/>
+            </StackPanel >
             
         </Grid>
         <GroupBox Grid.Row="4" Padding="5" Header="Исследуемые режимы" Foreground="White" Grid.ColumnSpan="2" 

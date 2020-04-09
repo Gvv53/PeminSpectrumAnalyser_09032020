@@ -73,7 +73,7 @@ namespace PeminSpectrumAnalyser
         public event Action ParameterCtrChanged;//изменились параметры для расчёта количества и фиксирования точек измерения СС
         public event Action<long> HandRBWChanged; //изменились параметры для расчёта количества и фиксирования точек измерения ДСС
         public event Action<long> HandVBWChanged; //изменились параметры для расчёта количества и фиксирования точек измерения ДСС
-
+        public event Action Band, BandWidth;    //изменились полосы для СС
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (((ComboBox)sender).SelectedValue.ToString() == MHz)
@@ -128,6 +128,12 @@ namespace PeminSpectrumAnalyser
                         break;
                     case "HandVBW":  //ширина полосы пропускания фильтров ДС
                         HandVBWChanged?.Invoke(Value);
+                        break;
+                    case "BandWidth":  //ширина полосы пропускания фильтров ДС
+                        BandWidth?.Invoke();
+                        break;
+                    case "Band":  //ширина полосы пропускания фильтров ДС
+                        Band?.Invoke();
                         break;
                     case "HandMode_Frequency":  //тактовая частота
                         FrequencyCtrlChanged?.Invoke();

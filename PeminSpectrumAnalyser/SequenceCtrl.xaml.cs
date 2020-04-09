@@ -32,7 +32,8 @@ namespace PeminSpectrumAnalyser
         public ExperimentExplorer ExperimentExplorer = new ExperimentExplorer();
 
         public event Action SolutionNameClear;
-       
+        public event Action ChangedButtonEnabled;
+
         public SequenceCtrl()
         {
             InitializeComponent();
@@ -95,11 +96,15 @@ namespace PeminSpectrumAnalyser
                     enabled = true;
                 buttonStartNOISE.IsEnabled = isConnected && enabled;
                 buttonStartSIGNAL.IsEnabled = isConnected && enabled;
+                //MainWindow mw = ((MainWindow)((Grid)((GroupBox)Parent).Parent).Parent);
+                //mw.unit1.ChangedButtonEnabled?.Invoke();
+                //mw.unit2.ChangedButtonEnabled?.Invoke();
             });
             //режим СС
             ExperimentExplorer.rbSSCheckedEvent += () => 
             {
                 gbDS.IsEnabled = false;
+                gbDS.Visibility = Visibility.Hidden;
                 //spFrequencyMax.IsEnabled = false;
                 //gbRBWVBW.IsEnabled = false;
                 ParametersList.Items.Clear();
@@ -112,7 +117,8 @@ namespace PeminSpectrumAnalyser
             //режим ДС
             ExperimentExplorer.rbDSCheckedEvent += () =>
             {
-                gbDS.IsEnabled = true;                 
+                gbDS.IsEnabled = true;
+                gbDS.Visibility = Visibility.Visible;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 //активность кнопок измерения
@@ -173,10 +179,11 @@ namespace PeminSpectrumAnalyser
                     stbBegin.Text = String.Empty;
                     stbEnd.Text = String.Empty;
                 }
-            //else
-            //     pBar.Maximum = pbMax;
+            else
+                 pBar.Maximum = pbMax;
             });
             ExperimentExplorer.pBarValue += (int pbValue) => stbThread.Dispatcher.Invoke(() => { pBar.Value = pbValue; });
+            
         }
 
         private void RbSS_Checked(object sender, RoutedEventArgs e)
@@ -399,12 +406,15 @@ namespace PeminSpectrumAnalyser
                     foreach (ParametersCtrl par in ParametersList.Items)
                         par.gbFilter.IsEnabled = true;
 
-           else
+            else //Агилент
                 if ((bool)rbDS.IsChecked)
-                    gbRBWVBW.IsEnabled = false;
+                   gbRBWVBW.IsEnabled = false;
                 else
-                    foreach (ParametersCtrl par in ParametersList.Items)
-                        par.gbFilter.IsEnabled = false;
+                   foreach (ParametersCtrl par in ParametersList.Items)
+                   {
+                       par.gbFilter.IsEnabled = false;
+                      par.MsgBand.Visibility = Visibility;
+                   }
 
             //if ((bool)rbDS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
             //    gbRBWVBW.IsEnabled = true;
@@ -412,11 +422,7 @@ namespace PeminSpectrumAnalyser
             //    gbRBWVBW.IsEnabled = false;
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
+    
         private void HandMode_PlusOne_Click(object sender, RoutedEventArgs e)
         {
             AddNewInterval(null, false);
@@ -454,6 +460,15 @@ namespace PeminSpectrumAnalyser
                 MsgBand.Visibility = Visibility.Visible;
             else
                 MsgBand.Visibility = Visibility.Hidden;
+        }
+
+        private void ButtonStartSignalNoise_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Parent == null)
+                return;
+            MainWindow mw = ((MainWindow)((Grid)((GroupBox)Parent).Parent).Parent);
+            mw.unit1.ChangedButtonEnabled?.Invoke();
+            mw.unit2.ChangedButtonEnabled?.Invoke();
         }
     }
 
