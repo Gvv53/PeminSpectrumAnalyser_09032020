@@ -43,7 +43,8 @@
         <TextBox x:Name="Address" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="192.168.12.233" VerticalAlignment="Stretch"  Grid.Column="3" Margin="35,0,453,0" Grid.Row="2" BorderBrush="#FF007ACC" Background="{x:Null}" RenderTransformOrigin="0.159,1.733"/>
         <Label Content="IP Адрес прибора" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top" Width="117" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2"/>
         <Label Content="Номер порта" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top" Width="88" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.Row="3" Grid.RowSpan="2"/>
-        <TextBox x:Name="Port" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="5025" VerticalAlignment="Stretch"  Grid.Column="3" Margin="35,0,453,0" Grid.Row="3" BorderBrush="#FF007ACC" Background="{x:Null}"/>
+        <TextBox x:Name="Port" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="5025" VerticalAlignment="Stretch"  Grid.Column="3" 
+                 Margin="35,0,453,0" Grid.Row="3" BorderBrush="#FF007ACC" Background="{x:Null}"/>
         <TextBox x:Name="TraceModeSignal" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="AVERage" VerticalAlignment="Top"  Grid.Column="3" Margin="185,0,303,0" Grid.Row="8" BorderBrush="#FF007ACC" Background="{x:Null}" Height="25"/>
         <Label Content="Для сигнала" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Width="133" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="2" Grid.Row="8" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
         <Label Content="Для шума" HorizontalAlignment="Left" Margin="284,22,0,0" VerticalAlignment="Top" Width="73" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2"/>
@@ -74,10 +75,15 @@
             <RadioButton x:Name="MiddleMiddleForNoise" Content="Среднее" Height="23"  Width="82" Foreground="#FFEFEFF8" Margin="0,0,0,-1"/>
             <RadioButton x:Name="MiddleMinValueForNoise" Content="Минимум" Height="23"  Width="162" Foreground="#FFEFEFF8" Margin="0,0,0,-1"/>
         </DockPanel>
-        <Button Content="ПРИМЕНИТЬ " HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.Row="15" Foreground="#FFFDFDFE" Grid.Column="3" Margin="514,0,0,0" Click="Button_Click" BorderBrush="#FF296FB6" Grid.ColumnSpan="2" Background="{x:Null}"/>
-        <CheckBox x:Name="Emulation"  Content="ВКЛЮЧИТЬ ЭМУЛЯЦИЮ СИГНАЛА" Grid.Column="3" HorizontalAlignment="Left" Margin="412,6,0,3" Foreground="#FF007ACC" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label Content="Прибор" HorizontalAlignment="Left" Margin="185,0,0,0" VerticalAlignment="Top" Width="108" Foreground="#FF8ECFFB" ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2"/>
-        <ComboBox x:Name="HardwareComboBox"  SelectedIndex="0" Grid.Column="3" HorizontalAlignment="Left" Margin="275,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="25" SelectionChanged="HardwareComboBox_SelectionChanged">
+        <Button Content="ПРИМЕНИТЬ " HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Grid.Row="15" Foreground="#FFFDFDFE"
+                Grid.Column="3" Margin="514,0,0,0" 
+                Click="Button_Click" BorderBrush="#FF296FB6" Grid.ColumnSpan="2" Background="{x:Null}"/>
+        <CheckBox x:Name="Emulation"  Content="ВКЛЮЧИТЬ ЭМУЛЯЦИЮ СИГНАЛА" Grid.Column="3" HorizontalAlignment="Left" Margin="412,6,0,3"
+                  Foreground="#FF007ACC" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Content="Прибор" HorizontalAlignment="Left" Margin="185,0,0,0" VerticalAlignment="Top" Width="108" Foreground="#FF8ECFFB"
+               ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.RowSpan="2" Grid.Row="2"/>
+        <ComboBox x:Name="HardwareComboBox"  SelectedIndex="0" Grid.Column="3" HorizontalAlignment="Left" Margin="275,0,0,0" Grid.Row="2" 
+                  VerticalAlignment="Top" Width="120" Height="25" SelectionChanged="HardwareComboBox_SelectionChanged">
             <ComboBoxItem Content="FSH4"/>
             <ComboBoxItem Content="Agilent9xxx"/>
         </ComboBox>

@@ -65,9 +65,6 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IOMeasurementData">
-      <HintPath>..\PeminDataReader.IOMeasurementData\bin\Debug\IOMeasurementData.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -204,9 +201,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Communications.ClientTest\Communications.ClientTest.csproj">
+      <Project>{bc5db5f4-5886-4057-bf5d-f174a6e0a836}</Project>
+      <Name>Communications.ClientTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Communications\Communications.csproj">
       <Project>{24a1a04c-773a-42f9-b0e6-c0b0e6d99c3d}</Project>
       <Name>Communications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PeminDataReader.IOMeasurementData\IOMeasurementData.csproj">
+      <Project>{b8a7bc78-4d79-45d8-8f78-632285e41089}</Project>
+      <Name>IOMeasurementData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitedTools.SettingsCtrl\UnitedTools.SettingsCtrl.csproj">
+      <Project>{511479da-05ae-412c-a8b4-9d0785c71dbd}</Project>
+      <Name>UnitedTools.SettingsCtrl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

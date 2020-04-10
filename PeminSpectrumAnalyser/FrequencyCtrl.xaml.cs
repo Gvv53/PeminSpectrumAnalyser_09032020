@@ -130,22 +130,27 @@ namespace PeminSpectrumAnalyser
                         HandVBWChanged?.Invoke(Value);
                         break;
                     case "BandWidth":  //ширина полосы пропускания фильтров ДС
-                        BandWidth?.Invoke();
+                        //BandWidth?.Invoke();
+                        FrequencyCtrlChanged?.Invoke();
                         break;
                     case "Band":  //ширина полосы пропускания фильтров ДС
-                        Band?.Invoke();
+                        //Band?.Invoke();
+                        FrequencyCtrlChanged?.Invoke();
                         break;
                     case "HandMode_Frequency":  //тактовая частота
                         FrequencyCtrlChanged?.Invoke();
                         break;
                     //параметр для расчёта количества точек измерения CC
                     case "StartFrequency":
+                        FrequencyCtrlChanged?.Invoke();
                         ParameterCtrChanged?.Invoke();
                         break;
                     case "StopFrequency":
+                        FrequencyCtrlChanged?.Invoke();
                         ParameterCtrChanged?.Invoke();
                         break;
                     case "InnerStepFrequency":
+                        FrequencyCtrlChanged?.Invoke();
                         ParameterCtrChanged?.Invoke();
                         break;
                 }

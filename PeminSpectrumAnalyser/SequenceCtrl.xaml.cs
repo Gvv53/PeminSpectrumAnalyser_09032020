@@ -237,13 +237,15 @@ namespace PeminSpectrumAnalyser
             return ExperimentExplorer.Experiment;
         }
 
-        public void AddressRefresh() => Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+        public void AddressRefresh() => Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":" +
+                                                                        ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
 
 
         private void ButtonLoad_Click(object sender, RoutedEventArgs e)
         {
             ExperimentExplorer.LoadExperiment();
-            Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP;
+            Address = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":" +
+                                                                        ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)

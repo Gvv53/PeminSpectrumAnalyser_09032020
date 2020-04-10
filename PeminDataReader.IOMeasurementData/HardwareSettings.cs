@@ -9,7 +9,7 @@ namespace IOMeasurementData
         public HardwareType HardwareType { get; set; }
         public string HardwareDescription { get; set; } = "FSH4";
         public string IP { get; set; } = @"192.168.12.233";
-        public int Port { get; set; } = 5025;
+        public int Port { get; set; } = 5555;
         public int PointsQuantity { get; set; } = 631;
         public string ExperimentsPath { get; set; } = @"\PEMIN\EXPERIMENTS\";
         public string TraceModeForNoise { get; set; } = @"AVERage";

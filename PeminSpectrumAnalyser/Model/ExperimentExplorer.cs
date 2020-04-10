@@ -111,7 +111,7 @@ namespace PeminSpectrumAnalyser.Model
             SettingsWindow SettingsWindow = new SettingsWindow();
             SettingsWindow.Settings = Experiment.ExperimentSettings;
             SettingsWindow.ShowDialog();
-            String newValue = SettingsWindow.Settings.HardwareSettings.HardwareType.ToString();
+            String newValue = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();//SettingsWindow.Settings.HardwareSettings.HardwareType.ToString();
             if (oldValue != newValue)  //выбран другой ИП            
                 HardTypeChanged?.Invoke(newValue);
         }
@@ -151,7 +151,6 @@ namespace PeminSpectrumAnalyser.Model
                 Reader.HardwareSettings.Port = Experiment.ExperimentSettings.HardwareSettings.Port;
                 Reader.HardwareSettings.DbMkvShift = Experiment.ExperimentSettings.HardwareSettings.DbMkvShift;
                 Reader.HardwareSettings.PointsQuantity = Experiment.ExperimentSettings.HardwareSettings.PointsQuantity;
-
                 Reader.HardwareSettings.CommonShift = Experiment.ExperimentSettings.CommonShift;
 
                 result = Reader.Connect();

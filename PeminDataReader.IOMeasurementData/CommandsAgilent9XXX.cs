@@ -11,6 +11,7 @@ namespace IOMeasurementData
 {
     public class CommandsAgilent9XXX : Commands
     {
+        public static bool SmallInit = false; //не устанавливать настройки
         public CommandsAgilent9XXX()
         { 
         }
@@ -18,7 +19,9 @@ namespace IOMeasurementData
 
         public override void Init()
         {
-            Send("*RST");
+            Send("*RST");//установка в начальное состояние
+            if (SmallInit)
+                return;
             Send("(SET DefaultTimeout to 2000)");
             Send(":FORMat:TRACe:DATA ASC,8");
             Send(":FORMat:BORDer SWAPped");
@@ -45,14 +48,12 @@ namespace IOMeasurementData
             {
                 Send(":SENSe:DETector:TRACe1 " + traceDetector);
                 Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz");
-
-                if (!RBWAndVBW.RBW)
-                    Send(":SENSe:WAVEform:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");
+                
+                Send(":SENSe:WAVEform:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");
 
                 Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
 
-                if (!RBWAndVBW.VBW)
-                    Send(":BAND: " + band.ToString() + " Hz");
+                Send(":BAND: " + band.ToString() + " Hz");
 
                 Send(":SENSe:SWEep:POINts 1001");
                 Send(":INITiate:IMMediate");

@@ -39,12 +39,10 @@ namespace PeminSpectrumAnalyser
             Settings.HardwareSettings.HardwareType = (HardwareType)HardwareComboBox.SelectedIndex;
 
             Settings.HardwareSettings.IP =  Address.Text;
+            Func<int> conv = () => { try { return int.Parse(Port.Text); }
+                catch (Exception e){ MessageBox.Show("Неверно задан номер порта"); return 0; } };
+            Settings.HardwareSettings.Port = conv();
 
-
-            if (int.TryParse(Port.Text, out int buffer))
-                Settings.HardwareSettings.Port = buffer;
-            else
-                MessageBox.Show("Неверно задан номер порта");
 
             Settings.ExperimentPath = LeftPanelPath.Text;
             Settings.HardwareSettings.TraceModeForNoise = TraceModeNoise.Text;
@@ -61,7 +59,7 @@ namespace PeminSpectrumAnalyser
             else
                 MessageBox.Show("Неверно задан параметр CommonShift");
 
-            if (Int32.TryParse(MiddleCounterNoise.Text, out buffer))
+            if (Int32.TryParse(MiddleCounterNoise.Text, out int buffer))
                 Settings.MeasurementCountForNoise = buffer;
             else
                 MessageBox.Show("Неверно задано количество усреднений для шума ");
@@ -110,7 +108,7 @@ namespace PeminSpectrumAnalyser
 
             Address.Text = Settings.HardwareSettings.IP;
 
-            Port.Text = (int)Settings.HardwareSettings.HardwareType == 0 ? "5025" : "5555";// Settings.HardwareSettings.Port.ToString();
+            Port.Text = (int)Settings.HardwareSettings.HardwareType == 0 ? "5555" : "5025";// Settings.HardwareSettings.Port.ToString();
 
             LeftPanelPath.Text = Settings.ExperimentPath;
             TraceModeNoise.Text = Settings.HardwareSettings.TraceModeForNoise;
@@ -138,13 +136,13 @@ namespace PeminSpectrumAnalyser
         {
             if (HardwareComboBox.SelectedIndex == 0)
             {   
-                 Settings.HardwareSettings.Port = 5025;
-                 Port.Text = "5025";
+                 //Settings.HardwareSettings.Port = 5555;
+                 Port.Text = "5555";
             }
             else
             {
-                Settings.HardwareSettings.Port = 5555;
-                Port.Text = "5555";
+                 //Settings.HardwareSettings.Port = 5025;
+                 Port.Text = "5025";
             }
         }
     }
