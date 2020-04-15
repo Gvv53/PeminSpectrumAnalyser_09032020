@@ -132,10 +132,12 @@ namespace PeminSpectrumAnalyser
                     case "BandWidth":  //ширина полосы пропускания фильтров ДС
                         //BandWidth?.Invoke();
                         FrequencyCtrlChanged?.Invoke();
+                        ParameterCtrChanged?.Invoke();
                         break;
                     case "Band":  //ширина полосы пропускания фильтров ДС
                         //Band?.Invoke();
                         FrequencyCtrlChanged?.Invoke();
+                        ParameterCtrChanged?.Invoke();
                         break;
                     case "HandMode_Frequency":  //тактовая частота
                         FrequencyCtrlChanged?.Invoke();

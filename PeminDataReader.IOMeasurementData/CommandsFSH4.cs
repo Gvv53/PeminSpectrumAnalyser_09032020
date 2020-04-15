@@ -34,14 +34,16 @@ namespace IOMeasurementData
 
             try
             {
-                Send("FREQ:CENT " + frequency.ToString() + " Hz");
+                //Send("FREQ:CENT " + frequency.ToString() + " Hz");
                 Send("FREQ:SPAN " + span.ToString() + " Hz");
                 if(!RBWAndVBW.VBW)
                      Send("BAND " + band.ToString() + " Hz");
 
                 if (!RBWAndVBW.RBW)
                     Send("BAND:VID " + bandWidth.ToString() + "Hz");
-             
+
+                Send("FREQ:CENT " + frequency.ToString() + " Hz"); //поменяла место
+
                 Send("*OPC?");
 
                 //Send("INIT");

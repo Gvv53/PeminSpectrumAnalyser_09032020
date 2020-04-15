@@ -89,14 +89,46 @@
                                 <Label Content="ГРАНИЦЫ ДИАПАЗОНА" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FA" FontWeight="Bold" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
                                 <Label Content=" - "  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Width="24" Height="24"  Foreground="#FFF7F7FA" FontWeight="Bold"
                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" />
-                                <local:FrequencyCtrl x:Name="StartFrequency" Grid.Row="0" Grid.Column="1"  ToolTip="НАЧАЛЬНАЯ ТОЧКА" Height="24" 
-                                                     VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                <local:FrequencyCtrl x:Name="StartFrequency" Grid.Row="0" Grid.Column="1" 
+                                                     Height="24" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" >
+                                    <local:FrequencyCtrl.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock>НАЧАЛЬНАЯ ТОЧКА</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                               <TextBlock Text="После изменения значений нажмите "/>
+                                               <TextBlock Text="ENTER" Foreground="Red"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </local:FrequencyCtrl.ToolTip>
+                                </local:FrequencyCtrl>
                                 <!--<local:FrequencyCtrl x:Name="StartFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="142,0,194,1" Grid.RowSpan="2"/>-->
-                                <local:FrequencyCtrl x:Name="StopFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Height="24"  Grid.Row="0" Grid.Column="3"  VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                <local:FrequencyCtrl x:Name="StopFrequency" Height="24"  Grid.Row="0" Grid.Column="3"
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" >
+                                <local:FrequencyCtrl.ToolTip>
+                                    <StackPanel>
+                                        <TextBlock>КОНЕЧНАЯ ТОЧКА</TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="После изменения значений нажмите "/>
+                                            <TextBlock Text="ENTER" Foreground="Red"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </local:FrequencyCtrl.ToolTip>
+                                </local:FrequencyCtrl>
                                 <Label Content="ШАГ" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" HorizontalContentAlignment="Right"
                                        VerticalContentAlignment="Center" Padding="0"  />
-                                <local:FrequencyCtrl x:Name="InnerStepFrequency" Grid.Row="1" Grid.Column="1" ToolTip="Шаг измерения частоты"
-                                                     Height="24" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                <local:FrequencyCtrl x:Name="InnerStepFrequency" Grid.Row="1" Grid.Column="1"                                                      
+                                                     Height="24" VerticalAlignment="Center" VerticalContentAlignment="Center" >
+                                    <local:FrequencyCtrl.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock>ШАГ ИЗМЕРЕНИЯ ЧАСТОТЫ</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="После изменения значений нажмите "/>
+                                                <TextBlock Text="ENTER" Foreground="Red"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </local:FrequencyCtrl.ToolTip>
+                                </local:FrequencyCtrl>
                             </Grid>
                         </GroupBox>
 
@@ -123,73 +155,72 @@
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" FontSize="10"/>
                                 <TextBox x:Name="tbCenterFrequency" Grid.Row="0" Grid.Column="2" Height="24" HorizontalContentAlignment="Center" IsReadOnly="True"
                                          VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Количество точек измерения в частотном диапазоне" Text="0" />
-
-                                <!--Шаг перестройки не используется-->
-                                <!--<Label Content="ШАГ ПЕРЕСТРОЙКИ" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Height="25"
-                                       Foreground="#FFF8EFED" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <local:FrequencyCtrl x:Name="StepFrequency" ToolTip="Шаг перестройки" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"
-                                                     VerticalContentAlignment="Center" Height="24" IsEnabled="False" />-->
+                            
                                 <Label Content="SPAN" Grid.Column="0"  Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7F8" 
                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" />
                                 <Label Content=" MHz" Foreground="White"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" FontSize="10"/>
                                 <TextBox x:Name="tbSpan" Grid.Row="1" Grid.Column="2" Height="24" HorizontalContentAlignment="Center" IsReadOnly="True"
                                          VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Количество точек измерения в частотном диапазоне" Text="0" />
-                                <!--<local:FrequencyCtrl x:Name="Span" ToolTip="Ширина частотного диапазона" Grid.Column="2" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                                     Height="24" IsEnabled="False" Grid.Row="1" />-->
                                 <Label Content="КОЛИЧЕСТВО ТОЧЕК" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Height="25"
                                        Foreground="#FFF8EFED" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                                 <TextBox x:Name="tbPoints" Grid.Row="2" Grid.Column="2" Height="24" HorizontalContentAlignment="Center" IsReadOnly="True"
                                          VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Количество точек измерения в частотном диапазоне" Text="0" />
 
-                                <!--<Label Content="RBW" HorizontalAlignment="Right" VerticalAlignment="Center"  Height="24"  Foreground="#FFF7F7FA"
-                                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="1"/>
-                                <local:FrequencyCtrl x:Name="BandWidth" ToolTip="BAND WIDTH" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                                                     Height="24" KeyDown="BandWidth_KeyDown" />
-                                <Label Content="VBW" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Height="25" 
-                                       Foreground="#FFEDEDFA" HorizontalContentAlignment="Center" UseLayoutRounding="True" VerticalContentAlignment="Center" />
-                                <local:FrequencyCtrl x:Name="Band" ToolTip="BAND"  Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" />-->
-
-
-
-
-
                             </Grid>
                         </GroupBox>
-                        <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3" Width="220" Foreground="White" Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
-                                  HorizontalContentAlignment="Center" ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" 
+                        <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3" Width="220" Foreground="White"
+                                  Header="Полоса пропускания фильтров" VerticalContentAlignment="Stretch" Opacity="0.9" 
+                                  HorizontalContentAlignment="Center" 
                                   HorizontalAlignment="Right" BorderThickness="0.3" >
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="RBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center"
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="RBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center"
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                                    <local:FrequencyCtrl x:Name="BandWidth" Grid.Row="0" Grid.Column="1"  ToolTip="Полоса пропускания фильтра RBW" Height="24" 
-                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137"/>
-                                    <CheckBox x:Name="cbBandWidth"  HorizontalContentAlignment="Center" Margin="10,0,0,5" ToolTip="Программное правление RBW " 
+                                <local:FrequencyCtrl x:Name="BandWidth" Grid.Row="0" Grid.Column="1"  Height="24" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137" IsEnabled="False">
+                                    <local:FrequencyCtrl.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock>ПОЛОСА ПРОПУСКАНИЯ ФИЛЬТРА RBW</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="После изменения значений нажмите "/>
+                                                <TextBlock Text="ENTER" Foreground="Red"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </local:FrequencyCtrl.ToolTip>
+                                </local:FrequencyCtrl>
+                                <CheckBox x:Name="cbBandWidth"  HorizontalContentAlignment="Center" Margin="10,0,0,5" ToolTip="Программное правление RBW " 
                                               Click="cbBandWidth_Click" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
-                                    <!--<TextBox x:Name="tbBandWidth" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"                                             
-                                             VerticalAlignment="Bottom" VerticalContentAlignment="Center"  Height="24"/>-->
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                    <Label Content="VBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center" 
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                <Label Content="VBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center" 
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                                    <local:FrequencyCtrl x:Name="Band" Grid.Row="0" Grid.Column="1"  ToolTip="Полоса пропускания фильтра VBW" Height="24" 
-                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137"/>
-                                    <CheckBox x:Name="cbBand"  HorizontalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Программное правление RBW " 
+                                <local:FrequencyCtrl x:Name="Band" Grid.Row="0" Grid.Column="1"  Height="24" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137" IsEnabled="False">
+                                    <local:FrequencyCtrl.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock>ПОЛОСА ПРОПУСКАНИЯ ФИЛЬТРА VBW</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="После изменения значений нажмите "/>
+                                                <TextBlock Text="ENTER" Foreground="Red"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </local:FrequencyCtrl.ToolTip>
+                                </local:FrequencyCtrl>
+                                <CheckBox x:Name="cbBand"  HorizontalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Программное управление RBW " 
                                               Click="cbBand_Click" VerticalContentAlignment="Center" VerticalAlignment="Center" />
-                                   
-                                    <!--<TextBox x:Name="tbBand" Foreground="White" Margin="10,0,0,0" Text="0" Width="60" HorizontalContentAlignment="Center"-->
-                                    <!--VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" HorizontalAlignment="Right"/>-->
-                                </StackPanel>
-                                <Label Grid.Row="2" x:Name="MsgBand" Content="Настроить фильтры на ИП!" Foreground="Red" 
+
+                            </StackPanel>
+                            <Label Grid.Row="2" x:Name="MsgBand" Content="Настроить фильтры на ИП!" Foreground="Red" 
                                            HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
                                            VerticalAlignment="Center" Padding="5" Margin="10,0,0,0" HorizontalContentAlignment="Center"/>
-                            </Grid>
+                        </Grid>
                         </GroupBox>
                     </Grid>
                 </TabItem>

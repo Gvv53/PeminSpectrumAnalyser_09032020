@@ -47,13 +47,15 @@ namespace IOMeasurementData
             try
             {
                 Send(":SENSe:DETector:TRACe1 " + traceDetector);
-                Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz");
+               // Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz");
                 
                 Send(":SENSe:WAVEform:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");
 
                 Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
 
                 Send(":BAND: " + band.ToString() + " Hz");
+
+                Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz"); //поменяла место
 
                 Send(":SENSe:SWEep:POINts 1001");
                 Send(":INITiate:IMMediate");

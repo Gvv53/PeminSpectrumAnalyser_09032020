@@ -57,6 +57,8 @@ namespace PeminSpectrumAnalyser
             StartFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
             StopFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
             InnerStepFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
+            BandWidth.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
+            Band.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
         }
 
         bool _IsSelected = false;

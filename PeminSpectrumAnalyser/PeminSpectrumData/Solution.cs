@@ -138,10 +138,14 @@ namespace PeminSpectrumData
                 {
                     try
                     {
+                        //MessageBox.Show("кол.точек маркера-" + current.Markers.Count + Environment.NewLine +
+                        //                "кол.точек сигнала - " + current.Signal.Count + Environment.NewLine +
+                        //                "кол.точек шума - " + current.Noise.Count)                                        ;
+
                         if (current.Markers.Count > 0)
                         {
                             foreach (int position in current.Markers)
-                            {
+                            {                                
                                 if (position < current.Frequencys.Count)
                                     if (current.Frequencys[position] <= current.IntervalSettings.FrequencyStop)
                                     {
@@ -155,6 +159,12 @@ namespace PeminSpectrumData
 
                                         sw.WriteLine(reprotString);
                                     }
+                    //            MessageBox.Show("позиция маркера-" + position.ToString() + Environment.NewLine +
+                    //            "частота - " + (current.Frequencys[position] / 1000000).ToString("F6") + Environment.NewLine +
+                    //"current.IntervalSettings.FrequencyStop - " + (current.IntervalSettings.FrequencyStop / 1000000).ToString("F2").ToString() + Environment.NewLine +
+                    //            "сигнал - " + current.Signal[position].ToString("F2") + Environment.NewLine +
+                    //            "шум - " + current.Noise[position].ToString("F2") + Environment.NewLine +
+                    //            "строка для вывода -" + reprotString);
                             }
 
                         }
