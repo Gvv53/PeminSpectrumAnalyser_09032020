@@ -181,7 +181,8 @@ namespace PeminSpectrumAnalyser.Model
                 Experiment.ExperimentSettings.HardwareSettings.TraceModeForSignal,
                 averageType,
                 Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
-                Experiment.ExperimentSettings.MeasurementCountForSignal);
+                Experiment.ExperimentSettings.MeasurementCountForSignal,
+                Experiment.ExperimentSettings.HardwareSettings.SignalTraceType);
         }
 
 
@@ -205,7 +206,8 @@ namespace PeminSpectrumAnalyser.Model
                     Experiment.ExperimentSettings.HardwareSettings.TraceModeForNoise,
                     averageType,
                     Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
-                    Experiment.ExperimentSettings.MeasurementCountForNoise);
+                    Experiment.ExperimentSettings.MeasurementCountForNoise,
+                    Experiment.ExperimentSettings.HardwareSettings.NoiseTraceType);
         }
 
 
@@ -213,7 +215,8 @@ namespace PeminSpectrumAnalyser.Model
                             string traceDetector,
                             AverageType averageType,
                             int pointsQuantity,
-                            int measurementCount)
+                            int measurementCount,
+                            string traceType)
 
         {
             Reader.HardwareSettings.Frequency = frequency;
@@ -224,6 +227,7 @@ namespace PeminSpectrumAnalyser.Model
             Reader.HardwareSettings.AverageType = averageType;
             Reader.HardwareSettings.PointsQuantity = pointsQuantity;
             Reader.HardwareSettings.MeasurementCount = measurementCount;
+            Reader.HardwareSettings.TraceType = traceType;
 
             ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
             ResultsY = new double[Reader.HardwareSettings.PointsQuantity];
@@ -246,8 +250,6 @@ namespace PeminSpectrumAnalyser.Model
                     ResultsY[70] = 35;
                     ResultsY[80] = 30;
                 }
-
-
                 NewData?.Invoke(ResultsX, ResultsY);
                 return true;
             }

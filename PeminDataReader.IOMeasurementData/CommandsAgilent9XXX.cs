@@ -28,25 +28,34 @@ namespace IOMeasurementData
             Send(":INSTrument:SELect SA");
             Send(":CONFigure:SANalyzer");
             Send(":DISPlay:WINDow:TRACe:Y:SCALe:RLEVel - 30");
-            Send(":SENSe:AVERage: COUNt 25");
+            //Устанавливает номер счетчика клемм N для типов трассы Среднее, Макс. Удержание и Мин. Удержание. 
+            //Драйвер использует это значение для установки атрибута AGMXA_ATTR_AVG_NUMBER.
+            Send(":SENSe:AVERage: COUNt 25"); //по умолчанию 100
+
             Send(":DISPlay:WINDow:TRACe:Y:SCALe:PDIVision 7");
             Send(":INITiate:CONTinuous 0");
-            Send(":TRACe1:TYPE WRITe");
+           // Send(":TRACe1:TYPE WRITe");
         }
 
         public override byte[] GetDataResult(string traceDetector,
                                       long frequency,
                                       long bandWidth,
                                       long span,
-                                      long band, 
-                                      int errorCount = 0)
+                                      long band,
+                                      string traceType,
+                                      int errorCount = 0
+                                      )
         {
             //Размер буфера приема (в байтах). Значение по умолчанию — 8192 байта
             byte[] bytes = new byte[newClient.ReceiveBufferSize];
 
             try
             {
-                Send(":SENSe:DETector:TRACe1 " + traceDetector);
+                Send(":TRACe1:TYPE" +   traceType);     //тип трассировки
+
+                Send(":SENSe]:DETector: TRACe1:AUTO" + "0"); //отключен автодетектор
+ 
+                 Send(":SENSe:DETector:TRACe1 " + traceDetector);
                // Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz");
                 
                 Send(":SENSe:WAVEform:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");

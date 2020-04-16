@@ -45,8 +45,10 @@ namespace PeminSpectrumAnalyser
 
 
             Settings.ExperimentPath = LeftPanelPath.Text;
-            Settings.HardwareSettings.TraceModeForNoise = TraceModeNoise.Text;
-            Settings.HardwareSettings.TraceModeForSignal = TraceModeSignal.Text;
+            Settings.HardwareSettings.TraceModeForNoise = cbNoiseDetector.Text;
+            Settings.HardwareSettings.TraceModeForSignal = cbSignalDetector.Text;
+            Settings.HardwareSettings.SignalTraceType = cbSignalTraceType.Text;
+            Settings.HardwareSettings.NoiseTraceType = cbNoiseTraceType.Text;
 
             if (double.TryParse(DbMKvShift.Text, out double dbuffer))
                 Settings.HardwareSettings.DbMkvShift = dbuffer;
@@ -111,8 +113,10 @@ namespace PeminSpectrumAnalyser
             Port.Text = (int)Settings.HardwareSettings.HardwareType == 0 ? "5555" : "5025";// Settings.HardwareSettings.Port.ToString();
 
             LeftPanelPath.Text = Settings.ExperimentPath;
-            TraceModeNoise.Text = Settings.HardwareSettings.TraceModeForNoise;
-            TraceModeSignal.Text = Settings.HardwareSettings.TraceModeForSignal;
+            cbNoiseDetector.Text = Settings.HardwareSettings.TraceModeForNoise;
+            cbSignalDetector.Text = Settings.HardwareSettings.TraceModeForSignal;
+            cbSignalTraceType.Text = Settings.HardwareSettings.SignalTraceType;
+            cbNoiseTraceType.Text = Settings.HardwareSettings.NoiseTraceType;
 
             DbMKvShift.Text = Settings.HardwareSettings.DbMkvShift.ToString();
             CommonShift.Text = Settings.CommonShift.ToString();

@@ -25,7 +25,9 @@ namespace IOMeasurementData
                                       long bandWidth,
                                       long span,
                                       long band,
-                                      int errorCount = 0)
+                                      string traceType,
+                                      int errorCount = 0
+                                      )
         {
             //Размер буфера приема(в байтах).Значение по умолчанию — 8192 байта
             byte[] bytes = new byte[newClient.ReceiveBufferSize];

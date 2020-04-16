@@ -291,12 +291,13 @@ namespace PeminSpectrumAnalyser
 
             ParametersCtrl intervalParametersCtrl = new ParametersCtrl(ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings);
             //для СС для полоса фильтра активна только для FSH4
-            if ((bool)rbSS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)            
+            if ((bool)rbSS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
                 intervalParametersCtrl.gbFilter.IsEnabled = true;
             else
+            {
                 intervalParametersCtrl.gbFilter.IsEnabled = false;
-
-
+                newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
+            }
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
             //Маркеры определяются при рассчёте

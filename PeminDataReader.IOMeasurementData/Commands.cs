@@ -17,7 +17,9 @@ namespace IOMeasurementData
                                       long bandWidth,
                                       long span,
                                       long band,
-                                      int errorCount = 0);
+                                      string traceType,
+                                      int errorCount = 0
+                                      );
 
         public string IP { get; set; }
 

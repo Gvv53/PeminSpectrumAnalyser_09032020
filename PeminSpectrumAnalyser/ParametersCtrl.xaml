@@ -22,8 +22,9 @@
                 <Label Content="Шум" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Шум, оригинальное значение"/>
-
-
+                <CheckBox  x:Name="cbModify" Checked="cbModify_Checked"  Unchecked="cbModify_Checked" Grid.Column="1" HorizontalAlignment="Right" 
+                           VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Применить смещение" Foreground="White" 
+                           HorizontalContentAlignment="Right" Margin="15,0,0,0"/>
             </StackPanel>
             <Button x:Name="DeleteButton_Copy" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Width="30"
                     Background="#FF672326" Click="Delete_Click" RenderTransformOrigin="0.6,0.2" HorizontalAlignment="Right" HorizontalContentAlignment="Center" />

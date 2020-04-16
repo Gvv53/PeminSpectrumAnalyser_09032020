@@ -11,7 +11,8 @@ namespace PeminSpectrumData
     [Serializable]
     public class Interval
     {
-        public bool isActive { get; set; } = true; //для СС можно значение изменить из окна. Для ДС значение не визуализировано
+        public bool isActive { get; set; } = true; //для СС можно значение изменить из окна . Для ДС значение не визуализировFfyано
+        public bool isModify { get; set; } = false; //для частот ДС-применить смещение, как для СС
         public double Magic { get; set; } = PeminSpectrumAnalyser.Properties.Settings.Default.MAGIC;
         /// <summary>
         /// Зарезервировано

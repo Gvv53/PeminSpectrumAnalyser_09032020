@@ -95,6 +95,7 @@ namespace PeminSpectrumAnalyser
                 return;
 
             linkToInterval.isActive = (bool)this.isActiveCheckBox.IsChecked;
+            linkToInterval.isModify = (bool)this.cbModify.IsChecked;
 
             linkToInterval.IntervalSettings.FrequencyStart = this.StartFrequency.Value;
             linkToInterval.IntervalSettings.FrequencyStop = this.StopFrequency.Value;
@@ -340,9 +341,18 @@ namespace PeminSpectrumAnalyser
             UITo(Interval);
         }
 
+        private void cbModify_Checked(object sender, RoutedEventArgs e)
+        {
+            UITo(Interval);
+        }
+        //private void cbModify_unChecked(object sender, RoutedEventArgs e)
+        //{
+        //    UITo(Interval);
+        //}
+
         //private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         //{  
-            
+
         //    if (e.Key == Key.Enter)   //завершён ввод
         //    {
         //        TextBox tb;
