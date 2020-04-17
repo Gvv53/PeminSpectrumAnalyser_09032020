@@ -8,7 +8,13 @@ namespace PeminSpectrumData
     [Serializable]
     public class ExperimentSettings
     {
-        public HardwareSettings HardwareSettings = new HardwareSettings();
+        public ExperimentSettings()
+        {
+            HardwareSettings = new HardwareSettings();
+            CommonShift = HardwareSettings.CommonShift;
+        }
+
+        public HardwareSettings HardwareSettings;// = new HardwareSettings();
 
         public string _ExperimentPath;
         public string ExperimentPath
@@ -28,7 +34,7 @@ namespace PeminSpectrumData
             set => _ExperimentPath = value;
         }
 
-        public  double CommonShift { get; set; } = 0;
+        public double CommonShift { get; set; }//= HardwareSettings.CommonShift;
 
         public int MeasurementCountForNoise { get; set; } = 1;
         public int MeasurementCountForSignal { get; set; } = 1;

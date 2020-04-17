@@ -82,6 +82,23 @@ namespace PeminSpectrumAnalyser
                 fullSignal.IsEnabled = unit1.buttonStartSIGNAL.IsEnabled && unit2.buttonStartSIGNAL.IsEnabled;
                 fullNoise.IsEnabled = unit1.buttonStartNOISE.IsEnabled && unit2.buttonStartSIGNAL.IsEnabled;
             };
+            //разворачивание частот ДС  вр 20м стакане
+            unit1.NextSequence += (long Ft, long startFrequence) =>
+            {
+                unit2.Ft = unit1.Ft;
+                unit2.HandMode_Frequency.Value = unit1.HandMode_Frequency.Value;
+                unit2.HandMode_Quantity.Text = unit1.HandMode_Quantity.Text;
+                unit2.rbDS.IsChecked = true;
+                unit2.ParametersList.Items.Clear();
+                unit2.ExperimentExplorer.Experiment.ExperimentSettings = unit2.ExperimentExplorer.Experiment.ExperimentSettings;
+                unit2.ExperimentExplorer.Experiment.Intervals.Clear();
+                //добавление интервалов
+                for (int i = unit1.ExperimentExplorer.Experiment.Intervals.Count+1; i <= int.Parse(unit1.HandMode_Quantity.Text); i++)
+                {
+                    unit2.AddNewInterval(null, false, startFrequence);
+                    startFrequence += unit2.Ft;
+                }
+            };
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

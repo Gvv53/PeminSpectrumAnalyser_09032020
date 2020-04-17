@@ -90,16 +90,47 @@ namespace PeminSpectrumAnalyser
             {
 
             }
+            Settings.AverageTypeForNoiseOff = false;
+            Settings.AverageTypeForNoiseMaximum = false;
+            Settings.AverageTypeForNoiseMiddle = false;
+            Settings.AverageTypeForNoiseMinimum = false;
+            switch (cbKindProcessingNoise.Text)
+            {
+                case "Выключено":
+                    Settings.AverageTypeForNoiseOff = true;
+                    break;
+                case "Максимум":
+                    Settings.AverageTypeForNoiseMaximum = true;
+                    break;
+                case "Среднее":
+                    Settings.AverageTypeForNoiseMiddle = true;
+                    break;
+                case "Минимум":
+                    Settings.AverageTypeForNoiseMinimum = true;
+                    break;
+            }
 
-            Settings.AverageTypeForNoiseOff = (bool)MiddleSwitchOffForNoise.IsChecked;
-            Settings.AverageTypeForNoiseMaximum = (bool)MiddleMaxValueForNoise.IsChecked;
-            Settings.AverageTypeForNoiseMiddle = (bool)MiddleMiddleForNoise.IsChecked;
-            Settings.AverageTypeForNoiseMinimum = (bool)MiddleMinValueForNoise.IsChecked;
+            Settings.AverageTypeForSignalOff = false;
+            Settings.AverageTypeForSignalMaximum = false;
+            Settings.AverageTypeForSignalMiddle = false;
+            Settings.AverageTypeForSignalMinimum = false;
+            switch (cbKindProcessingSignal.Text)
+            {
 
-            Settings.AverageTypeForSignalOff = (bool)MiddleSwitchOffForSignal.IsChecked;
-            Settings.AverageTypeForSignalMaximum = (bool)MiddleMaxValueForSignal.IsChecked;
-            Settings.AverageTypeForSignalMiddle = (bool)MiddleMiddleForSignal.IsChecked;
-            Settings.AverageTypeForSignalMinimum = (bool)MiddleMinValueForSignal.IsChecked;
+                case "Выключено":
+                    Settings.AverageTypeForSignalOff = true;
+                    break;
+                case "Максимум":
+                    Settings.AverageTypeForSignalMaximum = true;
+                    break;
+                case "Среднее":
+                    Settings.AverageTypeForSignalMiddle = true;
+                    break;
+                case "Минимум":
+                    Settings.AverageTypeForSignalMinimum = true;
+                    break;
+            }
+          
 
             Settings.Emulation = (bool)Emulation.IsChecked;
         }
@@ -123,21 +154,31 @@ namespace PeminSpectrumAnalyser
             MiddleCounterNoise.Text = Settings.MeasurementCountForNoise.ToString();
             MiddleCounterSignal.Text = Settings.MeasurementCountForSignal.ToString();
 
-            MiddleSwitchOffForNoise.IsChecked = Settings.AverageTypeForNoiseOff;
-            MiddleMaxValueForNoise.IsChecked = Settings.AverageTypeForNoiseMaximum;
-            MiddleMiddleForNoise.IsChecked = Settings.AverageTypeForNoiseMiddle;
-            MiddleMinValueForNoise.IsChecked = Settings.AverageTypeForNoiseMinimum;
+            if (Settings.AverageTypeForNoiseOff)
+                cbKindProcessingNoise.Text = "Выключено";
+            if (Settings.AverageTypeForNoiseMaximum)
+                cbKindProcessingNoise.Text = "Максимум";
+            if (Settings.AverageTypeForNoiseMiddle)
+                cbKindProcessingNoise.Text = "Среднее";
+            if (Settings.AverageTypeForNoiseMinimum)
+                cbKindProcessingNoise.Text = "Минимум";
 
-            MiddleSwitchOffForSignal.IsChecked = Settings.AverageTypeForSignalOff;
-            MiddleMaxValueForSignal.IsChecked = Settings.AverageTypeForSignalMaximum;
-            MiddleMiddleForSignal.IsChecked = Settings.AverageTypeForSignalMiddle;
-            MiddleMinValueForSignal.IsChecked = Settings.AverageTypeForSignalMinimum;
+            if (Settings.AverageTypeForSignalOff)
+                cbKindProcessingSignal.Text = "Выключено";
+            if (Settings.AverageTypeForSignalMaximum)
+                cbKindProcessingSignal.Text = "Максимум";
+            if (Settings.AverageTypeForSignalMiddle)
+                cbKindProcessingSignal.Text = "Среднее";
+            if (Settings.AverageTypeForSignalMinimum)
+                cbKindProcessingSignal.Text = "Минимум";
 
             Emulation.IsChecked = Settings.Emulation;
         }
 
         private void HardwareComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
+            if (Port == null)
+                return;
             if (HardwareComboBox.SelectedIndex == 0)
             {   
                  //Settings.HardwareSettings.Port = 5555;

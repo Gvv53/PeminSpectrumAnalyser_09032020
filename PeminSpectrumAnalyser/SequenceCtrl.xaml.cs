@@ -15,7 +15,7 @@ namespace PeminSpectrumAnalyser
     public partial class SequenceCtrl : UserControl
     {
         //Тактовая частота для ДС
-        public double Ft
+        public long Ft
         {
             set;
             get;
@@ -33,6 +33,7 @@ namespace PeminSpectrumAnalyser
 
         public event Action SolutionNameClear;
         public event Action ChangedButtonEnabled;
+        public event Action<long,long> NextSequence; //
 
         public SequenceCtrl()
         {
@@ -333,12 +334,10 @@ namespace PeminSpectrumAnalyser
 
         }
 
-
         public void ClearIntervalsUIList()
         {
             ParametersList.Items.Clear();
         }
-
 
         private void ButtonStartNOISE_Click(object sender, RoutedEventArgs e) => StartNoiseScan();
 
@@ -424,8 +423,7 @@ namespace PeminSpectrumAnalyser
             //else
             //    gbRBWVBW.IsEnabled = false;
         }
-
-    
+  
         private void HandMode_PlusOne_Click(object sender, RoutedEventArgs e)
         {
             AddNewInterval(null, false);
@@ -443,6 +441,11 @@ namespace PeminSpectrumAnalyser
                 {
                     AddNewInterval(null, false, shiftFrequency);
                     shiftFrequency += startFrequency;
+                    if ((bool)cbMove.IsChecked && FrequencyMax.Value != 0 && shiftFrequency > FrequencyMax.Value)
+                    {
+                        NextSequence?.Invoke(Ft, shiftFrequency);  // интервалы, перенесённые в другой стакан
+                        counter = quantity;
+                    }
                 }
         }
 
@@ -472,6 +475,11 @@ namespace PeminSpectrumAnalyser
             MainWindow mw = ((MainWindow)((Grid)((GroupBox)Parent).Parent).Parent);
             mw.unit1.ChangedButtonEnabled?.Invoke();
             mw.unit2.ChangedButtonEnabled?.Invoke();
+        }       
+
+        private void CbMove_Checked(object sender, RoutedEventArgs e)
+        {
+            FrequencyMax.IsEnabled = (bool)cbMove.IsChecked;
         }
     }
 
