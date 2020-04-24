@@ -45,10 +45,33 @@ namespace PeminSpectrumAnalyser
 
 
             Settings.ExperimentPath = LeftPanelPath.Text;
-            Settings.HardwareSettings.TraceModeForNoise = cbNoiseDetector.Text;
-            Settings.HardwareSettings.TraceModeForSignal = cbSignalDetector.Text;
+            Settings.HardwareSettings.NoiseTraceDetector = cbNoiseDetector.Text;
+            Settings.HardwareSettings.SignalTraceDetector = cbSignalDetector.Text;
             Settings.HardwareSettings.SignalTraceType = cbSignalTraceType.Text;
             Settings.HardwareSettings.NoiseTraceType = cbNoiseTraceType.Text;
+
+            if (Int32.TryParse(tbSignalAttenuation.Text, out int buffer))
+                Settings.HardwareSettings.SignalAttenuation = buffer;
+            else
+                MessageBox.Show("Неверно задано значение ослабления шума");
+
+            if (Int32.TryParse(tbNoiseAttenuation.Text, out buffer))
+                Settings.HardwareSettings.NoiseAttenuation = buffer;
+            else
+                MessageBox.Show("Неверно задано значение ослабления сигнала ");
+
+            Settings.HardwareSettings.SignalTraceMode = cbSignalTraceMode.Text;
+            Settings.HardwareSettings.NoiseTraceMode = cbNoiseTraceMode.Text;
+
+            if (Int32.TryParse(tbCountNoiseTraceMode.Text, out buffer))
+                Settings.HardwareSettings.CountNoiseTraceMode = buffer;
+            else
+                MessageBox.Show("Неверно задано количество измерений шума TRACE MODE ");
+
+            if (Int32.TryParse(tbCountSignalTraceMode.Text, out buffer))
+                Settings.HardwareSettings.CountSignalTraceMode = buffer;
+            else
+                MessageBox.Show("Неверно задано количество измерений сигнала TRACE MODE ");
 
             if (double.TryParse(DbMKvShift.Text, out double dbuffer))
                 Settings.HardwareSettings.DbMkvShift = dbuffer;
@@ -61,13 +84,41 @@ namespace PeminSpectrumAnalyser
             else
                 MessageBox.Show("Неверно задан параметр CommonShift");
 
-            if (Int32.TryParse(MiddleCounterNoise.Text, out int buffer))
+            if (double.TryParse(tbSignalAttenuation.Text, out dbuffer))
+                Settings.HardwareSettings.SignalAttenuation = (long)dbuffer;
+            else
+                MessageBox.Show("Неверно задан параметр SignalAttenuation");
+
+            if (double.TryParse(tbNoiseAttenuation.Text, out dbuffer))
+                Settings.HardwareSettings.NoiseAttenuation = (long)dbuffer;
+            else
+                MessageBox.Show("Неверно задан параметр NoiseAttenuation");
+
+
+            Settings.HardwareSettings.SignalTraceMode = cbSignalTraceMode.Text;
+            Settings.HardwareSettings.NoiseTraceMode = cbNoiseTraceMode.Text;
+
+            if (Int32.TryParse(tbCountNoiseTraceMode.Text, out buffer))
+                Settings.HardwareSettings.CountNoiseTraceMode = buffer;
+            else
+                MessageBox.Show("Неверно задано количество измерений шума TRACE MODE ");
+
+            if (Int32.TryParse(tbCountSignalTraceMode.Text, out buffer))
+                Settings.HardwareSettings.CountSignalTraceMode = buffer;
+            else
+                MessageBox.Show("Неверно задано количество измерений сигнала TRACE MODE ");
+
+
+
+
+
+            if (Int32.TryParse(tbMiddleCounterNoise.Text, out buffer))
                 Settings.MeasurementCountForNoise = buffer;
             else
                 MessageBox.Show("Неверно задано количество усреднений для шума ");
 
 
-            if (Int32.TryParse(MiddleCounterSignal.Text, out buffer))
+            if (Int32.TryParse(tbMiddleCounterSignal.Text, out buffer))
                 Settings.MeasurementCountForSignal = buffer;
             else
                 MessageBox.Show("Неверно задано количество усреднений для шума ");
@@ -75,20 +126,18 @@ namespace PeminSpectrumAnalyser
 
             try
             {
-                Settings.MeasurementCountForNoise = int.Parse(MiddleCounterNoise.Text);
+                Settings.MeasurementCountForNoise = int.Parse(tbMiddleCounterNoise.Text);
             }
             finally
             {
-
             }
 
             try
             {
-                Settings.MeasurementCountForSignal = int.Parse(MiddleCounterSignal.Text);
+                Settings.MeasurementCountForSignal = int.Parse(tbMiddleCounterSignal.Text);
             }
             finally
             {
-
             }
             Settings.AverageTypeForNoiseOff = false;
             Settings.AverageTypeForNoiseMaximum = false;
@@ -130,7 +179,7 @@ namespace PeminSpectrumAnalyser
                     Settings.AverageTypeForSignalMinimum = true;
                     break;
             }
-          
+           
 
             Settings.Emulation = (bool)Emulation.IsChecked;
         }
@@ -144,15 +193,26 @@ namespace PeminSpectrumAnalyser
             Port.Text = (int)Settings.HardwareSettings.HardwareType == 0 ? "5555" : "5025";// Settings.HardwareSettings.Port.ToString();
 
             LeftPanelPath.Text = Settings.ExperimentPath;
-            cbNoiseDetector.Text = Settings.HardwareSettings.TraceModeForNoise;
-            cbSignalDetector.Text = Settings.HardwareSettings.TraceModeForSignal;
+            cbNoiseDetector.Text = Settings.HardwareSettings.NoiseTraceDetector;
+            cbSignalDetector.Text = Settings.HardwareSettings.SignalTraceDetector;
             cbSignalTraceType.Text = Settings.HardwareSettings.SignalTraceType;
             cbNoiseTraceType.Text = Settings.HardwareSettings.NoiseTraceType;
 
+            tbSignalAttenuation.Text = Settings.HardwareSettings.SignalAttenuation.ToString();
+            tbNoiseAttenuation.Text = Settings.HardwareSettings.NoiseAttenuation.ToString();
+            cbSignalTraceMode.Text = Settings.HardwareSettings.SignalTraceMode;
+            cbNoiseTraceMode.Text = Settings.HardwareSettings.NoiseTraceMode;
+            tbCountNoiseTraceMode.Text = Settings.HardwareSettings.CountNoiseTraceMode.ToString();
+            tbCountSignalTraceMode.Text = Settings.HardwareSettings.CountSignalTraceMode.ToString();
+
+
+            
+
+
             DbMKvShift.Text = Settings.HardwareSettings.DbMkvShift.ToString();
             CommonShift.Text = Settings.CommonShift.ToString();
-            MiddleCounterNoise.Text = Settings.MeasurementCountForNoise.ToString();
-            MiddleCounterSignal.Text = Settings.MeasurementCountForSignal.ToString();
+            tbMiddleCounterNoise.Text = Settings.MeasurementCountForNoise.ToString();
+            tbMiddleCounterSignal.Text = Settings.MeasurementCountForSignal.ToString();
 
             if (Settings.AverageTypeForNoiseOff)
                 cbKindProcessingNoise.Text = "Выключено";
@@ -171,6 +231,8 @@ namespace PeminSpectrumAnalyser
                 cbKindProcessingSignal.Text = "Среднее";
             if (Settings.AverageTypeForSignalMinimum)
                 cbKindProcessingSignal.Text = "Минимум";
+            tbSignalAttenuation.Text = Settings.HardwareSettings.SignalAttenuation.ToString();
+            tbNoiseAttenuation.Text = Settings.HardwareSettings.NoiseAttenuation.ToString();
 
             Emulation.IsChecked = Settings.Emulation;
         }

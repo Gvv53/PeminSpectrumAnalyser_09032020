@@ -43,6 +43,9 @@ namespace IOMeasurementData
                                       long span,
                                       long band,
                                       string traceType,
+                                      long attenuation,
+                                      string traceMode,
+                                      long countTraceMode,
                                       int errorCount = 0
                                       )
         {
@@ -53,21 +56,37 @@ namespace IOMeasurementData
             {
                 Send(":TRACe1:TYPE" +   traceType);     //тип трассировки
 
-                Send(":SENSe]:DETector: TRACe1:AUTO" + "0"); //отключен автодетектор
+                Send(":SENSe:DETector:TRACe1:AUTO" + "0"); //отключен автодетектор
  
-                 Send(":SENSe:DETector:TRACe1 " + traceDetector);
-               // Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz");
-                
-                Send(":SENSe:WAVEform:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");
+                Send(":SENSe:DETector:TRACe1 " + traceDetector);
+
+                //аттеньюатор
+                Send(":SENSe:POWer:ATTenuation:AUTO 1");
+                Send(":SENSe:POWer:ATTenuation" + attenuation.ToString());
+
+                //TraceMode
+                Send(":SENSe:AVERage:COUNt " + countTraceMode.ToString());
+                Send(":SENSe:AVERage:TYPE " + traceMode);
+ 
+                // Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz");
+
+                // Send(":SENSe:WAVEform:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");
+                Send(":SENSe:BANDwidth:RESolution" + bandWidth.ToString() + " Hz");
 
                 Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
 
-                Send(":BAND: " + band.ToString() + " Hz");
+                //Send(":BAND: " + band.ToString() + " Hz");
+                Send(":SENSe:BANDwidth:VIDeo:AUTO 0|");
+                Send(":SENSe:BANDwidth:VIDeo" + band.ToString() + " Hz");
 
                 Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz"); //поменяла место
 
+               
+
+
+
                 Send(":SENSe:SWEep:POINts 1001");
-                Send(":INITiate:IMMediate");
+                Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
                 Send(":FETCh:SANalyzer1?");
                 Send(":FETCh?");

@@ -68,7 +68,10 @@ namespace IOMeasurementData
                                 HardwareSettings.BandWidth, 
                                 HardwareSettings.Span,
                                 HardwareSettings.Band,
-                                HardwareSettings.TraceType
+                                HardwareSettings.TraceType,
+                                HardwareSettings.Attenuation,
+                                HardwareSettings.TraceMode,
+                                HardwareSettings.CountTraceMode
                             )                                                                                                                                )
                         ).Split(',');
 

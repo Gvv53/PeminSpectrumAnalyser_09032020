@@ -178,11 +178,13 @@ namespace PeminSpectrumAnalyser.Model
                 averageType = AverageType.Maximum;
 
             return Read(frequency, bandWidth, span, band,
-                Experiment.ExperimentSettings.HardwareSettings.TraceModeForSignal,
+                Experiment.ExperimentSettings.HardwareSettings.SignalTraceDetector,
                 averageType,
                 Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
                 Experiment.ExperimentSettings.MeasurementCountForSignal,
-                Experiment.ExperimentSettings.HardwareSettings.SignalTraceType);
+                Experiment.ExperimentSettings.HardwareSettings.SignalTraceType,
+                 Experiment.ExperimentSettings.HardwareSettings.SignalTraceMode,
+                    Experiment.ExperimentSettings.HardwareSettings.CountSignalTraceMode);
         }
 
 
@@ -203,11 +205,13 @@ namespace PeminSpectrumAnalyser.Model
                 averageType = AverageType.Maximum;
 
             return Read(frequency, bandWidth, span, band,
-                    Experiment.ExperimentSettings.HardwareSettings.TraceModeForNoise,
+                    Experiment.ExperimentSettings.HardwareSettings.NoiseTraceDetector,
                     averageType,
                     Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
                     Experiment.ExperimentSettings.MeasurementCountForNoise,
-                    Experiment.ExperimentSettings.HardwareSettings.NoiseTraceType);
+                    Experiment.ExperimentSettings.HardwareSettings.NoiseTraceType,
+                    Experiment.ExperimentSettings.HardwareSettings.NoiseTraceMode,
+                    Experiment.ExperimentSettings.HardwareSettings.CountNoiseTraceMode);
         }
 
 
@@ -216,7 +220,9 @@ namespace PeminSpectrumAnalyser.Model
                             AverageType averageType,
                             int pointsQuantity,
                             int measurementCount,
-                            string traceType)
+                            string traceType,
+                            string traceMode,
+                            long countTraceMode)
 
         {
             Reader.HardwareSettings.Frequency = frequency;
@@ -228,8 +234,10 @@ namespace PeminSpectrumAnalyser.Model
             Reader.HardwareSettings.PointsQuantity = pointsQuantity;
             Reader.HardwareSettings.MeasurementCount = measurementCount;
             Reader.HardwareSettings.TraceType = traceType;
+            Reader.HardwareSettings.TraceMode = traceMode;
+            Reader.HardwareSettings.CountTraceMode = countTraceMode;
 
-            ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
+          ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
             ResultsY = new double[Reader.HardwareSettings.PointsQuantity];
 
             if (Emulation)

@@ -18,6 +18,9 @@ namespace IOMeasurementData
                                       long span,
                                       long band,
                                       string traceType,
+                                      long attinuation,
+                                      string traceMode,
+                                      long countTraceMode,
                                       int errorCount = 0
                                       );
 
