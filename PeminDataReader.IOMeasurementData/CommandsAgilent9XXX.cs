@@ -61,7 +61,7 @@ namespace IOMeasurementData
                 Send(":SENSe:DETector:TRACe1 " + traceDetector);
 
                 //аттеньюатор
-                Send(":SENSe:POWer:ATTenuation:AUTO 1");
+                Send(":SENSe:POWer:ATTenuation:AUTO 0");
                 Send(":SENSe:POWer:ATTenuation" + attenuation.ToString());
 
                 //TraceMode
