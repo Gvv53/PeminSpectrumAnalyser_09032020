@@ -14,12 +14,19 @@ namespace IOMeasurementData
 
             switch(hardwareSettings.HardwareType)
             {
-                case HardwareType.AGILENT9XXX:
+                case HardwareType.Agilent934хC:
+                    hardwareSettings.PointsQuantity = 461;
+                    hardwareSettings.HardwareDescription = HardwareType.Agilent934хC.ToString();
+                    result = new CommandsAgilent934хC();
+                    break;
+                case HardwareType.AGILENT90х0:
                     hardwareSettings.PointsQuantity = 1001;
-                    result = new CommandsAgilent9XXX();
+                    hardwareSettings.HardwareDescription = HardwareType.AGILENT90х0.ToString();
+                    result = new CommandsAgilent90х0();
                     break;
                 case HardwareType.FSH4:
                     hardwareSettings.PointsQuantity = 631;
+                    hardwareSettings.HardwareDescription = HardwareType.FSH4.ToString();
                     result = new CommandsFSH4();
                     break;
                 default:

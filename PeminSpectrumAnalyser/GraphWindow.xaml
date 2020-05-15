@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PeminSpectrumAnalyser"
         xmlns:Chart="clr-namespace:UnitedTools.Chart;assembly=UnitedTools.Chart" x:Class="PeminSpectrumAnalyser.GraphWindow"
         mc:Ignorable="d"
-        Title="Signal/Noise viewer" Height="943.985" Width="1062.782" Closing="Window_Closing" Foreground="#FFF9F9FC" Background="#FF2D2D30">
+        Title="Signal/Noise viewer" Height="800" Width="1062.782" Closing="Window_Closing" Foreground="#FFF9F9FC" Background="#FF2D2D30">
     <Grid Background="#FF2D2D30">
         <Grid.RowDefinitions>
             <RowDefinition/>

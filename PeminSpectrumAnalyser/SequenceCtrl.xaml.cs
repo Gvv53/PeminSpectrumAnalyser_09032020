@@ -286,6 +286,8 @@ namespace PeminSpectrumAnalyser
 
             newInterval.IntervalSettings.isAuto = isAutoStyle;
 
+            newInterval.IntervalSettings.PointsQuantity = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.PointsQuantity;
+
             newInterval.IntervalSettings.HandCenterFrequency = frequencyCenter;
 
             ExperimentExplorer.Experiment.Intervals.Add(newInterval);
@@ -302,10 +304,6 @@ namespace PeminSpectrumAnalyser
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
             //Маркеры определяются при рассчёте
-            //if (newInterval.IntervalSettings.isAuto)
-            //    newInterval.Markers.Add(((newInterval.IntervalSettings.PointsQuantity - 1) / 2) + 1);
-
-
             intervalParametersCtrl.Interval = newInterval;
 
             newInterval.IntervalSettings.LinkToVisualControl = intervalParametersCtrl;
@@ -319,9 +317,7 @@ namespace PeminSpectrumAnalyser
                 intervalParametersCtrl.UIFrom(newInterval);
                 ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
             }
-            //
-
-
+           //
 
             intervalParametersCtrl.Delete += (target) =>
             {
@@ -380,28 +376,37 @@ namespace PeminSpectrumAnalyser
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
+            string hardvareType;
+            string hardvareTypePrev = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();
             bool EmulationPrev = ExperimentExplorer.Emulation; //режим эмуляции  
             ExperimentExplorer.SettingsOpen();
-
-            if (EmulationPrev != ExperimentExplorer.Emulation) //изменился режим эмуляции, выполним переподключение
+            hardvareType = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();
+            if (hardvareType != hardvareTypePrev)    //если поменялось оборудование, надо пересчитать точки
+            {
+                foreach (ParametersCtrl par in ParametersList.Items)
+                    par.createPoints.IsEnabled = true;
+                foreach (Interval inter in ExperimentExplorer.Experiment.Intervals)
+                    inter.IntervalSettings.PointsQuantity = ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.PointsQuantity;
+            }
+            if (EmulationPrev != ExperimentExplorer.Emulation && ExperimentExplorer.Emulation) //режим эмуляции, выполним переподключение
             {
                 // NewExperiment(); //возврат в исходное состояние
-                if (ExperimentExplorer.Emulation)
-                {
+                //f (ExperimentExplorer.Emulation)
+                //{
                     Disconnect();
                     Connect();
-                }
-                else
-                {
-                    Disconnect(); //ExperimentExplorer.IsConnected = false;   
-                    connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
-                }
             }
+            else
+            {
+                Disconnect(); //ExperimentExplorer.IsConnected = false;   
+                connectionState.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF1F1F6"));
+            }
+          
             Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":"+
                                                                         ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
             ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
             //активность полос фильтра в зависимости от ИП и режима(СС/ДС)
-            if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+           if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
                 if ((bool)rbDS.IsChecked)
                     gbRBWVBW.IsEnabled = true;
                 else
@@ -409,19 +414,14 @@ namespace PeminSpectrumAnalyser
                         par.gbFilter.IsEnabled = true;
 
             else //Агилент
-                if ((bool)rbDS.IsChecked)
+                if ((bool)rbDS.IsChecked) //ДС
                    gbRBWVBW.IsEnabled = false;
-                else
+                else   //СС
                    foreach (ParametersCtrl par in ParametersList.Items)
                    {
-                       par.gbFilter.IsEnabled = false;
+                    par.gbFilter.IsEnabled = true;// false;
                       par.MsgBand.Visibility = Visibility;
-                   }
-
-            //if ((bool)rbDS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-            //    gbRBWVBW.IsEnabled = true;
-            //else
-            //    gbRBWVBW.IsEnabled = false;
+                   }           
         }
   
         private void HandMode_PlusOne_Click(object sender, RoutedEventArgs e)

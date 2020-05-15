@@ -183,8 +183,9 @@ namespace PeminSpectrumAnalyser.Model
                 Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
                 Experiment.ExperimentSettings.MeasurementCountForSignal,
                 Experiment.ExperimentSettings.HardwareSettings.SignalTraceType,
-                 Experiment.ExperimentSettings.HardwareSettings.SignalTraceMode,
-                    Experiment.ExperimentSettings.HardwareSettings.CountSignalTraceMode);
+                Experiment.ExperimentSettings.HardwareSettings.SignalAttenuation,
+               //Experiment.ExperimentSettings.HardwareSettings.SignalTraceMode,
+                Experiment.ExperimentSettings.HardwareSettings.CountSignalTraceMode);
         }
 
 
@@ -210,7 +211,8 @@ namespace PeminSpectrumAnalyser.Model
                     Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
                     Experiment.ExperimentSettings.MeasurementCountForNoise,
                     Experiment.ExperimentSettings.HardwareSettings.NoiseTraceType,
-                    Experiment.ExperimentSettings.HardwareSettings.NoiseTraceMode,
+                    Experiment.ExperimentSettings.HardwareSettings.NoiseAttenuation,
+                  //  Experiment.ExperimentSettings.HardwareSettings.NoiseTraceMode,
                     Experiment.ExperimentSettings.HardwareSettings.CountNoiseTraceMode);
         }
 
@@ -221,7 +223,8 @@ namespace PeminSpectrumAnalyser.Model
                             int pointsQuantity,
                             int measurementCount,
                             string traceType,
-                            string traceMode,
+                            long attenuation,
+                            //string traceMode,
                             long countTraceMode)
 
         {
@@ -234,7 +237,8 @@ namespace PeminSpectrumAnalyser.Model
             Reader.HardwareSettings.PointsQuantity = pointsQuantity;
             Reader.HardwareSettings.MeasurementCount = measurementCount;
             Reader.HardwareSettings.TraceType = traceType;
-            Reader.HardwareSettings.TraceMode = traceMode;
+            Reader.HardwareSettings.Attenuation = attenuation;
+           //Reader.HardwareSettings.TraceMode = traceMode;
             Reader.HardwareSettings.CountTraceMode = countTraceMode;
 
           ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
@@ -275,7 +279,6 @@ namespace PeminSpectrumAnalyser.Model
             }
             return false;
         }
-
         //---------------------------------------------------------------------
         // Отработка цикла сканирования
         //---------------------------------------------------------------------
@@ -523,7 +526,7 @@ namespace PeminSpectrumAnalyser.Model
 
                 if (DataMeasuringType == DataMeasuringType.Signal)
                 {
-                    SignalReadyIntervalEvent?.Invoke();
+                    SignalReadyIntervalEvent?.Invoke();                    
                    MessageBox.Show(Experiment.ExperimentSettings.HardwareSettings.HardwareType
                                            + "- -СЪЕМ СИГНАЛА ЗАВЕРШЕН"+ Environment.NewLine
                                            + "Поток - " + ThreadId.ToString());                   
@@ -710,12 +713,27 @@ namespace PeminSpectrumAnalyser.Model
                                        double yShift,
                                        double xShift)
         {
+            double maxValue = 0, minValue = 0, maxValueSignal = 0, minValueSignal = 0, maxValueNoise = 0, minValueNoise = 0; ;
+
+            if (sourceSignal.Count != 0)
+            {
+                maxValueSignal = sourceSignal.Max();
+                minValueSignal = sourceSignal.Min();
+            }
+            if (sourceNoise.Count != 0)
+            {
+                maxValueNoise = sourceNoise.Max();
+                minValueNoise = sourceNoise.Min();
+            }
+            maxValue = maxValueSignal == 0 ? maxValueNoise:(maxValueNoise == 0 ? maxValueSignal : Math.Max(maxValueSignal, maxValueNoise));
+            minValue = minValueSignal == 0 ? minValueNoise:(minValueNoise == 0 ? minValueSignal : Math.Min(minValueSignal, minValueNoise));
+        
             graphWindowStatic.Dispatcher.Invoke(DispatcherPriority.Normal, new
             Action(() =>
             {
 
-                graphWindowStatic.CurrentChart.YAxisBeginValue = -100 - yShift;
-                graphWindowStatic.CurrentChart.YAxisEndValue = 100 + yShift;
+                graphWindowStatic.CurrentChart.YAxisBeginValue = minValue - 15;
+                graphWindowStatic.CurrentChart.YAxisEndValue = maxValue + 15;
 
                 double xOnePercent = (interval.Frequencys[interval.Frequencys.Count - 1] - interval.Frequencys[0]) / 100;
 

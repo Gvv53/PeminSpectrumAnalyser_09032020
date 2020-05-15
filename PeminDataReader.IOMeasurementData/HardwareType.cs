@@ -10,6 +10,7 @@ namespace IOMeasurementData
     public enum HardwareType
     {
         FSH4,
-        AGILENT9XXX
+        AGILENT90х0,
+        Agilent934хC
     }
 }

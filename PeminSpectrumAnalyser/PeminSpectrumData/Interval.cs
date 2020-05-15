@@ -361,6 +361,7 @@ namespace PeminSpectrumData
 
         public void BuildAutomaticPoints()
         {
+            //IntervalSettings.PointsQuantity = this.GetExperimentExplorer().Experiment.ExperimentSettings.HardwareSettings.PointsQuantity;
             ClearAll();
 
             if (!IntervalSettings.isAuto) //диф.спектр

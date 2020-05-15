@@ -25,7 +25,6 @@ namespace IOMeasurementData
             HardwareSettings = hardwareSettings;
             Commands = CommandsFactory.CreateCommands(hardwareSettings);
 
-
         }
 
         public bool Connect()
@@ -70,7 +69,7 @@ namespace IOMeasurementData
                                 HardwareSettings.Band,
                                 HardwareSettings.TraceType,
                                 HardwareSettings.Attenuation,
-                                HardwareSettings.TraceMode,
+                                HardwareSettings.Preamp,
                                 HardwareSettings.CountTraceMode
                             )                                                                                                                                )
                         ).Split(',');
@@ -83,31 +82,31 @@ namespace IOMeasurementData
                             ResultsX[shift] = double.Parse(currentSpectrData[shift * 2], CultureInfo.InvariantCulture);
 
                             if (HardwareSettings.AverageType == AverageType.Off)
-                                ResultsY[shift] = double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift;
+                                ResultsY[shift] = double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture);// + HardwareSettings.DbMkvShift;//+ HardwareSettings.CommonShift;
 
-                            if (HardwareSettings.AverageType == AverageType.Middle)
-                                ResultsY[shift] = 
-                                    (ResultsY[shift] + (double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift))
-                                                        / (counter > 0 ? 2 : 1);
+                            //if (HardwareSettings.AverageType == AverageType.Middle)
+                            //    ResultsY[shift] = 
+                            //        (ResultsY[shift] + (double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift))
+                            //                            / (counter > 0 ? 2 : 1);
 
-                            if (HardwareSettings.AverageType == AverageType.Maximum)
-                            {
-                                double bufferY = double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift;
+                            //if (HardwareSettings.AverageType == AverageType.Maximum)
+                            //{
+                            //    double bufferY = double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift;
 
-                                if (bufferY > ResultsY[shift])
-                                    ResultsY[shift] = bufferY;
-                            }
+                            //    if (bufferY > ResultsY[shift])
+                            //        ResultsY[shift] = bufferY;
+                            //}
 
-                            if (HardwareSettings.AverageType == AverageType.Minimum)
-                            {
-                                double bufferY = double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift;
+                            //if (HardwareSettings.AverageType == AverageType.Minimum)
+                            //{
+                            //    double bufferY = double.Parse(currentSpectrData[shift * 2 + 1], CultureInfo.InvariantCulture) + HardwareSettings.DbMkvShift + HardwareSettings.CommonShift;
 
-                                if (ResultsY[shift] == Double.MinValue)
-                                    ResultsY[shift] = bufferY;
-                                else
-                                    if (bufferY < ResultsY[shift])
-                                        ResultsY[shift] = bufferY;
-                            }
+                            //    if (ResultsY[shift] == Double.MinValue)
+                            //        ResultsY[shift] = bufferY;
+                            //    else
+                            //        if (bufferY < ResultsY[shift])
+                            //            ResultsY[shift] = bufferY;
+                            //}
                         }
                     }
 
