@@ -386,7 +386,7 @@ namespace PeminSpectrumData
 
                 long CurrentCenterFrequency; //частотный центр заданного диапазона
                 //расчётное количество точек измерения, включая
-                long innerStepQuantity = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart) / IntervalSettings.FrequencyInnerStep  ;
+                long innerStepQuantity = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart) / IntervalSettings.FrequencyInnerStep;
 
                 if (innerStepQuantity <= IntervalSettings.PointsQuantity - 1)    //расчётное число точек <= числа точек ИП
                 {
@@ -422,10 +422,11 @@ namespace PeminSpectrumData
                         Markers.Add(counter);
                     }
                 }
-                
+
             }
-            
-            
+
+
         }
     }
+   
 }

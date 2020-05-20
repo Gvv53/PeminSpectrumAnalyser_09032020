@@ -290,7 +290,10 @@ namespace PeminSpectrumAnalyser
         {
             Interval.Restore();
         }
-
+        private void ShowChart_Click(object sender, RoutedEventArgs e)
+        {
+            Interval.GetExperimentExplorer().ShowChart(Interval, Interval.Signal, Interval.Noise);
+        }
         private void ShowSignalAndNoise_Signals_Click(object sender, RoutedEventArgs e)
         {
             Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.OriginalSignal, null, null);

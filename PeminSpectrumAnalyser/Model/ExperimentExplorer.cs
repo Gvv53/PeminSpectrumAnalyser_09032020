@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using PeminSpectrumData;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -583,7 +584,39 @@ namespace PeminSpectrumAnalyser.Model
                 }
             }))).Start();
         }
+        public void ShowChart(Interval interval, List<double> sourceSignal, List<double> sourceNoise)
+        {
+            if (interval.Frequencys.Count == 0)
+            {
+                MessageBox.Show("Данные для отображения отсутствуют");
+                return;
+            }
+            if (interval.Frequencys.Count != interval.Signal.Count)
+            {
+                MessageBox.Show("Количество частот != количеству сигналов");
+                return;
+            }
+            if (interval.Frequencys.Count != interval.Noise.Count)
+            {
+                MessageBox.Show("Количество частот != количеству сигналов");
+                return;
+            }
+            ObservableCollection<PointForChart> dataSignal = new ObservableCollection<PointForChart>();
+            for (int i = 0; i < interval.Frequencys.Count; i++)
+            {
+                var point = new PointForChart(interval.Frequencys[i], interval.Signal[i], interval.Noise[i]);
+                if (interval.Markers.Contains(i))
+                {
+                    point.signal_marker = interval.Signal[i];
+                    point.noise_marker = interval.Noise[i];
+                }
+                dataSignal.Add(point);
+            }
+            ChartWindow chartWindow = new ChartWindow(dataSignal);
 
+            chartWindow.ShowDialog();
+            } 
+       
         //---------------------------------------------------------------------
         // Отображение шума и сигнала
         //---------------------------------------------------------------------

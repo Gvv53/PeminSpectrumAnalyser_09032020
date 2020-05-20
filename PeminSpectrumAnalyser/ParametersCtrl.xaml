@@ -274,7 +274,8 @@
 
             </TabControl>
             <Button x:Name="delete" Content="X" BorderBrush="#FFFF4B00" Foreground="#FFFF4B00" Height="25" Margin="303,0,-171,231" Background="{x:Null}" Click="Delete_Click" Grid.Column="1" />
-            <Button x:Name="showSignalAndNoise" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,98,30,112"  Background="{x:Null}" Click="ShowSignalAndNoise_Click" Grid.Column="1" />
+            <!--<Button x:Name="showSignalAndNoise" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,98,30,112"  Background="{x:Null}" Click="ShowSignalAndNoise_Click" Grid.Column="1" />-->
+            <Button x:Name="showChart" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,98,30,112"  Background="{x:Null}" Click="ShowChart_Click" Grid.Column="1" />
             <Button x:Name="showSignalAndNoise_Signals" Content="ИСХ. СИГНАЛ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,128,30,82"  Background="{x:Null}" Click="ShowSignalAndNoise_Signals_Click" Grid.Column="1" />
             <Button x:Name="showSignalAndNoise_Noises" Content="ИСХ. ШУМ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="5,158,30,52"  Background="{x:Null}" Click="ShowSignalAndNoise_Noises_Click" Grid.Column="1" />
             <Button x:Name="DeleteButton" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Margin="112,0,22,211" 
