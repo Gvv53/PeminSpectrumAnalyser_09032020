@@ -256,106 +256,106 @@ namespace PeminSpectrumData
             //для сигналов, > Мах или < Мин, формируется случайное значение в диапазоне Мах-2,Мах или Мин,Мин+2
             Restore(); //копирование оригинальных значений сигнала и шума в коллекцию сигналов и шумов
 
-            Filters filters = new Filters();
+            //Filters filters = new Filters();
 
-            if (IntervalSettings.MaxNoise != 0)
-            {
-                var buffer = Noise.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterMaximum(buffer, IntervalSettings.MaxNoise);
-                    Noise.Clear();
-                    Noise.AddRange(buffer);
-                }
-            }
+            //if (IntervalSettings.MaxNoise != 0)
+            //{
+            //    var buffer = Noise.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterMaximum(buffer, IntervalSettings.MaxNoise);
+            //        Noise.Clear();
+            //        Noise.AddRange(buffer);
+            //    }
+            //}
 
-            if (IntervalSettings.MinNoise != 0)
-            {
-                var buffer = Noise.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterMinimum(buffer, IntervalSettings.MinNoise);
-                    Noise.Clear();
-                    Noise.AddRange(buffer);
-                }
-            }
+            //if (IntervalSettings.MinNoise != 0)
+            //{
+            //    var buffer = Noise.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterMinimum(buffer, IntervalSettings.MinNoise);
+            //        Noise.Clear();
+            //        Noise.AddRange(buffer);
+            //    }
+            //}
 
-            if (IntervalSettings.MaxSignal != 0)
-            {
-                var buffer = Signal.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterMaximum(buffer, IntervalSettings.MaxSignal);
-                    Signal.Clear();
-                    Signal.AddRange(buffer);
-                }
-            }
+            //if (IntervalSettings.MaxSignal != 0)
+            //{
+            //    var buffer = Signal.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterMaximum(buffer, IntervalSettings.MaxSignal);
+            //        Signal.Clear();
+            //        Signal.AddRange(buffer);
+            //    }
+            //}
 
-            if (IntervalSettings.MinSignal != 0)
-            {
-                var buffer = Signal.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterMinimum(buffer, IntervalSettings.MinSignal);
-                    Signal.Clear();
-                    Signal.AddRange(buffer);
-                }
-            }
+            //if (IntervalSettings.MinSignal != 0)
+            //{
+            //    var buffer = Signal.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterMinimum(buffer, IntervalSettings.MinSignal);
+            //        Signal.Clear();
+            //        Signal.AddRange(buffer);
+            //    }
+            //}
 
-            if (IntervalSettings.ShiftNoise != 0)
-            {
-                var buffer = Noise.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterShift(buffer, IntervalSettings.ShiftNoise);
-                    Noise.Clear();
-                    Noise.AddRange(buffer);
-                }
-            }
+            //if (IntervalSettings.ShiftNoise != 0)
+            //{
+            //    var buffer = Noise.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterShift(buffer, IntervalSettings.ShiftNoise);
+            //        Noise.Clear();
+            //        Noise.AddRange(buffer);
+            //    }
+            //}
 
-            if (IntervalSettings.ShiftSignal != 0)
-            {
-                var buffer = Signal.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterShift(buffer, IntervalSettings.ShiftSignal);
-                    Signal.Clear();
-                    Signal.AddRange(buffer);
-                }
-            }
-            //задана частота предусилителя
-            if (IntervalSettings.DeltaShiftFrequency != 0)
-            {
-                var buffer = Signal.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterDeltaAfterFrequency(IntervalSettings.DeltaShiftFrequency, Frequencys.ToArray(), buffer);
-                    Signal.Clear();
-                    Signal.AddRange(buffer);
-                }
+            //if (IntervalSettings.ShiftSignal != 0)
+            //{
+            //    var buffer = Signal.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterShift(buffer, IntervalSettings.ShiftSignal);
+            //        Signal.Clear();
+            //        Signal.AddRange(buffer);
+            //    }
+            //}
+            ////задана частота предусилителя
+            //if (IntervalSettings.DeltaShiftFrequency != 0)
+            //{
+            //    var buffer = Signal.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterDeltaAfterFrequency(IntervalSettings.DeltaShiftFrequency, Frequencys.ToArray(), buffer);
+            //        Signal.Clear();
+            //        Signal.AddRange(buffer);
+            //    }
 
-                buffer = Noise.ToArray();
-                if (buffer.Count() > 0)
-                {
-                    filters.FilterDeltaAfterFrequency(IntervalSettings.DeltaShiftFrequency, Frequencys.ToArray(), buffer);
-                    Noise.Clear();
-                    Noise.AddRange(buffer);
-                }
-            }
+            //    buffer = Noise.ToArray();
+            //    if (buffer.Count() > 0)
+            //    {
+            //        filters.FilterDeltaAfterFrequency(IntervalSettings.DeltaShiftFrequency, Frequencys.ToArray(), buffer);
+            //        Noise.Clear();
+            //        Noise.AddRange(buffer);
+            //    }
+            //}
 
-            if (IntervalSettings.SpecialSignalNoiseShift != 0)
-            {
-                var signals = Signal.ToArray();
-                var noises = Noise.ToArray();
+            //if (IntervalSettings.SpecialSignalNoiseShift != 0)
+            //{
+            //    var signals = Signal.ToArray();
+            //    var noises = Noise.ToArray();
 
-                filters.FilterShiftNoiseOverSignal(signals, noises, IntervalSettings.SpecialSignalNoiseShift);
+            //    filters.FilterShiftNoiseOverSignal(signals, noises, IntervalSettings.SpecialSignalNoiseShift);
 
-                Signal.Clear();
-                Signal.AddRange(signals);
-                Noise.Clear();
-                Noise.AddRange(noises);
+            //    Signal.Clear();
+            //    Signal.AddRange(signals);
+            //    Noise.Clear();
+            //    Noise.AddRange(noises);
 
-            }
+            //}
 
         }
 

@@ -11,6 +11,7 @@ namespace IOMeasurementData
     {
         FSH4,
         AGILENT90х0,
-        Agilent934хC
+        Agilent934хC,
+        AGILENT9915x
     }
 }

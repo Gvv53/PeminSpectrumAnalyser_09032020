@@ -51,6 +51,7 @@
     <Compile Include="AverageType.cs" />
     <Compile Include="ComandsAGILENT90х0.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="CommandsAgilent9915x.cs" />
     <Compile Include="CommandsFactory.cs" />
     <Compile Include="DataReader.cs" />
     <Compile Include="HardwareSettings.cs" />

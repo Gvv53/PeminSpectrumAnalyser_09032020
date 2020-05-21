@@ -591,24 +591,27 @@ namespace PeminSpectrumAnalyser.Model
                 MessageBox.Show("Данные для отображения отсутствуют");
                 return;
             }
-            if (interval.Frequencys.Count != interval.Signal.Count)
+            if (sourceSignal.Count != 0 && interval.Frequencys.Count != sourceSignal.Count)
             {
                 MessageBox.Show("Количество частот != количеству сигналов");
                 return;
             }
-            if (interval.Frequencys.Count != interval.Noise.Count)
+            if (sourceNoise.Count != 0 && interval.Frequencys.Count != sourceNoise.Count)
             {
-                MessageBox.Show("Количество частот != количеству сигналов");
+                MessageBox.Show("Количество частот != количеству шума");
                 return;
             }
             ObservableCollection<PointForChart> dataSignal = new ObservableCollection<PointForChart>();
             for (int i = 0; i < interval.Frequencys.Count; i++)
             {
-                var point = new PointForChart(interval.Frequencys[i], interval.Signal[i], interval.Noise[i]);
+                var point = new PointForChart(interval.Frequencys[i], sourceSignal.Count != 0 ? sourceSignal[i] : 0,
+                                              sourceNoise.Count != 0 ? sourceNoise[i] : 0);
+
                 if (interval.Markers.Contains(i))
                 {
-                    point.signal_marker = interval.Signal[i];
-                    point.noise_marker = interval.Noise[i];
+                    
+                    point.signal_marker = sourceSignal.Count != 0 ? sourceSignal[i] : 0;
+                    point.noise_marker = sourceNoise.Count != 0 ? sourceNoise[i] : 0;
                 }
                 dataSignal.Add(point);
             }
