@@ -28,14 +28,14 @@ namespace IOMeasurementData
         public long Span { get; set; } = 100000;
         public long Band { get; set; } = 100000;     //VBW
         //передаётся на ИП
-        public long SignalAttenuation { get; set; } = 10; //ослабление 10 дБ
-        public long NoiseAttenuation { get; set; } = 10;
+        public long SignalAttenuation { get; set; } = 0; //ослабление 10 дБ
+        public long NoiseAttenuation { get; set; } = 0;
         public long Attenuation { get; set; }   //передаётся ИП
 
 
-        public string SignalTraceMode { get; set; } = "NONE";
-        public string NoiseTraceMode { get; set; } = "NONE";
-        public string TraceMode { get; set; }   //передаётся ИП
+       // public string SignalTraceMode { get; set; } = "NONE";
+       // public string NoiseTraceMode { get; set; } = "NONE";
+       //public string TraceMode { get; set; }   //передаётся ИП
 
         public long CountSignalTraceMode { get; set; } = 10;
         public long CountNoiseTraceMode { get; set; } = 10; 
@@ -43,5 +43,6 @@ namespace IOMeasurementData
         //
         public AverageType AverageType { get; set; } = AverageType.Middle;
         public int MeasurementCount { get; set; } = 3;
+        public bool Preamp { get; set; }
     }
 }

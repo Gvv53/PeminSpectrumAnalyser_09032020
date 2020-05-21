@@ -114,59 +114,63 @@ namespace PeminSpectrumAnalyser
                     }
                 }
 
+            string name = ((FrequencyCtrl)((Grid)((ComboBox)sender).Parent).Parent).Name;
+            RefreshValue(name);
+
         }
 
         private void DataTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            if (((TextBox)sender).Text == String.Empty)
+            {
+                ((TextBox)sender).Text = "0";
+               
+            }
             if (e.Key == Key.Enter)   //завершён ввод
             {
                 string name = ((FrequencyCtrl)((Grid)((TextBox)sender).Parent).Parent).Name;
-                switch (name)
-                {
-                    case "HandRBW":  //ширина полосы пропускания фильтров ДС
-                        HandRBWChanged?.Invoke(Value);
-                        break;
-                    case "HandVBW":  //ширина полосы пропускания фильтров ДС
-                        HandVBWChanged?.Invoke(Value);
-                        break;
-                    case "BandWidth":  //ширина полосы пропускания фильтров ДС
-                        //BandWidth?.Invoke();
-                        FrequencyCtrlChanged?.Invoke();
-                        ParameterCtrChanged?.Invoke();
-                        break;
-                    case "Band":  //ширина полосы пропускания фильтров ДС
-                        //Band?.Invoke();
-                        FrequencyCtrlChanged?.Invoke();
-                        ParameterCtrChanged?.Invoke();
-                        break;
-                    case "HandMode_Frequency":  //тактовая частота
-                        FrequencyCtrlChanged?.Invoke();
-                        break;
-                    //параметр для расчёта количества точек измерения CC
-                    case "StartFrequency":
-                        FrequencyCtrlChanged?.Invoke();
-                        ParameterCtrChanged?.Invoke();
-                        break;
-                    case "StopFrequency":
-                        FrequencyCtrlChanged?.Invoke();
-                        ParameterCtrChanged?.Invoke();
-                        break;
-                    case "InnerStepFrequency":
-                        FrequencyCtrlChanged?.Invoke();
-                        ParameterCtrChanged?.Invoke();
-                        break;
-                }
+                RefreshValue(name);
             }
-            //    if (name == "HandMode_Frequency") //тактовая частота
-            //    {
-            //        FrequencyCtrlChanged?.Invoke();
-            //        return;
-            //    }
-            //    if (name == "StartFrequency" ||
-            //        name == "StopFrequency" ||
-            //        name == "InnerStepFrequency") //параметры для расчёта количества точек измерения CC
-            //        ParameterCtrChanged?.Invoke();
-            //}
+            
+        }
+
+        private void RefreshValue(string name)
+        {
+            switch (name)
+            {
+                case "HandRBW":  //ширина полосы пропускания фильтров ДС
+                    HandRBWChanged?.Invoke(Value);
+                    break;
+                case "HandVBW":  //ширина полосы пропускания фильтров ДС
+                    HandVBWChanged?.Invoke(Value);
+                    break;
+                case "BandWidth":  //ширина полосы пропускания фильтров CС
+                   // BandWidth?.Invoke();
+                    FrequencyCtrlChanged?.Invoke();
+                    ParameterCtrChanged?.Invoke();
+                    break;
+                case "Band":  //ширина полосы пропускания фильтров CС
+                    //Band?.Invoke();
+                    FrequencyCtrlChanged?.Invoke();
+                    ParameterCtrChanged?.Invoke();
+                    break;
+                case "HandMode_Frequency":  //тактовая частота
+                    FrequencyCtrlChanged?.Invoke();
+                    break;
+                //параметр для расчёта количества точек измерения CC
+                case "StartFrequency":
+                    FrequencyCtrlChanged?.Invoke();
+                    ParameterCtrChanged?.Invoke();
+                    break;
+                case "StopFrequency":
+                    FrequencyCtrlChanged?.Invoke();
+                    ParameterCtrChanged?.Invoke();
+                    break;
+                case "InnerStepFrequency":
+                    FrequencyCtrlChanged?.Invoke();
+                    ParameterCtrChanged?.Invoke();
+                    break;
+            }
         }
     }
 }

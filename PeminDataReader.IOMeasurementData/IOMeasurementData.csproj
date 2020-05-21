@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AverageType.cs" />
+    <Compile Include="ComandsAGILENT90х0.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="CommandsAgilent9915x.cs" />
     <Compile Include="CommandsFactory.cs" />
     <Compile Include="DataReader.cs" />
     <Compile Include="HardwareSettings.cs" />
@@ -61,7 +63,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="CommandsFSH4.cs" />
-    <Compile Include="CommandsAgilent9XXX.cs" />
+    <Compile Include="CommandsAgilent934хC.cs" />
     <Compile Include="RBWAndVBW.cs" />
   </ItemGroup>
   <ItemGroup>

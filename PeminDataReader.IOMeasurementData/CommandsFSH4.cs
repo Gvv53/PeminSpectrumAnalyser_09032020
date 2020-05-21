@@ -18,6 +18,8 @@ namespace IOMeasurementData
         public override void Init()
         {
             Send("*RST; *CLS");
+            Send(":UNIT:POWer DBMV");
+
         }
 
         public override byte[] GetDataResult(string traceDetector,
@@ -27,7 +29,7 @@ namespace IOMeasurementData
                                       long band,
                                       string traceType,
                                       long attenuation,
-                                      string traceMode,
+                                      bool preamp,
                                       long countTraceMode,
                                       int errorCount = 0
                                       )

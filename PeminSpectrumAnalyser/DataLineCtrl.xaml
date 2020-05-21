@@ -26,7 +26,8 @@
         <TextBox  x:Name="DescriptionTextBox" Text="Описание"   Foreground="#FFF8F8FA"  Grid.Column="3" Margin="2,2,0,2"/>
 
 
-        <Button x:Name="buttonSend" ToolTip="Отослать замеры сигнала и шума на расчет"   BorderBrush="{x:Null}" Background="{x:Null}" Grid.Column="9" Click="buttonSend_Click">
+        <Button x:Name="buttonSend" ToolTip="Отослать замеры сигнала и шума на расчет"   BorderBrush="{x:Null}" Background="{x:Null}" Grid.Column="9" 
+                Click="buttonSend_Click">
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="20" Height="20">
                 </Rectangle>
