@@ -22,19 +22,13 @@ namespace IOMeasurementData
             Send("*RST");//установка в начальное состояние
             if (SmallInit)
                 return;
-            //Send(":DISPlay:WINDow:TRACe:Y:RLEVel 30");
-            //Send(":DISPlay:WINDow:TRACe:Y:SCALe:PDIVision 10 DB");
+           
             Send(":UNIT:POWer DBUV");
             Send(":DISPlay:WINDow:TRACe:Y:SCALe:PDIVision 10");
             Send(":INITiate:CONTinuous OFF");
             Send(":INST:SEL SA"); //по умолчанию
 
             Send(":FORMat:TRACe:DATA ASCii");
-           
-            //Устанавливает номер счетчика клемм N для типов трассы Среднее, Макс. Удержание и Мин. Удержание. 
-            //Драйвер использует это значение для установки атрибута AGMXA_ATTR_AVG_NUMBER.
-
-          // Send(":SENSe:TOI:SWEep:POINTs 10001"); //не работает
             Send(":SENSe:AVERage:STATe ON");
             
 
@@ -77,7 +71,7 @@ namespace IOMeasurementData
                                       )
         {
             //Размер буфера приема (в байтах). Значение по умолчанию — 8192 байта
-            newClient.ReceiveBufferSize = 35000;
+           // newClient.ReceiveBufferSize = 35000;
             byte[] bytes = new byte[newClient.ReceiveBufferSize];
 
             try
@@ -96,9 +90,7 @@ namespace IOMeasurementData
                 //TraceMode
                 Send(":SENSe:AVERage:COUNt " + countTraceMode.ToString());
 
-
                 Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
-               //Send(":FREQUENCY:SPAN:FULL");
 
                 Send(":SENSe:BANDwidth:RESolution:AUTO OFF ");
                 Send(":SENSe:BANDwidth:RESolution " + bandWidth.ToString() + " Hz");
@@ -108,43 +100,14 @@ namespace IOMeasurementData
 
                 Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz"); //поменяла место               
 
-            //    Send(":INSTrument:MEASure OFF");  //мощность измерения
                 Send(":SENSe:POWer:GAIN " + (preamp ? "ON" : "OFF"));
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
-                //Send(":TRACe:DATA? TRACe1");
-                Send(":FETC:SAN?");
-
                 Thread.Sleep(30);
+                Send(":FETC:SAN?");
 
                 tcpStream.Read(bytes, 0, newClient.ReceiveBufferSize);
                 //этот прибор выдаёт измерения с частотой
-                //string str = Encoding.ASCII.GetString(bytes);
-                //string[] qresult = str.Split(',');
-
-                //if (qresult.Count() > 1)
-                //{
-                //    double shift = span / (qresult.Count() - 1);
-                //    int counter = 0;
-                //    StringBuilder result = new StringBuilder();
-
-                //    long start = frequency - (span / 2);
-
-                //    foreach (string item in qresult)
-                //    {
-                //        if (counter > 0)
-                //            result.Append(',').Append(start + shift * counter).Append(',').Append(item);
-                //        else
-                //            result.Append(start + shift * counter).Append(',').Append(item);
-
-                //        counter++;
-                //    }
-
-                //    byte[] byteResult = Encoding.ASCII.GetBytes(result.ToString());
-
-                //    return byteResult;
-                //}
-
             }
             catch
             {

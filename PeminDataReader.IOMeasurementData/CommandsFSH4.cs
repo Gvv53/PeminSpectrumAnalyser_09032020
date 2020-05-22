@@ -18,7 +18,14 @@ namespace IOMeasurementData
         public override void Init()
         {
             Send("*RST; *CLS");
-            Send(":UNIT:POWer DBMV");
+            Send(":UNIT:POWer DBUV");
+          
+            Send(":DISPlay:WINDow:TRACe:Y:SCALe:PDIVision 10");
+            Send(":INITiate:CONTinuous OFF");
+            Send(":INST:SEL SA"); //по умолчанию
+
+            Send(":FORMat:TRACe:DATA ASCii");
+            Send(":SENSe:AVERage:STATe ON");
 
         }
 
@@ -41,7 +48,30 @@ namespace IOMeasurementData
 
             try
             {
-                //Send("FREQ:CENT " + frequency.ToString() + " Hz");
+                Send(":SENSe:DETector:AUTO OFF"); //отключен автодетектор
+                switch (traceDetector)
+                {
+                    case "NORMal":
+                        traceDetector = "APEAK";
+                        break;                    
+                    case "AVERage":
+                        traceDetector = "RMS";
+                        break;
+
+                }
+                Send(":SENSe:DETector " + traceDetector);
+
+                Send(":DISPlay:TRACe1:MODE " + traceType);     //тип трассировки
+
+                //аттеньюатор
+                Send(":INP:ATT:AUTO OFF");
+                Send(":INT:ATT " + attenuation.ToString()); //выставляется значение кратное 5(уменьшается до кратного)
+
+                //TraceMode
+                Send(":SWE:COUN " + countTraceMode.ToString());
+
+
+
                 Send("FREQ:SPAN " + span.ToString() + " Hz");
                 if(!RBWAndVBW.VBW)
                      Send("BAND " + band.ToString() + " Hz");
@@ -49,12 +79,11 @@ namespace IOMeasurementData
                 if (!RBWAndVBW.RBW)
                     Send("BAND:VID " + bandWidth.ToString() + "Hz");
 
-                Send("FREQ:CENT " + frequency.ToString() + " Hz"); //поменяла место
+                Send("FREQ:CENT " + frequency.ToString() + " Hz");
+                
+                Send(":SENSe:POWer:GAIN " + (preamp ? "ON" : "OFF")); //предусилитель
 
                 Send("*OPC?");
-
-                //Send("INIT");
-                //Send("*OPC?");
 
                 Thread.Sleep(3000);
 
@@ -63,6 +92,7 @@ namespace IOMeasurementData
                 
 
                 Send("FORM ASC;:TRAC? TRACE1");
+                Send(":INITiate:IMMediate");  //запуск развёртки
                 Thread.Sleep(3000);
 
                 tcpStream.Read(bytes, 0, newClient.Available);

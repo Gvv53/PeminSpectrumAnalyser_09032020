@@ -31,9 +31,7 @@ namespace IOMeasurementData
             Send(":INSTrument SA"); //по умолчанию
 
             Send(":FORMat:TRACe:DATA ASCii");
-            // Send(":FORMat:BORDer SWAPped");
-
-            //Send(":CONFigure:SANalyzer");
+            
 
             //Устанавливает номер счетчика клемм N для типов трассы Среднее, Макс. Удержание и Мин. Удержание. 
             //Драйвер использует это значение для установки атрибута AGMXA_ATTR_AVG_NUMBER.
@@ -88,19 +86,16 @@ namespace IOMeasurementData
 
                 Send(":SENSe:DETector:TRACe1:AUTO OFF"); //отключен автодетектор
  
-                Send(":SENSe:DETector:TRACe1 " + traceDetector);
+                Send(":SENSe:DETector:TRACe1 " + traceDetector);               
 
-               // Send(":TRACe1:TYPE " + traceType);     //тип трассировки
-
-                Send(":TRACe1:MODE " + traceType);
-                //аттеньюатор
-               
+                Send(":TRACe1:MODE " + traceType); //тип трассировки
+                
+                //аттеньюатор               
                 Send(":SENSe:POWer:ATTenuation:AUTO 0");
                 Send(":SENSe:POWer:ATTenuation " + attenuation.ToString()); //выставляется значение кратное 5(уменьшается до кратного)
                
                 //TraceMode
-                Send(":SENSe:AVERage:COUNt " + countTraceMode.ToString());
-                //  Send(":SENSe:AVERage:TYPE " + traceMode);
+                Send(":SENSe:AVERage:COUNt " + countTraceMode.ToString());               
 
                 Send(":SENSe:BANDwidth:AUTO OFF");
                 Send(":SENSe:BANDwidth " + bandWidth.ToString() + " Hz"); //
@@ -109,11 +104,6 @@ namespace IOMeasurementData
                 Send(":SENSe:BANDwidth:VIDeo " + band.ToString() + " Hz");
 
                 Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
-
-                //Send(":SENSe:BANDwidth:RESolution:AUTO OFF");
-                //Send(":SENSe:BANDwidth:RESolution" + bandWidth.ToString() + " Hz") ;
-
-              
 
                 Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz"); //поменяла место               
            
@@ -141,12 +131,12 @@ namespace IOMeasurementData
                     Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");   
                     foreach (string item in qresult)
                     {
-                        Double.TryParse(item, out number);
-                        itemNew = (number + 108.75).ToString();
+                        //Double.TryParse(item, out number);
+                        //itemNew = (number + 108.75).ToString();
                         if (counter > 0)
-                            result.Append(',').Append(start + shift * counter).Append(',').Append(itemNew);
+                            result.Append(',').Append(start + shift * counter).Append(',').Append(item);
                         else
-                            result.Append(start + shift * counter).Append(',').Append(itemNew);
+                            result.Append(start + shift * counter).Append(',').Append(item);
 
                         counter++;
                     }
