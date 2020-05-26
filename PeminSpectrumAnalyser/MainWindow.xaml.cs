@@ -70,6 +70,18 @@ namespace PeminSpectrumAnalyser
             //обработчик изменения выбора ИП
             unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
             unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
+           
+            //unit2.ExperimentExplorer.StateButtunChart += (bool state) =>
+            //{
+            //    foreach (ParametersCtrl par in unit2.ParametersList.Items)
+            //    {
+            //        par.showChart.IsEnabled = state;
+            //        par.showSignalAndNoise_Copy.IsEnabled = state;
+            //        unit2.buttonStartSIGNAL.IsEnabled = state;
+            //        unit2.buttonStartSIGNAL.IsEnabled = state;
+
+            //    }
+            //};
             unit2.spFrequencyMax.Visibility = Visibility.Hidden;
             //активность кнопок запуска измерений зависит от активности соотв.кнопок в стаканах
             unit1.ChangedButtonEnabled += () =>

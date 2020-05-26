@@ -31,6 +31,8 @@ namespace PeminSpectrumAnalyser
 
         public ExperimentExplorer ExperimentExplorer = new ExperimentExplorer();
 
+     
+
         public event Action SolutionNameClear;
         public event Action ChangedButtonEnabled;
         public event Action<long,long> NextSequence; //
@@ -184,7 +186,16 @@ namespace PeminSpectrumAnalyser
                  pBar.Maximum = pbMax;
             });
             ExperimentExplorer.pBarValue += (int pbValue) => stbThread.Dispatcher.Invoke(() => { pBar.Value = pbValue; });
-            
+            ExperimentExplorer.StateButtunChart += (bool state) => stbBegin.Dispatcher.Invoke(() =>
+            {
+                foreach (ParametersCtrl par in ExperimentExplorer.SequenceCtrl.ParametersList.Items)
+                {
+                    par.showChart.IsEnabled = state;
+                    par.showSignalAndNoise_Copy.IsEnabled = state;
+                    ExperimentExplorer.SequenceCtrl.buttonStartSIGNAL.IsEnabled = state;
+                    ExperimentExplorer.SequenceCtrl.buttonStartNOISE.IsEnabled = state;
+                }
+            });
         }
 
         private void RbSS_Checked(object sender, RoutedEventArgs e)
@@ -359,7 +370,6 @@ namespace PeminSpectrumAnalyser
                 ExperimentExplorer.DataMeasuringState = DataMeasuringState.Continue;
                 return;
             }
-
             ExperimentExplorer.DataMeasuringType = DataMeasuringType.Signal;
             ExperimentExplorer.DataMeasuringState = DataMeasuringState.Start;
         }

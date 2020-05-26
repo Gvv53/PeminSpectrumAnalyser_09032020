@@ -12,8 +12,11 @@
         </Grid.RowDefinitions>
         <Grid x:Name="GridHand" Width="674" Height="40" Visibility="Visible">
             <StackPanel Orientation="Horizontal" Margin="0,0,30,0" VerticalAlignment="Center">
-
-                <Button x:Name="showSignalAndNoise_Copy" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Background="{x:Null}" Click="ShowSignalAndNoise_Click" />
+                
+                <!--<Button x:Name="showSignalAndNoise_Copy" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25"
+                        Background="{x:Null}" Click="ShowChart_Click" />-->
+                <Button x:Name="showSignalAndNoise_Copy" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25"
+                        Background="{x:Null}" Click="ShowSignalAndNoise_Click" />
                 <local:FrequencyCtrl x:Name="HandCenterFrequency" ToolTip="Гармоника тактовой частоты" Margin="10,0,0,0" Width="137"/>
                 <!--<Button x:Name="createPoints_Copy" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="224,0,324,4"  Background="{x:Null}" Click="CreatePoints_Click" />-->
                 <Label Content="Сигнал" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
@@ -22,9 +25,9 @@
                 <Label Content="Шум" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Шум, оригинальное значение"/>
-                <CheckBox  x:Name="cbModify" Checked="cbModify_Checked"  Unchecked="cbModify_Checked" Grid.Column="1" HorizontalAlignment="Right" 
+                <!--<CheckBox  x:Name="cbModify" Checked="cbModify_Checked"  Unchecked="cbModify_Checked" Grid.Column="1" HorizontalAlignment="Right" 
                            VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Применить смещение" Foreground="White" 
-                           HorizontalContentAlignment="Right" Margin="15,0,0,0"/>
+                           HorizontalContentAlignment="Right" Margin="15,0,0,0"/>-->
             </StackPanel>
             <Button x:Name="DeleteButton_Copy" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Width="30"
                     Background="#FF672326" Click="Delete_Click" RenderTransformOrigin="0.6,0.2" HorizontalAlignment="Right" HorizontalContentAlignment="Center" />

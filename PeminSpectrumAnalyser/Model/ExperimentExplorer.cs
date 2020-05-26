@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UnitedTools.Chart;
-using Forms=System.Windows.Forms;
+using PeminSpectrumAnalyser;
 
 namespace PeminSpectrumAnalyser.Model
 {
@@ -20,6 +20,7 @@ namespace PeminSpectrumAnalyser.Model
         public event Action rbSSCheckedEvent, rbDSCheckedEvent,TimeStart,TimeEnd; //изменение выбора режима СС/ДС
         public event Action<string> HardTypeChanged;
         public event Action<int> WriteThreadId, pBarValue,pBarMax;
+        public event Action<bool> StateButtunChart;
         //---------------------------------------------------------------------
         // Данные эксперимента
         //---------------------------------------------------------------------
@@ -102,7 +103,7 @@ namespace PeminSpectrumAnalyser.Model
 
 
         public ExperimentExplorer()
-        {
+        {            
             StartPollingProcess();
         }
 
@@ -419,7 +420,7 @@ namespace PeminSpectrumAnalyser.Model
                 TimeStart?.Invoke();
                 pBarMax?.Invoke(Experiment.Intervals.Count);
                 int Value = 0;
-                
+                StateButtunChart?.Invoke(false);  //деактивация кнопок График
                 foreach (Interval currentInterval in Experiment.Intervals)
                 {
                     if (currentInterval.isActive)
@@ -530,7 +531,7 @@ namespace PeminSpectrumAnalyser.Model
                     SignalReadyIntervalEvent?.Invoke();                    
                    MessageBox.Show(Experiment.ExperimentSettings.HardwareSettings.HardwareType
                                            + "- -СЪЕМ СИГНАЛА ЗАВЕРШЕН"+ Environment.NewLine
-                                           + "Поток - " + ThreadId.ToString());                   
+                                           + "Поток - " + ThreadId.ToString());
                 }
                 if (DataMeasuringType == DataMeasuringType.Noise)
                 {
@@ -541,6 +542,7 @@ namespace PeminSpectrumAnalyser.Model
                 }
                 pBarValue?.Invoke(0);
                 pBarMax?.Invoke(0);
+                StateButtunChart?.Invoke(true);  //активация кнопок График
 
             }
         }

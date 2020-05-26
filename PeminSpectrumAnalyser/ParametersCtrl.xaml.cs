@@ -95,7 +95,7 @@ namespace PeminSpectrumAnalyser
                 return;
 
             linkToInterval.isActive = (bool)this.isActiveCheckBox.IsChecked;
-            linkToInterval.isModify = (bool)this.cbModify.IsChecked;
+           // linkToInterval.isModify = (bool)this.cbModify.IsChecked;
 
             linkToInterval.IntervalSettings.FrequencyStart = this.StartFrequency.Value;
             linkToInterval.IntervalSettings.FrequencyStop = this.StopFrequency.Value;
@@ -257,17 +257,22 @@ namespace PeminSpectrumAnalyser
       
         private void ShowSignalAndNoise_Click(object sender, RoutedEventArgs e)
         {
-            Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.Noise,
-                (signalShift) => {
-                    this.ShiftSignal.Text = signalShift.ToString();
-                },
-                (noiseShift) => {
-                    this.ShiftNoise.Text = noiseShift.ToString();
-                },
-                (XShift) =>
-                {
-                    this.HandCenterFrequency.Value = (long)XShift;
-                });
+
+            Interval.GetExperimentExplorer().ShowChart(Interval, Interval.Signal, Interval.Noise);
+
+            //Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.Noise,
+            //    (signalShift) =>
+            //    {
+            //        this.ShiftSignal.Text = signalShift.ToString();
+            //    },
+            //    (noiseShift) =>
+            //    {
+            //        this.ShiftNoise.Text = noiseShift.ToString();
+            //    },
+            //    (XShift) =>
+            //    {
+            //        this.HandCenterFrequency.Value = (long)XShift;
+            //    });
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
