@@ -9,7 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using DevExpress.Xpf.Charts;
+
 
 
 namespace PeminSpectrumAnalyser
@@ -23,11 +23,18 @@ namespace PeminSpectrumAnalyser
        //public ChartWindow(ObservableCollection<PointForChart> dataForChart)
        public ChartWindow(ObservableCollection<PointForChart> dataSignal)
         {
-          
-            InitializeComponent();
-            vmc = new ViewModelChart();
-            vmc.dataForChart = dataSignal;
-            this.DataContext = vmc;
+            try
+            {
+                InitializeComponent();
+                vmc = new ViewModelChart();
+                vmc.dataForChart = dataSignal;
+                this.DataContext = vmc;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return;
+            }
         }
     }
     public class PointForChart
