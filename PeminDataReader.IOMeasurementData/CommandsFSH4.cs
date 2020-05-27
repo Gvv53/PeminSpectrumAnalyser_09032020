@@ -84,16 +84,11 @@ namespace IOMeasurementData
                 
                 Send(":SENSe:POWer:GAIN " + (preamp ? "ON" : "OFF")); //предусилитель
 
-                Send("*OPC?");
-
+                Send(":INITiate:IMMediate");  //запуск развёртки
+                Send("*WAI");
                 Thread.Sleep(3000);
 
-
-                tcpStream.Read(new byte[2], 0, 2);
-                
-
-                Send("FORM ASC;:TRAC? TRACE1");
-                Send(":INITiate:IMMediate");  //запуск развёртки
+                Send(":TRAC? TRACE1");
                 Thread.Sleep(3000);
 
                 tcpStream.Read(bytes, 0, newClient.Available);
