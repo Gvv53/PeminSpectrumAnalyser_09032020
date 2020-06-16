@@ -48,6 +48,9 @@ namespace PeminSpectrumAnalyser
                 case HardwareType.FSH4:
                     Settings.HardwareSettings.PointsQuantity = 631;
                     break;
+                case HardwareType.AGILENT9915x:
+                    Settings.HardwareSettings.PointsQuantity = 401;
+                    break;
                 default:
                     Settings.HardwareSettings.PointsQuantity = 631;
                     break;

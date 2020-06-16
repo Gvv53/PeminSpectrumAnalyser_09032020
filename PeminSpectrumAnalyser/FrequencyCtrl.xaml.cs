@@ -145,12 +145,12 @@ namespace PeminSpectrumAnalyser
                     HandVBWChanged?.Invoke(Value);
                     break;
                 case "BandWidth":  //ширина полосы пропускания фильтров CС
-                   // BandWidth?.Invoke();
+                    BandWidth?.Invoke();
                     FrequencyCtrlChanged?.Invoke();
                     ParameterCtrChanged?.Invoke();
                     break;
                 case "Band":  //ширина полосы пропускания фильтров CС
-                    //Band?.Invoke();
+                    Band?.Invoke();
                     FrequencyCtrlChanged?.Invoke();
                     ParameterCtrChanged?.Invoke();
                     break;

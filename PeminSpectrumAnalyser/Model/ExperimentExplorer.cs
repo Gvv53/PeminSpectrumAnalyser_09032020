@@ -418,14 +418,13 @@ namespace PeminSpectrumAnalyser.Model
                 ShowPollingStatus();
                 WriteThreadId?.Invoke(ThreadId);
                 TimeStart?.Invoke();
-                pBarMax?.Invoke(Experiment.Intervals.Count);
+              //  pBarMax?.Invoke(Experiment.Intervals.Count);
                 int Value = 0;
                 StateButtunChart?.Invoke(false);  //деактивация кнопок График
                 foreach (Interval currentInterval in Experiment.Intervals)
                 {
                     if (currentInterval.isActive)
-                    {
-
+                    {                                                
                         ShowPollingStatus();
 
                         ShowIntervalMessage(currentInterval.IntervalSettings);
@@ -445,7 +444,7 @@ namespace PeminSpectrumAnalyser.Model
                             DataMeasuringState = DataMeasuringState.Clear;
                             return;
                         }
-                        
+                        pBarMax?.Invoke(Experiment.Intervals.Count* currentInterval.CenterFrequencys.Count);
                         foreach (long currentFrequency in currentInterval.CenterFrequencys)
                         {
 
@@ -481,7 +480,7 @@ namespace PeminSpectrumAnalyser.Model
                                 return;
                             }
 
-                            bool dataReady = false;
+                            bool dataReady = false;                            
 
                             if (DataMeasuringType == DataMeasuringType.Signal)
                             {
@@ -492,8 +491,23 @@ namespace PeminSpectrumAnalyser.Model
 
                                 if (dataReady)
                                 {
-                                    currentInterval.Frequencys.AddRange(ResultsX);
-                                    currentInterval.OriginalSignal.AddRange(ResultsY);
+                                    if (currentInterval.Frequencys.Count != 0 )
+                                    {
+                                        double[] tmpX = new double[ResultsX.Length - 1]; 
+                                        Array.Copy(ResultsX, 1, tmpX, 0, ResultsX.Length - 1);
+
+                                        double[] tmpY = new double[ResultsY.Length - 1];
+                                        Array.Copy(ResultsY, 1, tmpY, 0, ResultsY.Length - 1);
+
+                                        currentInterval.Frequencys.AddRange(tmpX);
+                                        currentInterval.OriginalSignal.AddRange(tmpY);
+                                    }
+                                    else
+                                    {
+                                        currentInterval.Frequencys.AddRange(ResultsX);
+                                        currentInterval.OriginalSignal.AddRange(ResultsY);
+                                    }
+
                                 }
                             }
                             else
@@ -505,12 +519,28 @@ namespace PeminSpectrumAnalyser.Model
 
                                 if (dataReady)
                                 {
-                                    currentInterval.Frequencys.AddRange(ResultsX);
-                                    currentInterval.OriginalNoise.AddRange(ResultsY);
+                                    if (currentInterval.Frequencys.Count != 0)
+                                    {
+                                        double[] tmpX = new double[ResultsX.Length - 1];
+                                        Array.Copy(ResultsX, 1, tmpX, 0, ResultsX.Length - 1);
+
+                                        double[] tmpY = new double[ResultsY.Length - 1];
+                                        Array.Copy(ResultsY, 1, tmpY, 0, ResultsY.Length - 1);
+
+                                        currentInterval.Frequencys.AddRange(tmpX);
+                                        currentInterval.OriginalNoise.AddRange(tmpY);
+                                    }
+                                    else
+                                    {
+                                        currentInterval.Frequencys.AddRange(ResultsX);
+                                        currentInterval.OriginalNoise.AddRange(ResultsY);
+                                    }
                                 }
                             }
 
                             _LocalPointCount++;
+                            Value++;
+                            pBarValue?.Invoke(Value);
                         }
 
                         if (currentInterval.IntervalSettings.isAuto)//только для СС
@@ -518,9 +548,8 @@ namespace PeminSpectrumAnalyser.Model
                         else
                             currentInterval.Restore(); //для СС. Копирование ориг. значений без обработки
                         _LocalIntervalCount++;
-                    }
-                    Value++;
-                    pBarValue?.Invoke(Value);
+                       
+                    }                    
                 }
                 TimeEnd?.Invoke();
                 DataMeasuringState = DataMeasuringState.Finish;

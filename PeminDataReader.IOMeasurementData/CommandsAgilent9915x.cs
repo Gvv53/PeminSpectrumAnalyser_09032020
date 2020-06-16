@@ -26,10 +26,9 @@ namespace IOMeasurementData
             Send(":INITiate:CONTinuous OFF");
 
             Send(":AMPLitude:UNIT DBUV");
-            Send(":DISP:WIND:TRAC1:Y:PDIV 10");
-            
-            
-
+            Send(":DISP:WIND:TRACe1:Y:PDIV 10" );
+            Send(":DISP:WIND:TRACe1:Y:RLEV 50");
+          
             Send(":FORMat:DATA ASCii");
 
             //Send(":SENSe:AVERage ON");
@@ -102,12 +101,13 @@ namespace IOMeasurementData
                // Send(":INSTrument:MEASure OFF");  //мощность измерения
                 Send(":SENSe:POWer:GAIN " +(preamp ? "ON" : "OFF"));
                 Send(":INITiate:IMMediate");  //запуск развёртки
-                Thread.Sleep(200);//время д.б.не меньше развёртки
+                Send("*WAI");
+                Thread.Sleep(1500);//время д.б.не меньше развёртки
 
-                Send("*WAI");  
-                Send(":TRACe1:DATA?");
-                
                
+                Send(":TRACe1:DATA?");
+
+                Thread.Sleep(1500);//время д.б.не меньше развёртки
 
                 tcpStream.Read(bytes, 0, newClient.ReceiveBufferSize);
                 string str = Encoding.ASCII.GetString(bytes);

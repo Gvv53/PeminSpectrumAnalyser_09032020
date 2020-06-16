@@ -24,7 +24,8 @@ namespace IOMeasurementData
             Send(":INITiate:CONTinuous OFF");
             Send(":INST:SEL SA"); //по умолчанию
 
-            Send(":FORMat:TRACe:DATA ASCii");
+            //Send(":FORMat:TRACe:DATA ASCii");
+            Send("FORM ASC");
             Send(":SENSe:AVERage:STATe ON");
 
         }
@@ -74,11 +75,11 @@ namespace IOMeasurementData
 
 
                 Send("FREQ:SPAN " + span.ToString() + " Hz");
-                if(!RBWAndVBW.VBW)
-                     Send("BAND " + band.ToString() + " Hz");
+              //  if(!RBWAndVBW.VBW)
+                     Send(":BAND " + bandWidth.ToString() + " Hz");
 
-                if (!RBWAndVBW.RBW)
-                    Send("BAND:VID " + bandWidth.ToString() + "Hz");
+              //  if (!RBWAndVBW.RBW)
+                    Send(":BAND:VID " + band.ToString() + "Hz");
 
                 Send("FREQ:CENT " + frequency.ToString() + " Hz");
                 

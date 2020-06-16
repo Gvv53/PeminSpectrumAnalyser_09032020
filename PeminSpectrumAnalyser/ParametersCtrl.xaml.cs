@@ -109,8 +109,8 @@ namespace PeminSpectrumAnalyser
             }
             else //DS
             {
-                    //linkToInterval.GetExperimentExplorer().SequenceCtrl.BandWidth_DS = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBW.Value;
-                    //linkToInterval.GetExperimentExplorer().SequenceCtrl.Band_DS = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value;
+                linkToInterval.IntervalSettings.BandWidth = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBW.Value;
+                linkToInterval.IntervalSettings.Band = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value;
             }
             // linkToInterval.IntervalSettings.Span = long.Parse(this.tbSpan.Text);//поле только для чтения
 
@@ -162,8 +162,8 @@ namespace PeminSpectrumAnalyser
                 }
                 else //для ДС полосы пропускания находятся на уровне SequenceCtr
                 {                   
-                        //linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBW.Value = linkToInterval.GetExperimentExplorer().SequenceCtrl.BandWidth_DS;                      
-                        //linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value = linkToInterval.GetExperimentExplorer().SequenceCtrl.Band_DS;                    
+                        linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBW.Value = linkToInterval.IntervalSettings.BandWidth;                      
+                        linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value = linkToInterval.IntervalSettings.Band;                    
                 }
                 this.maxLimitNoise.Text = linkToInterval.IntervalSettings.MaxNoise.ToString();
                 this.minLimitNoise.Text = linkToInterval.IntervalSettings.MinNoise.ToString();

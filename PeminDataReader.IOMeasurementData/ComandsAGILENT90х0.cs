@@ -71,7 +71,7 @@ namespace IOMeasurementData
                                       )
         {
             //Размер буфера приема (в байтах). Значение по умолчанию — 8192 байта
-           // newClient.ReceiveBufferSize = 35000;
+            newClient.ReceiveBufferSize = 35000;
             byte[] bytes = new byte[newClient.ReceiveBufferSize];
 
             try
@@ -103,9 +103,9 @@ namespace IOMeasurementData
                 Send(":SENSe:POWer:GAIN " + (preamp ? "ON" : "OFF"));
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
-                Thread.Sleep(30);
+                Thread.Sleep(2000);
                 Send(":FETC:SAN?");
-
+                Thread.Sleep(2000);
                 tcpStream.Read(bytes, 0, newClient.ReceiveBufferSize);
                 //этот прибор выдаёт измерения с частотой
             }

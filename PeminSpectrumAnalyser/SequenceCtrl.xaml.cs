@@ -21,8 +21,8 @@ namespace PeminSpectrumAnalyser
             get;
         }
         //полосы пропускания фильтра для ДС
-        public long BandWidth_DS { get; set; }
-        public long Band_DS { get; set; }
+        //public long BandWidth_DS { get; set; }
+        //public long Band_DS { get; set; }
         public string Address
         {
             set => address.Content = value;
@@ -44,8 +44,8 @@ namespace PeminSpectrumAnalyser
 
             ExperimentExplorer.SequenceCtrl = this;
 
-            BandWidth_DS = new IntervalSettings().BandWidth;
-            Band_DS = new IntervalSettings().Band;
+            //BandWidth_DS = new IntervalSettings().BandWidth;
+            //Band_DS = new IntervalSettings().Band;
 
             ExperimentExplorer.IntervalChangeEvent += (quantity, count) => intervals.Dispatcher.Invoke(() => { intervals.Content = quantity + " / " + count; });
             ExperimentExplorer.PointChangeEvent += (quantity, count) => points.Dispatcher.Invoke(() => { points.Content = quantity + " / " + count; });
@@ -108,8 +108,6 @@ namespace PeminSpectrumAnalyser
             {
                 gbDS.IsEnabled = false;
                 gbDS.Visibility = Visibility.Hidden;
-                //spFrequencyMax.IsEnabled = false;
-                //gbRBWVBW.IsEnabled = false;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 AddNewInterval();
@@ -133,7 +131,7 @@ namespace PeminSpectrumAnalyser
                 else
                     gbRBWVBW.IsEnabled = false;
                 HandRBW.IsEnabled = (bool)cbRBW.IsChecked;
-                HandVBW.IsEnabled = (bool)cbVBW.IsChecked;
+                HandVBW.IsEnabled = (bool)cbVBW.IsChecked;                
                 CheckMsg();
             };
             
@@ -160,17 +158,13 @@ namespace PeminSpectrumAnalyser
                 }
             });
             //обработчик изменения ширины полосы пропускания фильтров для ДС
-            HandRBW.HandRBWChanged += (long value) => {
-                foreach (ParametersCtrl par in ParametersList.Items)
-                {                    
-                    par.Interval.IntervalSettings.BandWidth = value;
-                }
+            HandRBW.HandRBWChanged += (long value) =>
+            {
+                RefreshRbw(value);
             };
-            HandVBW.HandVBWChanged += (long value) => {
-                foreach (ParametersCtrl par in ParametersList.Items)
-                {
-                    par.Interval.IntervalSettings.Band = value;                   
-                }
+            HandVBW.HandVBWChanged += (long value) =>
+            {
+                RefreshVbw(value);
             };
             //заполнение статус бара из потока
             ExperimentExplorer.TimeStart += () => stbBegin.Dispatcher.Invoke(() => {stbBegin.Text = DateTime.Now.ToLongTimeString();});
@@ -190,14 +184,37 @@ namespace PeminSpectrumAnalyser
             {
                 foreach (ParametersCtrl par in ExperimentExplorer.SequenceCtrl.ParametersList.Items)
                 {
+                    par.gbFilter.IsEnabled = state;
                     par.showChart.IsEnabled = state;
                     par.showSignalAndNoise_Copy.IsEnabled = state;
                     ExperimentExplorer.SequenceCtrl.buttonStartSIGNAL.IsEnabled = state;
                     ExperimentExplorer.SequenceCtrl.buttonStartNOISE.IsEnabled = state;
+                    ExperimentExplorer.SequenceCtrl.gbRBWVBW.IsEnabled = state;
                 }
             });
         }
-
+        private void RefreshRbw(long value)
+        {
+            foreach (var interval in ExperimentExplorer.Experiment.Intervals)
+            {
+                interval.IntervalSettings.BandWidth = value;
+            }
+            foreach (ParametersCtrl par in ParametersList.Items)
+            {
+                par.Interval.IntervalSettings.BandWidth = value;
+            }
+        }
+        private void RefreshVbw(long value)
+        {
+            foreach (var interval in ExperimentExplorer.Experiment.Intervals)
+            {
+                interval.IntervalSettings.Band = value;
+            }
+            foreach (ParametersCtrl par in ParametersList.Items)
+            {
+                par.Interval.IntervalSettings.Band = value;
+            }
+        }
         private void RbSS_Checked(object sender, RoutedEventArgs e)
         {
             ExperimentExplorer.rbSSChecked();
@@ -205,6 +222,8 @@ namespace PeminSpectrumAnalyser
         private void RbDS_Checked(object sender, RoutedEventArgs e)
         {
             ExperimentExplorer.rbDSChecked();
+            RefreshRbw(HandRBW.Value);
+            RefreshVbw(HandVBW.Value);
         }
         public void Connect()
         {
@@ -305,13 +324,17 @@ namespace PeminSpectrumAnalyser
 
             ParametersCtrl intervalParametersCtrl = new ParametersCtrl(ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings);
             //для СС для полоса фильтра активна только для FSH4
-            if ((bool)rbSS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-                intervalParametersCtrl.gbFilter.IsEnabled = true;
-            else
-            {
-                intervalParametersCtrl.gbFilter.IsEnabled = false;
+            //if ((bool)rbSS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+            //    intervalParametersCtrl.gbFilter.IsEnabled = true;
+            //else
+            //{
+            //    intervalParametersCtrl.gbFilter.IsEnabled = false;
+            //    newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
+            //}
+            if ((bool)rbDS.IsChecked)
                 newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
-            }
+            //else
+            //    intervalParametersCtrl.gbFilter.IsEnabled = false;
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
             //Маркеры определяются при рассчёте
@@ -348,9 +371,23 @@ namespace PeminSpectrumAnalyser
 
         private void ButtonStartNOISE_Click(object sender, RoutedEventArgs e) => StartNoiseScan();
 
+        private void BeforeMeasuring()
+        {
+            //обновим ширину пропускания фильтров(на тот случай, если пользователь забыл нажать Enter)
+            if ((bool)rbSS.IsChecked) //CC
+            {
+                foreach (ParametersCtrl par in ParametersList.Items)
+                    par.UITo(par.Interval);
+            }
+            else  //ДС
+            {
+                RefreshRbw(HandRBW.Value);
+                RefreshVbw(HandVBW.Value);
+            }
+        }
         public void StartNoiseScan()
         {
-
+            BeforeMeasuring();
             if (ExperimentExplorer.DataMeasuringState == DataMeasuringState.Pause)
             {
                 ExperimentExplorer.DataMeasuringState = DataMeasuringState.Continue;
@@ -365,6 +402,7 @@ namespace PeminSpectrumAnalyser
 
         public void StartSignalScan()
         {
+            BeforeMeasuring();
             if (ExperimentExplorer.DataMeasuringState == DataMeasuringState.Pause)
             {
                 ExperimentExplorer.DataMeasuringState = DataMeasuringState.Continue;
