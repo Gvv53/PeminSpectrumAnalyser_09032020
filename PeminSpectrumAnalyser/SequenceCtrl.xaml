@@ -5,30 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PeminSpectrumAnalyser"
              mc:Ignorable="d" 
-             d:DesignHeight="400" Width="700" >
+             d:DesignHeight="400"  d:DesignWidth="700" >
     <UserControl.Resources>
 
     </UserControl.Resources>
     <Grid Background="#FF22222A" Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -75,8 +75,6 @@
         </Button>
         <Button Click="ButtonNew_Click" x:Name="buttonNew" Content="NEW" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFDDDDDD" FontWeight="Bold"
                 Grid.Row="1" Grid.Column="4" ToolTip="Новый эксперимент с параметрами по умолчанию" />
-
-
         <Button Click="ButtonStartNOISE_Click"  x:Name="buttonStartNOISE" Grid.Row="1"  Grid.Column="5" ToolTip="Начать съем шума" 
                 BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged" >
             <Grid>
@@ -115,8 +113,12 @@
                          Checked="RbDS_Checked" VerticalAlignment="Center" Margin="15,0,0,0" ToolTip="Дифференцированный спектр"/>
 
         </StackPanel>
-        <GroupBox x:Name="gbDS" Header="Параметры ДС" Grid.Row="2" Grid.RowSpan="2" Grid.Column ="0"  Grid.ColumnSpan="19" BorderThickness="0.5"
-                  VerticalContentAlignment="Center" IsEnabled="False" Visibility="Hidden">
+        <GroupBox x:Name="gbDS"  Grid.Row="2" Grid.RowSpan="2" Grid.Column ="0"  Grid.ColumnSpan="19" BorderThickness="0.5"
+                  VerticalContentAlignment="Center" Visibility="Hidden" BorderBrush ="#FF3F3F46" >
+            <GroupBox.Header>
+                <Label Content="Параметры ДС" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center"
+                           Padding="0" FontStyle="Italic"/>
+            </GroupBox.Header>
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -141,10 +143,10 @@
                                               ToolTip="Предельная частота гармоники в левом стакане" Width="137" VerticalContentAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>
-                <GroupBox x:Name="gbRBWVBW" Grid.Row="1"  Header="Фильтры для ДС" Foreground="White" BorderThickness="0.3"  
+                <!--<GroupBox x:Name="gbRBWVBW" Grid.Row="1"  Header="Фильтры для ДС" Foreground="White" BorderThickness="0.3"  
                           ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" Margin="5,0,0,0"
-                          HorizontalAlignment="Left" VerticalContentAlignment="Stretch" >
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
+                          HorizontalAlignment="Left" VerticalContentAlignment="Stretch" >-->
+                    <StackPanel  Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
                         <Label Content="RBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
                                VerticalAlignment="Center" Padding="5" Margin="10,0,0,0"  />
                         <local:FrequencyCtrl x:Name="HandRBW" Value="1000000" VerticalAlignment="Center" Width="137"
@@ -160,18 +162,23 @@
                                VerticalAlignment="Center" Padding="5" Margin="10,0,0,0" Visibility="Hidden" />
                     </StackPanel>
 
-                </GroupBox>
+                <!--</GroupBox>-->
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="4" Grid.ColumnSpan="19" Header="Интервалы измерений" Foreground="White"  BorderThickness="0.5">
+        <GroupBox Grid.Row="4" Grid.ColumnSpan="19"  Foreground="White"  BorderThickness="0.5" BorderBrush ="#FF3F3F46">
+            <GroupBox.Header>
+                <Label Content="Интервалы измерений" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center"
+                           Padding="0" FontStyle="Italic"/>
+            </GroupBox.Header>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="18" >
                 <ItemsControl x:Name="ParametersList" VirtualizingPanel.ScrollUnit="Pixel"  HorizontalAlignment="Stretch" 
                               VerticalAlignment="Stretch" Background="#FF1B1B1C"  ScrollViewer.CanContentScroll="True"
                               ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"  />
             </ScrollViewer>
         </GroupBox>
-        <StatusBar Grid.Row="5" Grid.ColumnSpan="19" Background="Gray" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1">
+        <StatusBar Grid.Row="5" Grid.ColumnSpan="19" Background="Gray" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" 
+                   VerticalContentAlignment="Center" BorderThickness="1">
             <StatusBar.ItemsPanel >
                 <ItemsPanelTemplate>
                 <Grid>

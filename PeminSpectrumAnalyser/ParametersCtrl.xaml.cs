@@ -257,22 +257,7 @@ namespace PeminSpectrumAnalyser
       
         private void ShowSignalAndNoise_Click(object sender, RoutedEventArgs e)
         {
-
-            Interval.GetExperimentExplorer().ShowChart(Interval, Interval.Signal, Interval.Noise);
-
-            //Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.Noise,
-            //    (signalShift) =>
-            //    {
-            //        this.ShiftSignal.Text = signalShift.ToString();
-            //    },
-            //    (noiseShift) =>
-            //    {
-            //        this.ShiftNoise.Text = noiseShift.ToString();
-            //    },
-            //    (XShift) =>
-            //    {
-            //        this.HandCenterFrequency.Value = (long)XShift;
-            //    });
+            Interval.GetExperimentExplorer().ShowChart(Interval, Interval.Signal, Interval.Noise);           
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -304,10 +289,7 @@ namespace PeminSpectrumAnalyser
             Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.OriginalSignal, null, null);
         }
 
-        private void ShowSignalAndNoise_Noises_Click(object sender, RoutedEventArgs e)
-        {
-            Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Noise, Interval.OriginalNoise, null, null);
-        }
+       
 
         private void UserControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {

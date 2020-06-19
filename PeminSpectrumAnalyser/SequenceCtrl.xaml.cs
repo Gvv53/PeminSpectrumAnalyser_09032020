@@ -106,8 +106,9 @@ namespace PeminSpectrumAnalyser
             //режим СС
             ExperimentExplorer.rbSSCheckedEvent += () => 
             {
-                gbDS.IsEnabled = false;
                 gbDS.Visibility = Visibility.Hidden;
+               // gbDS.IsEnabled = false;
+             
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 AddNewInterval();
@@ -118,20 +119,22 @@ namespace PeminSpectrumAnalyser
             //режим ДС
             ExperimentExplorer.rbDSCheckedEvent += () =>
             {
-                gbDS.IsEnabled = true;
                 gbDS.Visibility = Visibility.Visible;
+               // gbRBWVBW.Visibility = Visibility.Visible;
+                //  gbDS.IsEnabled = true;
+
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 //активность кнопок измерения
                 buttonStartNOISE.IsEnabled = false;
                 buttonStartSIGNAL.IsEnabled = false;
                 //полоса фильтра активна только для FSH4
-                if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-                    gbRBWVBW.IsEnabled = true;
-                else
-                    gbRBWVBW.IsEnabled = false;
-                HandRBW.IsEnabled = (bool)cbRBW.IsChecked;
-                HandVBW.IsEnabled = (bool)cbVBW.IsChecked;                
+                //if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+                //gbRBWVBW.IsEnabled = true;
+                //else
+                    //gbRBWVBW.IsEnabled = false;
+               // HandRBW.IsEnabled = (bool)cbRBW.IsChecked;
+               // HandVBW.IsEnabled = (bool)cbVBW.IsChecked;                
                 CheckMsg();
             };
             
@@ -189,7 +192,7 @@ namespace PeminSpectrumAnalyser
                     par.showSignalAndNoise_Copy.IsEnabled = state;
                     ExperimentExplorer.SequenceCtrl.buttonStartSIGNAL.IsEnabled = state;
                     ExperimentExplorer.SequenceCtrl.buttonStartNOISE.IsEnabled = state;
-                    ExperimentExplorer.SequenceCtrl.gbRBWVBW.IsEnabled = state;
+                 //   ExperimentExplorer.SequenceCtrl.gbRBWVBW.IsEnabled = state;
                 }
             });
         }
@@ -323,18 +326,10 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.Experiment.Intervals.Add(newInterval);
 
             ParametersCtrl intervalParametersCtrl = new ParametersCtrl(ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings);
-            //для СС для полоса фильтра активна только для FSH4
-            //if ((bool)rbSS.IsChecked && ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-            //    intervalParametersCtrl.gbFilter.IsEnabled = true;
-            //else
-            //{
-            //    intervalParametersCtrl.gbFilter.IsEnabled = false;
-            //    newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
-            //}
+           
             if ((bool)rbDS.IsChecked)
                 newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
-            //else
-            //    intervalParametersCtrl.gbFilter.IsEnabled = false;
+            
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
             //Маркеры определяются при рассчёте
@@ -452,24 +447,24 @@ namespace PeminSpectrumAnalyser
           
             Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":"+
                                                                         ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
-            ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
+            //ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
             //активность полос фильтра в зависимости от ИП и режима(СС/ДС)
-           if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-                if ((bool)rbDS.IsChecked)
-                    gbRBWVBW.IsEnabled = true;
-                else
-                    foreach (ParametersCtrl par in ParametersList.Items)
-                        par.gbFilter.IsEnabled = true;
+          // if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
+                //if ((bool)rbDS.IsChecked)
+                //    gbRBWVBW.IsEnabled = true;
+                //else
+                //    foreach (ParametersCtrl par in ParametersList.Items)
+                //        par.gbFilter.IsEnabled = true;
 
-            else //Агилент
-                if ((bool)rbDS.IsChecked) //ДС
-                   gbRBWVBW.IsEnabled = false;
-                else   //СС
-                   foreach (ParametersCtrl par in ParametersList.Items)
-                   {
-                    par.gbFilter.IsEnabled = true;// false;
-                      par.MsgBand.Visibility = Visibility;
-                   }           
+            //else //Агилент
+            //    if ((bool)rbDS.IsChecked) //ДС
+            //       gbRBWVBW.IsEnabled = false;
+            //    else   //СС
+            //       foreach (ParametersCtrl par in ParametersList.Items)
+            //       {
+            //        par.gbFilter.IsEnabled = true;// false;
+            //          par.MsgBand.Visibility = Visibility;
+            //       }           
         }
   
         private void HandMode_PlusOne_Click(object sender, RoutedEventArgs e)

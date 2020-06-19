@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Title="PEMIN SPECTRUM ANALYSER - Version 09.03.2020"   WindowStartupLocation="CenterOwner" 
-        Closing="Window_Closing" Width="1460"  MaxWidth="1460" ResizeMode="CanResize"
-        Background="#FF1A1A1A" MaxHeight="1032" Height="832" VerticalAlignment="Top" WindowState="Normal" >
+        Closing="Window_Closing"  d:DesignWidth="1460"  MaxWidth="1460" ResizeMode="CanResize"
+        Background="#FF1A1A1A" MaxHeight="1032" d:DesignHeight="832" VerticalAlignment="Top" WindowState="Normal" >
     <Window.Resources>
         <Style BasedOn="{StaticResource {x:Type Button}}"
            TargetType="Button"
@@ -21,9 +21,44 @@
             <Setter Property="Margin" Value="10,0,10,0" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        <Style BasedOn="{StaticResource {x:Type GroupBox}}"
+           TargetType="GroupBox"
+            x:Key="CommandGroupBox">
+            <Setter Property="BorderBrush" Value="#FF3F3F46" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#FF2E2C2C" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property = "Header" Value="" />
+        </Style>
+        <!--<Style TargetType="GroupBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        
+                        <Border BorderThickness="0.5">
+                             <Border.BorderBrush>
+                                   <SolidColorBrush Color="#FF888888" />
+                             </Border.BorderBrush>
+                             <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                   MappingMode="RelativeToBoundingBox"
+                                   StartPoint="0.5,0">
+                                        <GradientStop Color="{DynamicResource ContentAreaColorLight}"
+                              Offset="0" />
+                                        <GradientStop Color="{DynamicResource ContentAreaColorDark}"
+                              Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                             
+                        </Border>
+                       
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
     </Window.Resources>
     <!--<Grid Background="#FF22222A" >-->
-    <Grid  Background="#FF22222A" >
+    <Grid  Background="#FF22222A">
             <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem x:Name="menuItemHide" Header="Свернуть" Click="MenuItemHide_Click"  />
@@ -31,21 +66,21 @@
             </ContextMenu>
         </Grid.ContextMenu>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.667"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="45"/>
-            <RowDefinition Height="6.333"/>
-            <RowDefinition Height="97*"/>
-            <RowDefinition Height="2"/>
-            <RowDefinition Height="857*"/>
+            <RowDefinition Height="1.5"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="1.5"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="720"/>
-            <ColumnDefinition Width="720"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Label Content="ТЕКУЩИЙ ФАЙЛ РЕШЕНИЯ: "  VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
-            <Label x:Name="CurrentSolutionLabel"  Content="НЕ ОПРЕДЕЛЕН"  Foreground="#FFFC4613" FontWeight="Bold" />
+            <Label x:Name="CurrentSolutionLabel"  Content="НЕ ОПРЕДЕЛЕН" VerticalAlignment="Center"  Foreground="#FFFC4613" FontWeight="Bold" />
         </StackPanel>
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
@@ -53,39 +88,52 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-        <GroupBox Header="Управление всеми ИП" Padding="0" Foreground="White" BorderThickness="0.5" Background="#FF686363">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                <Button x:Name="fullConnect" Content="ПОДКЛЮЧИТЬСЯ" Click="FullConnect_Click" Style="{StaticResource CommandButton}"/>
-                <Button x:Name="fullNew" Content="НОВЫЙ ЗАМЕР" Click="FullNew_Click" Style="{StaticResource CommandButton}"/>
-                <Button x:Name="fullLoad" Content="ЗАГРУЗИТЬ" Click="FullLoad_Click" Style="{StaticResource CommandButton}"/>
-                <Button x:Name="fullSave" Content="СОХРАНИТЬ" Click="FullSave_Click" Style="{StaticResource CommandButton}"/>
-                <TextBox x:Name="CopyTextBox" ToolTip="Количество копий" TextWrapping="Wrap" Text="0" />
-                <Button x:Name="fullNoise" Content="ШУМ" Click="FullNoise_Click" Style="{StaticResource CommandButton}" IsEnabled="False"/>
-                    <Button x:Name="fullSignal" Content="СИГНАЛ" Click="FullSignal_Click" Style="{StaticResource CommandButton}" IsEnabled="False"/>
-                    <Button x:Name="fullExport" Content="ЭКСПОРТ" Click="FullExport_Click" Style="{StaticResource CommandButton}"/>
+            <GroupBox BorderThickness="0.5 " BorderBrush ="#FF3F3F46" ><!--Style="{StaticResource CommandGroupBox}"-->               
+                <GroupBox.Header >
+                    <Label Content="Управление всеми ИП" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center" 
+                           Padding="0" FontStyle="Italic"/>
+                </GroupBox.Header>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="25" Margin="0">
+                    <Button x:Name="fullConnect" Content="ПОДКЛЮЧИТЬСЯ" Click="FullConnect_Click" Style="{StaticResource CommandButton}" Height="23" />
+                    <Button x:Name="fullNew" Content="НОВЫЙ ЗАМЕР" Click="FullNew_Click" Style="{StaticResource CommandButton}" Height="23"/>
+                    <Button x:Name="fullLoad" Content="ЗАГРУЗИТЬ" Click="FullLoad_Click" Style="{StaticResource CommandButton}" Height="23"/>
+                    <Button x:Name="fullSave" Content="СОХРАНИТЬ" Click="FullSave_Click" Style="{StaticResource CommandButton}" Height="23"/>
+                    <TextBox x:Name="CopyTextBox" ToolTip="Количество копий" TextWrapping="Wrap" Text="0" Height="23"/>
+                    <Button x:Name="fullNoise" Content="ШУМ" Click="FullNoise_Click" Style="{StaticResource CommandButton}" IsEnabled="False" Height="23"/>
+                    <Button x:Name="fullSignal" Content="СИГНАЛ" Click="FullSignal_Click" Style="{StaticResource CommandButton}" IsEnabled="False" Height="23"/>
+                    <Button x:Name="fullExport" Content="ЭКСПОРТ" Click="FullExport_Click" Style="{StaticResource CommandButton}" Height="23"/>
                 </StackPanel >
             </GroupBox>
-                <!--<CheckBox x:Name="NotChangeRBW"  Content="Не управлять RBW" Click="NotChangeRBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>
-                <CheckBox x:Name="NotChangeVBW" Content="Не управлять VBW" Click="NotChangeVBW_Click" Margin="10,0,10,0" VerticalAlignment="Center" Foreground="#FFFF4B00"/>-->
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
                 <Button x:Name="fullClear" Click="fullClear_Click" Content="ОЧИСТИТЬ"  Style="{StaticResource CommandButton}" />
                 <Button x:Name="NewDataLine" Content="+" Click="NewDataLine_Click" Style="{StaticResource CommandButton}" HorizontalAlignment="Center" Margin="40,0,10,0"/>
             </StackPanel >
             
         </Grid>
-        <GroupBox Grid.Row="4" Padding="5" Header="Исследуемые режимы" Foreground="White" Grid.ColumnSpan="2" 
-                  ToolTip="Список исследуемых режимов, переданных из задачи расчёта Оценки защищённости" BorderThickness="0.5" >
+        <GroupBox Grid.Row="4" BorderThickness="0.5 " BorderBrush ="#FF3F3F46"  Grid.ColumnSpan="2" 
+                  ToolTip="Список исследуемых режимов, переданных из задачи расчёта Оценки защищённости"  >
+            <GroupBox.Header >
+                <Label Content="Исследуемые режимы" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center" 
+                       Padding="0" FontStyle="Italic"/>
+            </GroupBox.Header>
             <ListView x:Name="DataLinesListView"  Grid.ColumnSpan="2" Background="#FF1B1B1C" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"
                   BorderBrush="{x:Null}" />
         </GroupBox>
 
         <GridSplitter  Grid.Row="5" Grid.ColumnSpan="2"  HorizontalAlignment="Stretch" Width="150"  ResizeDirection="Rows"  Background="#FFFF4B00" Margin="646,0"/>
-        <GroupBox x:Name="gb1" x:FieldModifier="public" Grid.Row="6" Grid.Column="0"  Header="Измерительный прибор 1" Foreground="White"
-                   HorizontalContentAlignment="Stretch" BorderThickness="0.5"  >
-            <local:SequenceCtrl x:Name="unit1" Grid.Row="6" Grid.Column="0" Background="#FF2E2C2C"/>
+        <GroupBox x:Name="gb1" x:FieldModifier="public" Grid.Row="6" Grid.Column="0" BorderThickness="0.5" BorderBrush ="#FF3F3F46" >
+            <GroupBox.Header>
+                <Label Content="Измерительный прибор 1" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center"
+                           Padding="0" FontStyle="Italic"/>
+            </GroupBox.Header>
+            <local:SequenceCtrl x:Name="unit1" VerticalAlignment="Stretch" Grid.Row="6" Grid.Column="0" Background="#FF2E2C2C"/>
         </GroupBox>
-        <GroupBox x:Name="gb2" x:FieldModifier="public" Grid.Row="6" Grid.Column="1" Padding="5" Header="Измерительный прибор 2" Foreground="White"
-                   HorizontalContentAlignment="Stretch" BorderThickness="0.5" >
+        <GroupBox x:Name="gb2" x:FieldModifier="public" Grid.Row="6" Grid.Column="1"   Foreground="White"
+                   HorizontalContentAlignment="Stretch" BorderThickness="0.5" BorderBrush ="#FF3F3F46"  >
+            <GroupBox.Header>
+                <Label Content="Измерительный прибор 2" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center" 
+                       Padding="0" FontStyle="Italic" />
+            </GroupBox.Header>
             <local:SequenceCtrl x:Name="unit2"   VerticalAlignment="Stretch" Grid.Row="6" Grid.Column="1" Background="#FF2E2C2C" />
         </GroupBox>
     </Grid>

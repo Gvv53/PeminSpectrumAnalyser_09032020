@@ -647,9 +647,12 @@ namespace PeminSpectrumAnalyser.Model
                 dataSignal.Add(point);
             }
             ChartWindow chartWindow = new ChartWindow(dataSignal);
+            chartWindow.Title = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();
+            //chartWindow.ShowDialog();
+            chartWindow.Show();
+            //Application.Current.MainWindow.Activate();            
 
-            chartWindow.ShowDialog();
-            } 
+        } 
        
         //---------------------------------------------------------------------
         // Отображение шума и сигнала

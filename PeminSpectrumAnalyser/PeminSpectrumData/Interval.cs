@@ -366,7 +366,9 @@ namespace PeminSpectrumData
 
             if (!IntervalSettings.isAuto) //диф.спектр
             {
-                Markers.Add(((IntervalSettings.PointsQuantity - 1) / 2) + 1); //точка соответствует середине частотного интервала
+                //Markers.Add(((IntervalSettings.PointsQuantity - 1) / 2) + 1); //точка соответствует середине частотного интервала
+                Markers.Add((IntervalSettings.PointsQuantity - 1) / 2); //точка соответствует середине частотного интервала
+               // Markers.Add(315);
                 CenterFrequencys.Add(IntervalSettings.HandCenterFrequency);
             }
             else   //сплошной спектр

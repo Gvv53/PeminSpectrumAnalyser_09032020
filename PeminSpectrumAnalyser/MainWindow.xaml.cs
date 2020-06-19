@@ -65,11 +65,11 @@ namespace PeminSpectrumAnalyser
             NewSolution();
             unit1.SolutionNameClear += () => CurrentSolutionLabel.Dispatcher.Invoke(() => { CurrentSolutionLabel.Content = "НЕ ОПРЕДЕЛЁН"; });
             unit2.SolutionNameClear += () => CurrentSolutionLabel.Dispatcher.Invoke(() => { CurrentSolutionLabel.Content = "НЕ ОПРЕДЕЛЁН"; });
-            gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
-            gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
+           ((System.Windows.Controls.Label) gb1.Header).Content = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
+            ((System.Windows.Controls.Label)gb2.Header).Content = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
             //обработчик изменения выбора ИП
-            unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb1.Header = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
-            unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { gb2.Header = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
+            unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { ((System.Windows.Controls.Label)gb1.Header).Content = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
+            unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { ((System.Windows.Controls.Label)gb2.Header).Content = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
            
             //unit2.ExperimentExplorer.StateButtunChart += (bool state) =>
             //{
@@ -366,8 +366,6 @@ namespace PeminSpectrumAnalyser
                 foreach (DataLineCtrl item in DataLinesListView.Items)
                     if (item.GetID() == id)
                         return;
-
-
             DataLineCtrl dataLine = new DataLineCtrl();
 
             dataLine.SetID(id);
@@ -390,7 +388,6 @@ namespace PeminSpectrumAnalyser
                     MessageBox.Show("Программа расчетов по методикам не запущена или не подключена к программе измерений сигнала!");
                     return;
                 }
-
                 try
                 {
                     Service.SendExchangeContract(exchangeData);
@@ -398,8 +395,7 @@ namespace PeminSpectrumAnalyser
                 catch(Exception ex)
                 {
                     MessageBox.Show(" Возникло исключение при вызове SendExchangeContract.   ТЕКСТ ИСКЛЮЧЕНИЯ:  " + ex.ToString() +  " ВНУТРЕННЕЕ ИСКЛЮЧЕНИЕ:  " + ex.InnerException.Message);
-                }
-             
+                }             
             };
 
             DataLinesListView.Items.Add(dataLine);
@@ -419,20 +415,6 @@ namespace PeminSpectrumAnalyser
             {
                 MessageBox.Show("Очистка завершена");
             }
-        }
-
-        //private void NotChangeRBW_Click(object sender, RoutedEventArgs e)
-        //{
-        //    RBWAndVBW.RBW = (bool)NotChangeRBW.IsChecked;
-        //   // ChangeEnabled_gbRBWVBW();           
-        //}
-
-        //private void NotChangeVBW_Click(object sender, RoutedEventArgs e)
-        //{
-        //    RBWAndVBW.VBW = (bool)NotChangeVBW.IsChecked;
-        //   // ChangeEnabled_gbRBWVBW();
-        //}
-        //для ДС и включенной опции отключаем блок задания ручных значений
-       
+        }    
     }
 }

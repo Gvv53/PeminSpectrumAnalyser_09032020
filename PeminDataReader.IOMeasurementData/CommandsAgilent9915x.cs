@@ -32,7 +32,7 @@ namespace IOMeasurementData
             Send(":FORMat:DATA ASCii");
 
             //Send(":SENSe:AVERage ON");
-            Send(":TRACe1:TYPE CLRW");
+           // Send(":TRACe1:TYPE CLRW");
 
             //Устанавливает номер счетчика клемм N для типов трассы Среднее, Макс. Удержание и Мин. Удержание. 
             //Драйвер использует это значение для установки атрибута AGMXA_ATTR_AVG_NUMBER.
@@ -88,7 +88,7 @@ namespace IOMeasurementData
 
                 Send(":SENSe:BANDwidth:VIDeo:AUTO OFF");
                 Send(":SENSe:BANDwidth:VIDeo " + band.ToString() + " Hz");
-
+                
                 Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
 
                 //Send(":SENSe:BANDwidth:RESolution:AUTO OFF");

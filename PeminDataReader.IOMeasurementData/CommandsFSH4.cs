@@ -75,8 +75,8 @@ namespace IOMeasurementData
 
 
                 Send("FREQ:SPAN " + span.ToString() + " Hz");
-              //  if(!RBWAndVBW.VBW)
-                     Send(":BAND " + bandWidth.ToString() + " Hz");
+                //  if(!RBWAndVBW.VBW)
+                Send(":BAND " + bandWidth.ToString() + " Hz");
 
               //  if (!RBWAndVBW.RBW)
                     Send(":BAND:VID " + band.ToString() + "Hz");

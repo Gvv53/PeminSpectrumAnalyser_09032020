@@ -54,7 +54,7 @@ namespace PeminSpectrumAnalyser
         bool _DontChange = false;
 
         private void DataTextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
+       {
             if (_DontChange)
                 return;
 
@@ -121,13 +121,21 @@ namespace PeminSpectrumAnalyser
 
         private void DataTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            long result = 0;
             if (((TextBox)sender).Text == String.Empty)
             {
                 ((TextBox)sender).Text = "0";
                
             }
-            if (e.Key == Key.Enter)   //завершён ввод
+            else
             {
+                if (e.Key == Key.Enter)   //завершён ввод
+                {
+                    if (comboBox1.Text == MHz) result = Converters.ValueFromUI(DataTextBox.Text, 1000000);
+                    if (comboBox1.Text == KHz) result = Converters.ValueFromUI(DataTextBox.Text, 1000);
+                    if (comboBox1.Text == Hz) result = Converters.ValueFromUI(DataTextBox.Text, 1);
+                }
+                _Value = result;
                 string name = ((FrequencyCtrl)((Grid)((TextBox)sender).Parent).Parent).Name;
                 RefreshValue(name);
             }
