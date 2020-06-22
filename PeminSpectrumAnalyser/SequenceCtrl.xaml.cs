@@ -99,15 +99,12 @@ namespace PeminSpectrumAnalyser
                     enabled = true;
                 buttonStartNOISE.IsEnabled = isConnected && enabled;
                 buttonStartSIGNAL.IsEnabled = isConnected && enabled;
-                //MainWindow mw = ((MainWindow)((Grid)((GroupBox)Parent).Parent).Parent);
-                //mw.unit1.ChangedButtonEnabled?.Invoke();
-                //mw.unit2.ChangedButtonEnabled?.Invoke();
+                
             });
             //режим СС
             ExperimentExplorer.rbSSCheckedEvent += () => 
             {
                 gbDS.Visibility = Visibility.Hidden;
-               // gbDS.IsEnabled = false;
              
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
@@ -120,21 +117,12 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.rbDSCheckedEvent += () =>
             {
                 gbDS.Visibility = Visibility.Visible;
-               // gbRBWVBW.Visibility = Visibility.Visible;
-                //  gbDS.IsEnabled = true;
 
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 //активность кнопок измерения
                 buttonStartNOISE.IsEnabled = false;
                 buttonStartSIGNAL.IsEnabled = false;
-                //полоса фильтра активна только для FSH4
-                //if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-                //gbRBWVBW.IsEnabled = true;
-                //else
-                    //gbRBWVBW.IsEnabled = false;
-               // HandRBW.IsEnabled = (bool)cbRBW.IsChecked;
-               // HandVBW.IsEnabled = (bool)cbVBW.IsChecked;                
                 CheckMsg();
             };
             
@@ -192,7 +180,6 @@ namespace PeminSpectrumAnalyser
                     par.showSignalAndNoise_Copy.IsEnabled = state;
                     ExperimentExplorer.SequenceCtrl.buttonStartSIGNAL.IsEnabled = state;
                     ExperimentExplorer.SequenceCtrl.buttonStartNOISE.IsEnabled = state;
-                 //   ExperimentExplorer.SequenceCtrl.gbRBWVBW.IsEnabled = state;
                 }
             });
         }

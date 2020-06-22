@@ -650,8 +650,6 @@ namespace PeminSpectrumAnalyser.Model
             chartWindow.Title = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();
             //chartWindow.ShowDialog();
             chartWindow.Show();
-            //Application.Current.MainWindow.Activate();            
-
         } 
        
         //---------------------------------------------------------------------

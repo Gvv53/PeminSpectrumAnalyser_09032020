@@ -7,8 +7,7 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:local="clr-namespace:PeminSpectrumAnalyser"
         mc:Ignorable="d"
-        Title="ChartWindow" Height="450" Width="800" 
-       >
+        Title="ChartWindow" Height="450" Width="800" >
 
     <Grid>
         
@@ -38,10 +37,9 @@
                             <dxc:PaneTitle Content="Все данные измерений"/>
                         </dxc:Pane.Title>
                     </dxc:Pane>
-
                 </dxc:XYDiagram2D.DefaultPane>
+
                 <dxc:XYDiagram2D.Panes>
-                    
                     <dxc:Pane x:Name="paneCalc" EnableAxisXNavigation="True" >
                         <dxc:Pane.AxisXScrollBarOptions>
                             <dxc:ScrollBarOptions/>
@@ -52,11 +50,32 @@
                     </dxc:Pane>
                 </dxc:XYDiagram2D.Panes>
                 <dxc:XYDiagram2D.Series>
-                    <dxc:LineSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise" DisplayName="Шум" Brush="Blue" />
-                    <dxc:LineSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal" DisplayName="Сигнал" Brush="Red"/>
-                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум" Brush="Blue" MarkerSize="5">
+                    <dxc:LineSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise" DisplayName="Шум" Brush="Blue" MarkerSize="5" />
+                    <dxc:LineSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal" DisplayName="Сигнал" Brush="Red" MarkerSize="5"/>
+
+                    <dxc:PointSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChartCalc}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум"  MarkerSize="10" Brush="#FF4F0808">
+                        <dxc:PointSeries2D.MarkerModel>
+                            <dxc:DiamondMarker2DModel/>
+                        </dxc:PointSeries2D.MarkerModel>
                     </dxc:PointSeries2D>
-                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal_marker" DisplayName="Сигнал" Brush="Red" MarkerSize="5"/>
+                    <dxc:PointSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChartCalc}" ArgumentDataMember="freq" ValueDataMember="signal_marker" DisplayName="Сигнал"  MarkerSize="10" Brush="#FF092F66">
+                        <dxc:PointSeries2D.CacheMode>
+                            <BitmapCache/>
+                        </dxc:PointSeries2D.CacheMode>
+                        <dxc:PointSeries2D.MarkerModel>
+                            <dxc:DiamondMarker2DModel/>
+                        </dxc:PointSeries2D.MarkerModel>
+                    </dxc:PointSeries2D>
+                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум" MarkerSize="10" Brush="#FF4F0808">
+                        <dxc:PointSeries2D.MarkerModel>
+                            <dxc:DiamondMarker2DModel/>
+                        </dxc:PointSeries2D.MarkerModel>
+                    </dxc:PointSeries2D>
+                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal_marker" DisplayName="Сигнал" MarkerSize="10" Brush="#FF092F66">
+                        <dxc:PointSeries2D.MarkerModel>
+                            <dxc:DiamondMarker2DModel/>
+                        </dxc:PointSeries2D.MarkerModel>
+                    </dxc:PointSeries2D>
                 </dxc:XYDiagram2D.Series>
             
             </dxc:XYDiagram2D>
