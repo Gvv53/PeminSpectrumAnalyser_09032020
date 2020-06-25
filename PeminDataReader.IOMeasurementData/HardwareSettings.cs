@@ -17,8 +17,8 @@ namespace IOMeasurementData
         public string NoiseTraceType { get; set; } = @"AVERage";
         public string TraceType { get; set; }   //передаётся ИП
 
-        public string SignalTraceDetector { get; set; } = @"AVERage";
-        public string NoiseTraceDetector { get; set; } = @"POSitive";
+        public string SignalTraceDetector { get; set; } = @"POSitive" ;
+        public string NoiseTraceDetector { get; set; } = @"AVERage";
         public string TraceDetector { get; set; }   //передаётся ИП
 
         public double DbMkvShift { get; set; } = 108.75;

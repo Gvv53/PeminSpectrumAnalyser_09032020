@@ -70,18 +70,7 @@ namespace PeminSpectrumAnalyser
             //обработчик изменения выбора ИП
             unit1.ExperimentExplorer.HardTypeChanged += (string newHardType) => { ((System.Windows.Controls.Label)gb1.Header).Content = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
             unit2.ExperimentExplorer.HardTypeChanged += (string newHardType) => { ((System.Windows.Controls.Label)gb2.Header).Content = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType; };
-           
-            //unit2.ExperimentExplorer.StateButtunChart += (bool state) =>
-            //{
-            //    foreach (ParametersCtrl par in unit2.ParametersList.Items)
-            //    {
-            //        par.showChart.IsEnabled = state;
-            //        par.showSignalAndNoise_Copy.IsEnabled = state;
-            //        unit2.buttonStartSIGNAL.IsEnabled = state;
-            //        unit2.buttonStartSIGNAL.IsEnabled = state;
-
-            //    }
-            //};
+     
             unit2.spFrequencyMax.Visibility = Visibility.Hidden;
             //активность кнопок запуска измерений зависит от активности соотв.кнопок в стаканах
             unit1.ChangedButtonEnabled += () =>
@@ -126,9 +115,7 @@ namespace PeminSpectrumAnalyser
         private void NewSolution()
         {
             unit1.NewExperiment();//список контролов с параметрами очищается, настройки оборудования сохраняются
-            unit2.NewExperiment();
-            //unit1.AddNewInterval();// интервал для СС добавляется в NewExperiment()
-            //unit2.AddNewInterval();
+            unit2.NewExperiment();           
 
             unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP = "192.168.12.233";
             unit1.address.Content = "192.168.12.233";
@@ -215,6 +202,7 @@ namespace PeminSpectrumAnalyser
                 }
                 unit1.Address = unit1.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":" +
                                                                         unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
+                ((System.Windows.Controls.Label)gb1.Header).Content = "Измерительный прибор - " + unit1.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
                 if (unit2.ExperimentExplorer.Emulation)
                 {
                     unit2.Disconnect();
@@ -227,21 +215,27 @@ namespace PeminSpectrumAnalyser
                 }
                 unit2.Address = unit2.ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":" +
                                                                         unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
+                
+                ((System.Windows.Controls.Label)gb2.Header).Content = "Измерительный прибор - " + unit2.ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType;
                 //отобразим загруженные измерения для интервалов ДС
                 foreach (ParametersCtrl par in unit1.ParametersList.Items)
                 {
-                    if (par.Interval.IntervalSettings.isAuto)
+                    if (par.Interval.IntervalSettings.isAuto) //CC
                         return;
-                    par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
-                    par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                    if ( par.Interval.Noise.Count > par.Interval.Markers[0])
+                        par.tbNoise.Text = par.Interval.Noise[par.Interval.Markers[0]].ToString();
+                    if (par.Interval.Signal.Count > par.Interval.Markers[0])
+                        par.tbSignal.Text = par.Interval.Signal[par.Interval.Markers[0]].ToString();
+
                 }
                 foreach (ParametersCtrl par in unit2.ParametersList.Items)
                 {
-                    if (par.Interval.IntervalSettings.isAuto)
+                    if (par.Interval.IntervalSettings.isAuto) //CC
                         return;
-                  
-                    par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
-                    par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                    if (par.Interval.Noise.Count > par.Interval.Markers[0])
+                        par.tbNoise.Text = par.Interval.Noise[par.Interval.Markers[0]].ToString();
+                    if (par.Interval.Signal.Count > par.Interval.Markers[0])
+                        par.tbSignal.Text = par.Interval.Signal[par.Interval.Markers[0]].ToString();
                 }
                
             }

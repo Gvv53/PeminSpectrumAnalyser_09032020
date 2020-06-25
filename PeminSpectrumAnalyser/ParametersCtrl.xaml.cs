@@ -284,11 +284,7 @@ namespace PeminSpectrumAnalyser
         {
             Interval.GetExperimentExplorer().ShowChart(Interval, Interval.Signal, Interval.Noise);
         }
-        private void ShowSignalAndNoise_Signals_Click(object sender, RoutedEventArgs e)
-        {
-            Interval.GetExperimentExplorer().ShowSignalAndNoise(Interval, Interval.Signal, Interval.OriginalSignal, null, null);
-        }
-
+      
        
 
         private void UserControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)

@@ -50,10 +50,11 @@
                     </dxc:Pane>
                 </dxc:XYDiagram2D.Panes>
                 <dxc:XYDiagram2D.Series>
-                    <dxc:LineSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise" DisplayName="Шум" Brush="Blue" MarkerSize="5" />
-                    <dxc:LineSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal" DisplayName="Сигнал" Brush="Red" MarkerSize="5"/>
+                    <dxc:AreaSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal" DisplayName="Сигнал" Brush="Red" />
+                    <dxc:AreaSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise" DisplayName="Шум" Brush="Blue"  />
+                   
 
-                    <dxc:PointSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChartCalc}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум"  MarkerSize="10" Brush="#FF4F0808">
+                    <!--<dxc:PointSeries2D Pane="{Binding ElementName=paneMeas}" DataSource="{Binding Path=dataForChartCalc}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум"  MarkerSize="10" Brush="#FF4F0808">
                         <dxc:PointSeries2D.MarkerModel>
                             <dxc:DiamondMarker2DModel/>
                         </dxc:PointSeries2D.MarkerModel>
@@ -65,13 +66,14 @@
                         <dxc:PointSeries2D.MarkerModel>
                             <dxc:DiamondMarker2DModel/>
                         </dxc:PointSeries2D.MarkerModel>
-                    </dxc:PointSeries2D>
-                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум" MarkerSize="10" Brush="#FF4F0808">
+                    </dxc:PointSeries2D>-->
+                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChartCalc}" ArgumentDataMember="freq" ValueDataMember="signal_marker" DisplayName="Сигнал" MarkerSize="7" Brush="Red">
                         <dxc:PointSeries2D.MarkerModel>
                             <dxc:DiamondMarker2DModel/>
                         </dxc:PointSeries2D.MarkerModel>
                     </dxc:PointSeries2D>
-                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChart}" ArgumentDataMember="freq" ValueDataMember="signal_marker" DisplayName="Сигнал" MarkerSize="10" Brush="#FF092F66">
+
+                    <dxc:PointSeries2D Pane="{Binding ElementName=paneCalc}" DataSource="{Binding Path=dataForChartCalc}" ArgumentDataMember="freq" ValueDataMember="noise_marker" DisplayName="Шум" MarkerSize="7" Brush="Blue">
                         <dxc:PointSeries2D.MarkerModel>
                             <dxc:DiamondMarker2DModel/>
                         </dxc:PointSeries2D.MarkerModel>

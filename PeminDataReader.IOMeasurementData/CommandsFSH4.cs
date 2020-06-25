@@ -43,6 +43,7 @@ namespace IOMeasurementData
                                       )
         {
             //Размер буфера приема(в байтах).Значение по умолчанию — 8192 байта
+            newClient.ReceiveBufferSize = 35000;
             byte[] bytes = new byte[newClient.ReceiveBufferSize];
             byte[] bytesRequestResult = new byte[2];
 
@@ -87,10 +88,10 @@ namespace IOMeasurementData
 
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
 
                 Send(":TRAC? TRACE1");
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
 
                 tcpStream.Read(bytes, 0, newClient.Available);
 

@@ -75,7 +75,7 @@
                     <Label Content="сигнал" HorizontalAlignment="Left"  VerticalAlignment="Center" Foreground="#FF8ECFFB" 
                   ForceCursor="True" FontWeight="Bold" Height="26" Margin="10,0,0,0" />
                     <ComboBox x:Name="cbSignalTraceType"  SelectedIndex="0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Margin="5,0,0,0" Padding="5,3,4,3" >
-                        <ComboBoxItem Content="WRITe" IsSelected="True"/>
+                    <ComboBoxItem Content="WRITe" IsSelected="True"  />
                         <ComboBoxItem Content="AVERage"/>
                         <ComboBoxItem Content="MAXHold"/>
                         <ComboBoxItem Content="MINHold"/>
@@ -84,9 +84,9 @@
                     </ComboBox>
                     <Label Content="шум" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8ECFFB"
                            ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2" Margin="10,0,0,0"/>
-                    <ComboBox x:Name="cbNoiseTraceType"  SelectedIndex="0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Margin="5,0,0,0" Padding="5,3,4,3" >
-                        <ComboBoxItem Content="WRITe" IsSelected="True"/>
-                        <ComboBoxItem Content="AVERage"/>
+                    <ComboBox x:Name="cbNoiseTraceType"  SelectedIndex="1" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Margin="5,0,0,0" Padding="5,3,4,3" >
+                    <ComboBoxItem Content="WRITe"   />
+                    <ComboBoxItem Content="AVERage" IsSelected="True" />
                         <ComboBoxItem Content="MAXHold"/>
                         <ComboBoxItem Content="MINHold"/>
                         <ComboBoxItem Content="VIEW"/>
@@ -96,21 +96,21 @@
                            Height="25" Margin="30,0,0,0" />
                     <Label Content="сигнал" HorizontalAlignment="Left"  VerticalAlignment="Center" Foreground="#FF8ECFFB" 
                            ForceCursor="True" FontWeight="Bold" Height="26" Margin="10,0,0,0" Padding="5" VerticalContentAlignment="Center" />
-                    <ComboBox x:Name="cbSignalDetector"  SelectedIndex="0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Padding="5,3,4,3" >
-                        <ComboBoxItem Content="AVERage" IsSelected="True"/>
+                    <ComboBox x:Name="cbSignalDetector"  SelectedIndex="3" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" Padding="5,3,4,3" >
+                        <ComboBoxItem Content="AVERage" />
                         <ComboBoxItem Content="NEGative"/>
                         <ComboBoxItem Content="NORMal"/>
-                        <ComboBoxItem Content="POSitive"/>
+                        <ComboBoxItem Content="POSitive" />
                         <ComboBoxItem Content="SAMPle"/>
                     </ComboBox>
                     <Label Content="шум" HorizontalAlignment="Left" VerticalAlignment="Top"  Foreground="#FF8ECFFB"
-               ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2" Margin="10,0,0,0"/>
-                    <ComboBox x:Name="cbNoiseDetector"  SelectedIndex="0" Grid.Column="3"  Grid.Row="8" 
-                  VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Margin="5,0,0,0" Padding="5,3,4,3">
-                        <ComboBoxItem Content="AVERage"/>
-                        <ComboBoxItem Content="NEGative"/>
+                           ForceCursor="True" FontWeight="Bold" Height="26" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2" Margin="10,0,0,0"/>
+                    <ComboBox x:Name="cbNoiseDetector"   Grid.Column="3"  Grid.Row="8" SelectedIndex="0"
+                              VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Margin="5,0,0,0" Padding="5,3,4,3">
+                    <ComboBoxItem Content="AVERage" />
+                    <ComboBoxItem Content="NEGative"/>
                         <ComboBoxItem Content="NORMal"/>
-                        <ComboBoxItem Content="POSitive" IsSelected="True"/>
+                        <ComboBoxItem Content="POSitive"/>
                         <ComboBoxItem Content="SAMPle"/>
                     </ComboBox>
                 </StackPanel>
@@ -120,7 +120,7 @@
                     <Label Content="сигнал__количество" HorizontalAlignment="Left"  VerticalAlignment="Center" Foreground="#FF8ECFFB"                                                       
                            ForceCursor="True" FontWeight="Bold" Height="26" Margin="10,0,0,0" />
                     <TextBox x:Name="tbCountSignalTraceMode" TextWrapping="Wrap" Text="10"  
-                             Background="{x:Null}" Padding="10,1" Margin="32,0,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Center" 
+                             Background="{x:Null}" Padding="1" Margin="32,0,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Center" 
                              VerticalContentAlignment="Center" CaretBrush="White" Width="40"/>
                     <!--<Label Content="сигнал__mode" HorizontalAlignment="Left"  VerticalAlignment="Center" Foreground="#FF8ECFFB"                                                       
                            ForceCursor="True" FontWeight="Bold" Height="26" Margin="10,0,0,0" />

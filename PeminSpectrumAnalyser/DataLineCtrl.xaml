@@ -5,20 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PeminSpectrumAnalyser"
              mc:Ignorable="d" 
-           Height="25" Width="1400">
+           Height="25" ><!--Width="1400"-->
     <Grid Background="#FF3E3E42">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="45"/>
-            <ColumnDefinition Width="878.462"/>
-            <ColumnDefinition Width="26"/>
-            <ColumnDefinition Width="49"/>
-            <ColumnDefinition Width="95"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="878.462*"/>
+            <ColumnDefinition Width="26*"/>
+            <ColumnDefinition Width="49*"/>
+            <ColumnDefinition Width="95*"/>
             <ColumnDefinition Width="26*"/>
             <ColumnDefinition Width="201*"/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
         <Button   x:Name="Close"  Click="Close_Click"  Content="X" Foreground="#FFE3E3E8" Background="#FF5C2005"/>
         <Label  Content="Id" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.377,-0.356" Foreground="#FFF8F8FA" Width="25" Height="25" Grid.Column="1"/>

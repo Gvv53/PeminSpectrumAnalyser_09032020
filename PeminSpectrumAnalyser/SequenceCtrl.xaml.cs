@@ -61,7 +61,8 @@ namespace PeminSpectrumAnalyser
                 {
                     if (par.Interval.IntervalSettings.isAuto)
                         return;
-                    par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                    //par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
+                    par.tbSignal.Text = par.Interval.Signal[par.Interval.Markers[0]].ToString();
                 }
             });
             ExperimentExplorer.NoiseReadyEvent += () => NoiseStateLabel.Dispatcher.Invoke(() =>
@@ -77,7 +78,8 @@ namespace PeminSpectrumAnalyser
                 {
                     if (par.Interval.IntervalSettings.isAuto)
                         return;
-                    par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
+                    //par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
+                    par.tbNoise.Text = par.Interval.Noise[par.Interval.Markers[0]].ToString();
                 }
 
             });
@@ -117,7 +119,8 @@ namespace PeminSpectrumAnalyser
             ExperimentExplorer.rbDSCheckedEvent += () =>
             {
                 gbDS.Visibility = Visibility.Visible;
-
+                HandRBW.Value = 100000;
+                HandVBW.Value = 100000;
                 ParametersList.Items.Clear();
                 ExperimentExplorer.Experiment.Intervals.Clear();
                 //активность кнопок измерения
@@ -314,8 +317,8 @@ namespace PeminSpectrumAnalyser
 
             ParametersCtrl intervalParametersCtrl = new ParametersCtrl(ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings);
            
-            if ((bool)rbDS.IsChecked)
-                newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
+            //if ((bool)rbDS.IsChecked)
+                //newInterval.IntervalSettings.Span = (long)Ft;   //для ДС span = тактовой частоте
             
             intervalParametersCtrl.IsAutoStyle = newInterval.IntervalSettings.isAuto;
 
@@ -461,6 +464,11 @@ namespace PeminSpectrumAnalyser
 
         private void HandMode_PlusMany_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Выбор приборов в 'стаканах' соответствует реально подключенным приборам?","",MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
             int quantity = int.Parse(HandMode_Quantity.Text);
             long startFrequency = HandMode_Frequency.Value; //тактовая частота для ДС
             Ft = startFrequency;

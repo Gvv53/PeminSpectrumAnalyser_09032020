@@ -117,7 +117,7 @@
                        Padding="0" FontStyle="Italic"/>
             </GroupBox.Header>
             <ListView x:Name="DataLinesListView"  Grid.ColumnSpan="2" Background="#FF1B1B1C" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"
-                  BorderBrush="{x:Null}" />
+                  BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" />
         </GroupBox>
 
         <GridSplitter  Grid.Row="5" Grid.ColumnSpan="2"  HorizontalAlignment="Stretch" Width="150"  ResizeDirection="Rows"  Background="#FFFF4B00" Margin="646,0"/>

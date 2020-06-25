@@ -243,7 +243,7 @@ namespace PeminSpectrumAnalyser.Model
            //Reader.HardwareSettings.TraceMode = traceMode;
             Reader.HardwareSettings.CountTraceMode = countTraceMode;
 
-          ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
+            ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
             ResultsY = new double[Reader.HardwareSettings.PointsQuantity];
 
             if (Emulation)
@@ -547,14 +547,24 @@ namespace PeminSpectrumAnalyser.Model
                             currentInterval.Computer(); //обработка полученных сигналов измерения
                         else
                             currentInterval.Restore(); //для СС. Копирование ориг. значений без обработки
+
+                        //сигнал, меньший шума, подтянем до уровня шума
+                        if (currentInterval.Signal.Count != 0 && currentInterval.Noise.Count != 0)
+                            for (int i = 0; i < currentInterval.Frequencys.Count; i++)
+                            {
+                                if (currentInterval.Signal[i] < currentInterval.Noise[i])
+                                    currentInterval.Signal[i] = currentInterval.Noise[i];
+                            }
+
                         _LocalIntervalCount++;
                        
-                    }                    
+                    }
+                    
                 }
                 TimeEnd?.Invoke();
                 DataMeasuringState = DataMeasuringState.Finish;
                 ShowPollingStatus();
-
+              
                 if (DataMeasuringType == DataMeasuringType.Signal)
                 {
                     SignalReadyIntervalEvent?.Invoke();                    
