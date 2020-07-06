@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows;
 
 namespace PeminSpectrumAnalyser
 {
@@ -69,7 +70,7 @@ namespace PeminSpectrumAnalyser
             
         }
 
-        public event Action FrequencyCtrlChanged;
+        public event Action FrequencyCtrlChanged, SpanCtrlChanged;
         public event Action ParameterCtrChanged;//изменились параметры для расчёта количества и фиксирования точек измерения СС
         public event Action<long> HandRBWChanged; //изменились параметры для расчёта количества и фиксирования точек измерения ДСС
         public event Action<long> HandVBWChanged; //изменились параметры для расчёта количества и фиксирования точек измерения ДСС
@@ -121,6 +122,15 @@ namespace PeminSpectrumAnalyser
 
         private void DataTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Decimal || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.OemComma || e.Key >= Key.D0 && e.Key <= Key.D9)   //завершён ввод
+            { }// return;
+            else
+            {
+                MessageBox.Show("Допускается ввод только цифр и десятичного разделителя");
+                e.Handled = true;
+                return;
+            }
             long result = 0;
             if (((TextBox)sender).Text == String.Empty)
             {
@@ -178,6 +188,13 @@ namespace PeminSpectrumAnalyser
                     FrequencyCtrlChanged?.Invoke();
                     ParameterCtrChanged?.Invoke();
                     break;
+                case "SpanManualDS":
+                    SpanCtrlChanged?.Invoke();
+                    break;
+                //case "SpanManualSS":
+                //    SpanCtrlChanged?.Invoke();
+                //    break;
+
             }
         }
     }

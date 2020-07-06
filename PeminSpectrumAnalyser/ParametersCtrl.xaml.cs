@@ -51,7 +51,8 @@ namespace PeminSpectrumAnalyser
             Band.FrequencyCtrlChanged += () => { UITo(Interval); };
             BandWidth.FrequencyCtrlChanged += () => { UITo(Interval); };
             //centerFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
-            //Span.FrequencyCtrlChanged += () => { UITo(Interval); };
+            SpanManualDS.SpanCtrlChanged += () => { UITo(Interval); };
+           // SpanManualSS.SpanCtrlChanged += () => { UITo(Interval); };
             //StepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             InnerStepFrequency.FrequencyCtrlChanged += () => { UITo(Interval); };
             StartFrequency.ParameterCtrChanged += () => { createPoints.IsEnabled = true; };
@@ -94,26 +95,42 @@ namespace PeminSpectrumAnalyser
             if (DisableUITo)
                 return;
 
-            linkToInterval.isActive = (bool)this.isActiveCheckBox.IsChecked;
-           // linkToInterval.isModify = (bool)this.cbModify.IsChecked;
-
-            linkToInterval.IntervalSettings.FrequencyStart = this.StartFrequency.Value;
-            linkToInterval.IntervalSettings.FrequencyStop = this.StopFrequency.Value;
-          //  linkToInterval.IntervalSettings.FrequencyStep = long.Parse(this.tbStepFrequency.Value);//не используется
+            
+            linkToInterval.IntervalSettings.HandCenterFrequency = this.HandCenterFrequency.Value;
+           
             linkToInterval.IntervalSettings.FrequencyInnerStep = this.InnerStepFrequency.Value;
 
             if (linkToInterval.IntervalSettings.isAuto) // CC
-            { 
+            {
+                linkToInterval.isActive = (bool)this.isActiveCheckBox.IsChecked;
                 linkToInterval.IntervalSettings.BandWidth = BandWidth.Value;
                 linkToInterval.IntervalSettings.Band = Band.Value;
+                linkToInterval.IntervalSettings.FrequencyStart = this.StartFrequency.Value;
+                linkToInterval.IntervalSettings.FrequencyStop = this.StopFrequency.Value;
+                linkToInterval.IntervalSettings.isManuaSWPTime = (bool)cbManualSWPSS.IsChecked;
+                linkToInterval.IntervalSettings.ManuaSWPTime = Double.Parse(tbManualSWPSS.Text.Replace(".", ","));
             }
             else //DS
             {
+                linkToInterval.isActive = (bool)this.isActiveCheckBoxDS.IsChecked;
                 linkToInterval.IntervalSettings.BandWidth = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBW.Value;
                 linkToInterval.IntervalSettings.Band = linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value;
+                linkToInterval.IntervalSettings.isManuaSWPTime = (bool)cbManualSWPDS.IsChecked;
+                linkToInterval.IntervalSettings.ManuaSWPTime = Double.Parse(tbManualSWPDS.Text.Replace(".",","));
+                if ((bool)cbSpanManualDS.IsChecked)
+                {
+                    linkToInterval.IntervalSettings.isManualSpan = true;
+                    linkToInterval.IntervalSettings.Span = SpanManualDS.Value;
+                }
+                else
+                {
+                    linkToInterval.IntervalSettings.isManualSpan = false;
+                    linkToInterval.IntervalSettings.Span = 1000000;                  
+                }
+                linkToInterval.IntervalSettings.FrequencyStart = linkToInterval.IntervalSettings.HandCenterFrequency - linkToInterval.IntervalSettings.Span / 2;
+                linkToInterval.IntervalSettings.FrequencyStop = linkToInterval.IntervalSettings.HandCenterFrequency + linkToInterval.IntervalSettings.Span / 2;
+            
             }
-            // linkToInterval.IntervalSettings.Span = long.Parse(this.tbSpan.Text);//поле только для чтения
-
             linkToInterval.IntervalSettings.MaxNoise = Converters.DoubleValueFromUI(this.maxLimitNoise.Text);
             linkToInterval.IntervalSettings.MinNoise = Converters.DoubleValueFromUI(this.minLimitNoise.Text);
             linkToInterval.IntervalSettings.MaxSignal = Converters.DoubleValueFromUI(this.maxLimitSignal.Text);
@@ -135,7 +152,7 @@ namespace PeminSpectrumAnalyser
 
             linkToInterval.IntervalSettings.SpecialSignalNoiseShift = Converters.DoubleValueFromUI(this.SpecialDelta.Text);
 
-            linkToInterval.IntervalSettings.HandCenterFrequency = this.HandCenterFrequency.Value; 
+            //linkToInterval.IntervalSettings.HandCenterFrequency = this.HandCenterFrequency.Value; 
             linkToInterval.IntervalSettings.isAuto = this.IsAutoStyle;
 
 
@@ -157,13 +174,25 @@ namespace PeminSpectrumAnalyser
                 if (linkToInterval.IntervalSettings.isAuto) // CC
                 {
                     BandWidth.Value = linkToInterval.IntervalSettings.BandWidth;
-                    this.tbSpan.Text = ((double)linkToInterval.IntervalSettings.Span / 1000000).ToString();//рассчитывается, пользователем не меняется
+                    CtrlSpan.Value = linkToInterval.IntervalSettings.Span ;//рассчитывается, может быть изменено пользователем заданием вручную
                     Band.Value = linkToInterval.IntervalSettings.Band;
+                    //if (linkToInterval.IntervalSettings.isManualSpan == true)
+                    //{
+                    //    cbSpanManualSS.IsChecked = true;
+                    //    SpanManualSS.Value = linkToInterval.IntervalSettings.Span;
+                    //    CtrlSpan.Value = linkToInterval.IntervalSettings.Span; 
+                    //}
                 }
                 else //для ДС полосы пропускания находятся на уровне SequenceCtr
                 {                   
                         linkToInterval.GetExperimentExplorer().SequenceCtrl.HandRBW.Value = linkToInterval.IntervalSettings.BandWidth;                      
-                        linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value = linkToInterval.IntervalSettings.Band;                    
+                        linkToInterval.GetExperimentExplorer().SequenceCtrl.HandVBW.Value = linkToInterval.IntervalSettings.Band;
+                    if (linkToInterval.IntervalSettings.isManualSpan == true)
+                    {
+                        cbSpanManualDS.IsChecked = true;
+                        SpanManualDS.Value = linkToInterval.IntervalSettings.Span;
+                    }
+
                 }
                 this.maxLimitNoise.Text = linkToInterval.IntervalSettings.MaxNoise.ToString();
                 this.minLimitNoise.Text = linkToInterval.IntervalSettings.MinNoise.ToString();
@@ -395,5 +424,53 @@ namespace PeminSpectrumAnalyser
             else
                 MsgBand.Visibility = Visibility.Hidden;
         }
+
+       
+        private void cbSpanManualDS_Checked(object sender, RoutedEventArgs e)
+        {
+            SpanManualDS.IsEnabled = (bool)((CheckBox)sender).IsChecked;
+            if (!SpanManualDS.IsEnabled)
+            {
+                SpanManualDS.Value = 0;
+                UITo(Interval);
+            }
+        }
+
+        private void cbManuaSWPSS_Checked(object sender, RoutedEventArgs e)
+        {
+            tbManualSWPSS.IsEnabled = (bool)((CheckBox)sender).IsChecked;
+            if (!tbManualSWPSS.IsEnabled)
+            {
+                tbManualSWPSS.Text = "0";
+                UITo(Interval);
+            }
+        }
+        private void cbManuaSWPDS_Checked(object sender, RoutedEventArgs e)
+        {
+            tbManualSWPDS.IsEnabled = (bool)((CheckBox)sender).IsChecked;
+            if (!tbManualSWPDS.IsEnabled)
+            {
+                tbManualSWPDS.Text = "0";
+                UITo(Interval);
+            }
+        }
+        private void tbManualSWP_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)   //завершён ввод
+            { 
+                UITo(Interval);
+                return;
+            }
+            if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Decimal || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.OemComma ||  e.Key >= Key.D0 && e.Key <= Key.D9 )   //завершён ввод
+                return;
+            else
+            {
+                MessageBox.Show("Допускается ввод только цифр и десятичного разделителя");
+                e.Handled = true;
+            }
+        }
+
+
     }
 }

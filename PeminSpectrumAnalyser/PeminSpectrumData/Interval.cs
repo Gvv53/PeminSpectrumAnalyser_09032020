@@ -389,12 +389,25 @@ namespace PeminSpectrumData
                 long CurrentCenterFrequency; //частотный центр заданного диапазона
                 //расчётное количество точек измерения, включая
                 long innerStepQuantity = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart) / IntervalSettings.FrequencyInnerStep;
-
+                if (innerStepQuantity == 0)
+                {
+                    MessageBox.Show("Согласуйте значение ДИАПАЗОНА и ШАГа");
+                    return;
+                }
                 if (innerStepQuantity <= IntervalSettings.PointsQuantity - 1)    //расчётное число точек <= числа точек ИП
                 {
-                    IntervalSettings.Span = IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart;
-                    //центральная частота диапазона 
-                    CurrentCenterFrequency = IntervalSettings.FrequencyStart + IntervalSettings.Span / 2;
+                   // if (!IntervalSettings.isManualSpan || IntervalSettings.Span == 0)
+                   // {
+                        IntervalSettings.Span = IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart;
+                        //центральная частота диапазона 
+                        CurrentCenterFrequency = IntervalSettings.FrequencyStart + IntervalSettings.Span / 2;
+                   // }
+                   //  else   //иначе, значение уже установлено вручную
+                   // {
+                        //центральная частота диапазона 
+                   //     CurrentCenterFrequency = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart)/2 + IntervalSettings.Span / 2;
+
+                    //}
 
                     CenterFrequencys.Add(CurrentCenterFrequency);
                     //диапазон измерений ИП разбит на некое число точек(зависит от типа прибора)
@@ -407,10 +420,16 @@ namespace PeminSpectrumData
                 }
                 else  //расчётное число точек > числа точек ИП.Исходный диапазон разбивается на интревалы с количеством точек измерения = ИП.Рассчитываются центры интервалов и маркеры точек измерений
                 {
-                    //диапазон, рассчитанный из заданного шага частоты и количества точек прибора
-                    IntervalSettings.Span = (IntervalSettings.PointsQuantity - 1) * IntervalSettings.FrequencyInnerStep;
-                    //центральная частота диапазона 
-                    CurrentCenterFrequency = IntervalSettings.FrequencyStart + IntervalSettings.Span / 2;
+                    //if (!IntervalSettings.isManualSpan || IntervalSettings.Span == 0)
+                    //{
+                        //диапазон, рассчитанный из заданного шага частоты и количества точек прибора
+                        IntervalSettings.Span = (IntervalSettings.PointsQuantity - 1) * IntervalSettings.FrequencyInnerStep;
+                        //центральная частота диапазона 
+                        CurrentCenterFrequency = IntervalSettings.FrequencyStart + IntervalSettings.Span / 2;
+                    //}
+                   // else
+                        //центральная частота диапазона 
+                    //    CurrentCenterFrequency = (IntervalSettings.FrequencyStop - IntervalSettings.FrequencyStart) / 2 + IntervalSettings.Span / 2;
                     CenterFrequencys.Add(CurrentCenterFrequency);
                     //пока
                     while ((CurrentCenterFrequency + IntervalSettings.Span / 2) < IntervalSettings.FrequencyStop)

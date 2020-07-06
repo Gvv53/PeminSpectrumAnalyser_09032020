@@ -59,7 +59,7 @@ namespace PeminSpectrumAnalyser
                 //отобразим снятый сигнал для интервалов ДС
                 foreach (ParametersCtrl par in ParametersList.Items)
                 {
-                    if (par.Interval.IntervalSettings.isAuto)
+                    if (par.Interval.IntervalSettings.isAuto || !par.Interval.isActive)
                         return;
                     //par.tbSignal.Text = par.Interval.OriginalSignal[par.Interval.Markers[0]].ToString();
                     par.tbSignal.Text = par.Interval.Signal[par.Interval.Markers[0]].ToString();
@@ -76,7 +76,7 @@ namespace PeminSpectrumAnalyser
                 //отобразим снятый шум для интервалов ДС
                 foreach (ParametersCtrl par in ParametersList.Items)
                 {
-                    if (par.Interval.IntervalSettings.isAuto)
+                    if (par.Interval.IntervalSettings.isAuto || !par.Interval.isActive)
                         return;
                     //par.tbNoise.Text = par.Interval.OriginalNoise[par.Interval.Markers[0]].ToString();
                     par.tbNoise.Text = par.Interval.Noise[par.Interval.Markers[0]].ToString();
@@ -174,16 +174,21 @@ namespace PeminSpectrumAnalyser
                  pBar.Maximum = pbMax;
             });
             ExperimentExplorer.pBarValue += (int pbValue) => stbThread.Dispatcher.Invoke(() => { pBar.Value = pbValue; });
-            ExperimentExplorer.StateButtunChart += (bool state) => stbBegin.Dispatcher.Invoke(() =>
+            ExperimentExplorer.StateButtunChart += (bool state, ParametersCtrl par) => stbBegin.Dispatcher.Invoke(() =>
             {
-                foreach (ParametersCtrl par in ExperimentExplorer.SequenceCtrl.ParametersList.Items)
-                {
+                //foreach (ParametersCtrl par in ExperimentExplorer.SequenceCtrl.ParametersList.Items)
+                //{
                     par.gbFilter.IsEnabled = state;
                     par.showChart.IsEnabled = state;
                     par.showSignalAndNoise_Copy.IsEnabled = state;
-                    ExperimentExplorer.SequenceCtrl.buttonStartSIGNAL.IsEnabled = state;
-                    ExperimentExplorer.SequenceCtrl.buttonStartNOISE.IsEnabled = state;
-                }
+                    par.cbSpanManualDS.IsEnabled = state;
+                par.cbManualSWPDS.IsEnabled = state;
+                par.tbManualSWPDS.IsEnabled = state;
+                par.cbManualSWPSS.IsEnabled = state;
+                par.tbManualSWPSS.IsEnabled = state;                                    
+                ExperimentExplorer.SequenceCtrl.buttonStartSIGNAL.IsEnabled = state;
+                ExperimentExplorer.SequenceCtrl.buttonStartNOISE.IsEnabled = state;
+                //
             });
         }
         private void RefreshRbw(long value)

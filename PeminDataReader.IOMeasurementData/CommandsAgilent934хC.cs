@@ -75,6 +75,8 @@ namespace IOMeasurementData
                                       long attenuation,
                                       bool preamp,
                                       long countTraceMode,
+                                      bool isManualSWP,
+                                      double ManualSWP,
                                       int errorCount = 0
                                       )
         {

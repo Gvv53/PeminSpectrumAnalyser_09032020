@@ -33,10 +33,6 @@ namespace IOMeasurementData
         public long Attenuation { get; set; }   //передаётся ИП
 
 
-       // public string SignalTraceMode { get; set; } = "NONE";
-       // public string NoiseTraceMode { get; set; } = "NONE";
-       //public string TraceMode { get; set; }   //передаётся ИП
-
         public long CountSignalTraceMode { get; set; } = 10;
         public long CountNoiseTraceMode { get; set; } = 10; 
         public long CountTraceMode { get; set; }//передаётся ИП
@@ -44,5 +40,7 @@ namespace IOMeasurementData
         public AverageType AverageType { get; set; } = AverageType.Middle;
         public int MeasurementCount { get; set; } = 3;
         public bool Preamp { get; set; }
+        public bool isManualSWP { get; set; }
+        public double ManualSWP { get; set; }
     }
 }

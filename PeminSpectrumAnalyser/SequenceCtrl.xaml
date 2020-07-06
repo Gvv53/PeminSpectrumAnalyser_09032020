@@ -149,18 +149,21 @@
                     <StackPanel  Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
                         <Label Content="RBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
                                VerticalAlignment="Center" Padding="5" Margin="10,0,0,0"  />
-                        <local:FrequencyCtrl x:Name="HandRBW" Value="1000000" VerticalAlignment="Center" Width="137"
-                                             ToolTip="Тактовая частота"  VerticalContentAlignment="Center" Height="24" />
-                        <CheckBox x:Name="cbRBW"  HorizontalContentAlignment="Center" Margin="5,0,0,0" ToolTip="Программное управление RBW " 
+                    <CheckBox x:Name="cbRBW"  HorizontalContentAlignment="Center" Margin="5,0,0,0" ToolTip="Установить RBW вручную " 
                                   Click="CbRBW_Click" VerticalContentAlignment="Center" VerticalAlignment="Center" />
-                        <Label Content="VBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Margin="20,0,0,0"
+
+                    <local:FrequencyCtrl x:Name="HandRBW" Value="1000000" VerticalAlignment="Center" Width="137" Margin="10,0,0,0"  
+                                             ToolTip="Тактовая частота"  VerticalContentAlignment="Center" Height="24" />
+                    <Label Content="VBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Margin="20,0,0,0"
                                VerticalAlignment="Center" Padding="5,0" Height="24"/>
-                        <local:FrequencyCtrl  x:Name="HandVBW" Value="1000000" VerticalAlignment="Center" Width="137"
-                                              ToolTip="Тактовая частота"  VerticalContentAlignment="Center" Height="24"  />
-                        <CheckBox x:Name="cbVBW"  HorizontalContentAlignment="Center" Margin="5,0,0,0" ToolTip="Программное eправление VBW " Click="CbVBW_Click" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                        <Label x:Name="MsgBand" Content="Не забудьте настроить фильтры на ИП!" Foreground="Red"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
-                               VerticalAlignment="Center" Padding="5" Margin="10,0,0,0" Visibility="Hidden" />
-                    </StackPanel>
+                    <CheckBox x:Name="cbVBW"  HorizontalContentAlignment="Center" Margin="5,0,0,0" ToolTip="Установить VBW вручную " Click="CbVBW_Click"
+                                  VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                    <local:FrequencyCtrl  x:Name="HandVBW" Value="1000000" VerticalAlignment="Center" Width="137"
+                                              ToolTip="Тактовая частота"  VerticalContentAlignment="Center" Height="24" Margin="10,0,0,0"  />
+                    <Label x:Name="MsgBand" Content="Не забудьте настроить фильтры на ИП!" Foreground="Red"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
+                           VerticalAlignment="Center" Padding="5" Margin="10,0,0,0" Visibility="Hidden" />
+                </StackPanel>
 
                 <!--</GroupBox>-->
             </Grid>

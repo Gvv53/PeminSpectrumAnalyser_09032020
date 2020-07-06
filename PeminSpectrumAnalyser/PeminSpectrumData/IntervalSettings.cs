@@ -18,11 +18,16 @@ namespace PeminSpectrumData
         public long FrequencyInnerStep { get; set; } = 0;   // заданный шаг сканирования
 
         public long BandWidth { get; set; } = 100000;
-        public long Span { get; set; } = 1000000;
+        public long Span { get; set; }
         public long Band { get; set; } = 100000;
 
         public bool isAuto { get; set; } = true;
-        public long _HandCenterFrequency { get; set; } = 1000000;
+        public long _HandCenterFrequency { get; set; }// = 1000000;
+        public bool isManualSpan { get; set; } = false;
+        public bool isManuaSWPTime { get; set; } = false;
+
+        public Double ManuaSWPTime { get; set; } = 0;
+
         public long HandCenterFrequency
         {
             get => _HandCenterFrequency;
@@ -32,12 +37,12 @@ namespace PeminSpectrumData
                 if (!isAuto) //для ДС
                 {
                     //заполняется при 
-                    //Span = value;
+                    Span = 1000000;
                     //Band = value;
                     //BandWidth = value;
                     //граничные частоты интервала сканирования. Для ДС не имеют смысла?, т.к. измерения проводятся только для центральной частоты
-                    FrequencyStart = _HandCenterFrequency - 500000;
-                    FrequencyStop = _HandCenterFrequency +  500000;
+                    FrequencyStart = _HandCenterFrequency - Span/2;
+                    FrequencyStop = _HandCenterFrequency + Span / 2;
                     //FrequencyStart = _HandCenterFrequency - _HandCenterFrequency / 2;
                     //FrequencyStop = _HandCenterFrequency + _HandCenterFrequency / 2;
                 }

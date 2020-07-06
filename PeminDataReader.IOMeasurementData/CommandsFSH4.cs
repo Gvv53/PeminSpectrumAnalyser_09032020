@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Globalization;
 
 namespace IOMeasurementData
 {
@@ -39,6 +40,8 @@ namespace IOMeasurementData
                                       long attenuation,
                                       bool preamp,
                                       long countTraceMode,
+                                      bool isManualSWP,
+                                      double ManualSWP,
                                       int errorCount = 0
                                       )
         {
@@ -76,16 +79,25 @@ namespace IOMeasurementData
 
 
                 Send("FREQ:SPAN " + span.ToString() + " Hz");
-                //  if(!RBWAndVBW.VBW)
+               
                 Send(":BAND " + bandWidth.ToString() + " Hz");
-
-              //  if (!RBWAndVBW.RBW)
-                    Send(":BAND:VID " + band.ToString() + "Hz");
+            
+                Send(":BAND:VID " + band.ToString() + "Hz");
 
                 Send("FREQ:CENT " + frequency.ToString() + " Hz");
                 
                 Send(":SENSe:POWer:GAIN " + (preamp ? "ON" : "OFF")); //предусилитель
 
+                if (isManualSWP && ManualSWP != 0)
+                {
+                    Send(":SENSe:SWEep:TIME:AUTO OFF");
+                    var cc = Thread.CurrentThread.CurrentCulture;
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    Send(":SENSe:SWEep:TIME " + ((double)ManualSWP/1000).ToString());
+                    Thread.CurrentThread.CurrentCulture = cc;
+                }
+                else
+                    Send(":SENSe:SWEep:TIME:AUTO ON");
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
                 Thread.Sleep(5000);

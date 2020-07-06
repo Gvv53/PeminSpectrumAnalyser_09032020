@@ -11,34 +11,73 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid x:Name="GridHand" Height="40" Visibility="Visible">
-            <StackPanel Orientation="Horizontal" Margin="0,0,30,0" VerticalAlignment="Center">
-               
-                <Button x:Name="showSignalAndNoise_Copy" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25"
-                        Background="{x:Null}" Click="ShowSignalAndNoise_Click" />
-                <local:FrequencyCtrl x:Name="HandCenterFrequency" ToolTip="Гармоника тактовой частоты" Margin="10,0,0,0" MinWidth="90"/>
-                                
-                <Label Content="Сигнал" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                <TextBox x:Name="tbSignal" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
+        <Border BorderBrush="#FF7E0A0A" BorderThickness="0.2" >
+            <Grid x:Name="GridHand" Height="60" Visibility="Visible" Margin="1">
+           
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,30,0" VerticalAlignment="Center" >
+
+                <Label Content="Частота" Foreground="#FFCF8282" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                <local:FrequencyCtrl x:Name="HandCenterFrequency" ToolTip="Гармоника тактовой частоты" Margin="10,0,0,0" MinWidth="90" IsEnabled="False" />
+
+                    <Label Content="Сигнал" Foreground="#FFCF8282" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="tbSignal" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center" 
                      VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Сигнал+Шум, оригинальное значение"/>
-                <Label Content="Шум" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Content="Шум" Foreground="#FFCF8282" Margin="10,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="tbNoise" Foreground="White" Margin="10,0,0,0" Text="0" Width="80" HorizontalContentAlignment="Center"
-                     VerticalAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True" ToolTip="Шум, оригинальное значение"/>
-              
+                     VerticalAlignment="Center" VerticalContentAlignment="Center"  ToolTip="Span, заданный вручную" IsReadOnly="True" />
             </StackPanel>
+            <CheckBox  x:Name="isActiveCheckBoxDS" Grid.RowSpan="2"  IsChecked="True" Checked="isActiveCheckBox_Checked"  Unchecked="isActiveCheckBox_Unchecked" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,20,0"  
+                       ToolTip="Включение/отключение интервала"/>
+            <Button x:Name="showSignalAndNoise_Copy" Grid.RowSpan="2" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25"
+                        Background="{x:Null}" Click="ShowSignalAndNoise_Click" HorizontalAlignment="Right" Margin="0,0,50,0" />
             <Button x:Name="DeleteButton_Copy" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Width="20"
                     Background="#FF672326" Click="Delete_Click" RenderTransformOrigin="0.6,0.2" HorizontalAlignment="Right" HorizontalContentAlignment="Center" />
-        </Grid>
+                <StackPanel Grid.Row="1" x:Name="spManual" Orientation="Horizontal" Margin="0,0,30,0" VerticalAlignment="Center">
+                    <Label Content="Manual SPAN" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" 
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center" Padding="5" HorizontalAlignment="Right" Margin="0,0,29,0"  />
+                    <CheckBox  x:Name="cbSpanManualDS"  IsChecked="false"  Unchecked="cbSpanManualDS_Checked"  Checked="cbSpanManualDS_Checked"
+                                           HorizontalAlignment="Right"  VerticalAlignment="Center"  Foreground="#FFF7F7FC" FontWeight="Bold" 
+                                           VerticalContentAlignment="Center"   />
+                    <local:FrequencyCtrl x:Name="SpanManualDS"  Grid.Row="1" Grid.Column="1" 
+                                                     Height="24" Width="120"
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0" IsEnabled="False" >
+                        <local:FrequencyCtrl.Value>1000000</local:FrequencyCtrl.Value>
+                        <local:FrequencyCtrl.ToolTip>
+                            <StackPanel>
+                                <TextBlock>SPAN, установленный вручную</TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="После изменения значений нажмите "/>
+                                    <TextBlock Text="ENTER" Foreground="Red"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </local:FrequencyCtrl.ToolTip>
+                    </local:FrequencyCtrl>
 
+                    <Label Content="Manual SWP Time, ms" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" 
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center" Padding="5" HorizontalAlignment="Right" Margin="10,0"  />
+                    <CheckBox  x:Name="cbManualSWPDS"  IsChecked="false" 
+                                           HorizontalAlignment="Right"  VerticalAlignment="Center"  Foreground="#FFF7F7FC" FontWeight="Bold" 
+                                           VerticalContentAlignment="Center" Checked="cbManuaSWPDS_Checked" Unchecked="cbManuaSWPDS_Checked"    />
+                    <TextBox x:Name="tbManualSWPDS" Height="24" HorizontalContentAlignment="Center" CaretBrush="White"
+                         VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Время развёртки, выставленное вручную.Абсолютная или относительная, зависит от ИП"
+                         Text="0" Padding="10,1" Margin="20,0,0,0" KeyDown="tbManualSWP_KeyDown" IsEnabled="False" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border BorderBrush="#FF7E0A0A" BorderThickness="0.2" Grid.Row="1">
         <Grid x:Name="GridAuto"  Grid.Row="1" Visibility="Visible" VerticalAlignment="Center" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <!--<Grid.RowDefinitions>
-                <RowDefinition />
-            </Grid.RowDefinitions>-->
             <TabControl Background="#FF3E3E42" BorderBrush="{x:Null}" Foreground="#FF161619" TabStripPlacement="Left" HorizontalContentAlignment="Stretch"  >
                 <TabControl.Resources>
                     <Style TargetType="{x:Type TabItem}">
@@ -56,17 +95,22 @@
                         <Setter Property="Padding" Value="5" />
                     </Style>
                 </TabControl.Resources>
-                <TabItem Header="ИНТЕРВАЛ">
+                <TabItem BorderThickness="1" Padding="1">
+                    <TabItem.Header>
+                        <Label Content="  ИНТЕРВАЛ  " Foreground="Black" Background="#FFDCD7D7" Padding="0" HorizontalContentAlignment="Stretch"
+                               VerticalAlignment="Center" VerticalContentAlignment="Center"  />
+                    </TabItem.Header>
+
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="30*"/>
                             <RowDefinition Height="25*"/>
+                            <RowDefinition Height="25"/>
                             <RowDefinition Height="25*"/>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="30*"/>
-                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="23*"/>
+                            <RowDefinition Height="22*"/>
+                            <RowDefinition Height="34*"/>
+                            <RowDefinition Height="34*"/>
+                            <RowDefinition Height="34*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -76,11 +120,11 @@
                                   VerticalContentAlignment="Center" FontSize="12" BorderThickness="0.3" HorizontalContentAlignment="Stretch">
                             <GroupBox.Header>
                                 <Label Content="Задаваемые значения" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center"
-                           Padding="0" FontStyle="Italic"/>
+                                       Padding="0" FontStyle="Italic"/>
                             </GroupBox.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="170"/>
                                     <ColumnDefinition Width="0.7*"/>
                                     <ColumnDefinition Width="0.2*"/>
                                     <ColumnDefinition Width="0.7*"/>
@@ -89,50 +133,63 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <Label Content="ГРАНИЦЫ ДИАПАЗОНА" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FA" FontWeight="Bold"
+                               
+                                    <Label Content="ГРАНИЦЫ ДИАПАЗОНА" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FA" FontWeight="Bold"
                                        HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                                <Label Content=" - "  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Width="20" Height="24"  Foreground="#FFF7F7FA" FontWeight="Bold"
+                                    <Label Content=" - "  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Width="20" Height="24"  Foreground="#FFF7F7FA" FontWeight="Bold"
                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" />
-                                <local:FrequencyCtrl x:Name="StartFrequency" Grid.Row="0" Grid.Column="1" 
+                                    <local:FrequencyCtrl x:Name="StartFrequency" Grid.Row="0" Grid.Column="1" 
                                                      Height="24" 
-                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" >
-                                    <local:FrequencyCtrl.ToolTip>
-                                        <StackPanel>
-                                            <TextBlock>НАЧАЛЬНАЯ ТОЧКА</TextBlock>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="После изменения значений нажмите "/>
-                                                <TextBlock Text="ENTER" Foreground="Red"/>
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0" >
+                                        <local:FrequencyCtrl.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock>НАЧАЛЬНАЯ ТОЧКА</TextBlock>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="После изменения значений нажмите "/>
+                                                    <TextBlock Text="ENTER" Foreground="Red"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </local:FrequencyCtrl.ToolTip>
-                                </local:FrequencyCtrl>
-                                <!--<local:FrequencyCtrl x:Name="StartFrequency" ToolTip="КОНЕЧНАЯ ТОЧКА" Margin="142,0,194,1" Grid.RowSpan="2"/>-->
-                                <local:FrequencyCtrl x:Name="StopFrequency" Height="24"  Grid.Row="0" Grid.Column="3"
+                                        </local:FrequencyCtrl.ToolTip>
+                                    </local:FrequencyCtrl>
+
+                                    <local:FrequencyCtrl x:Name="StopFrequency" Height="24"  Grid.Row="0" Grid.Column="3"
                                                      VerticalAlignment="Center" VerticalContentAlignment="Center" >
-                                    <local:FrequencyCtrl.ToolTip>
-                                        <StackPanel>
-                                            <TextBlock>КОНЕЧНАЯ ТОЧКА</TextBlock>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="После изменения значений нажмите "/>
-                                                <TextBlock Text="ENTER" Foreground="Red"/>
+                                        <local:FrequencyCtrl.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock>КОНЕЧНАЯ ТОЧКА</TextBlock>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="После изменения значений нажмите "/>
+                                                    <TextBlock Text="ENTER" Foreground="Red"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </local:FrequencyCtrl.ToolTip>
-                                </local:FrequencyCtrl>
-                                <Label Content="ШАГ" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" HorizontalContentAlignment="Right"
+                                        </local:FrequencyCtrl.ToolTip>
+                                    </local:FrequencyCtrl>
+                                    <Label Content="ШАГ" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" HorizontalContentAlignment="Right"
                                        VerticalContentAlignment="Center" Padding="0"  />
-                                <local:FrequencyCtrl x:Name="InnerStepFrequency" Grid.Row="1" Grid.Column="1"                                                      
-                                                     Height="24" VerticalAlignment="Center" VerticalContentAlignment="Center" >
-                                    <local:FrequencyCtrl.ToolTip>
-                                        <StackPanel>
-                                            <TextBlock>ШАГ ИЗМЕРЕНИЯ ЧАСТОТЫ</TextBlock>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="После изменения значений нажмите "/>
-                                                <TextBlock Text="ENTER" Foreground="Red"/>
+                                    <local:FrequencyCtrl x:Name="InnerStepFrequency" Grid.Row="1" Grid.Column="1"                                                      
+                                                     Height="24" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0" >
+                                        <local:FrequencyCtrl.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock>ШАГ ИЗМЕРЕНИЯ ЧАСТОТЫ</TextBlock>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="После изменения значений нажмите "/>
+                                                    <TextBlock Text="ENTER" Foreground="Red"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </local:FrequencyCtrl.ToolTip>
-                                </local:FrequencyCtrl>
+                                        </local:FrequencyCtrl.ToolTip>
+                                    </local:FrequencyCtrl>
+                              
+                                <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                                    <StackPanel  Orientation="Horizontal">
+                                        <Label Content="Manual SWP Time, ms"  Height="24" Foreground="#FFF7F7FC" FontWeight="Bold" Padding="5"  />
+                                        <CheckBox  x:Name="cbManualSWPSS"   IsChecked="false"  
+                                               HorizontalAlignment="Right"  VerticalAlignment="Center"  Foreground="#FFF7F7FC" FontWeight="Bold" 
+                                               VerticalContentAlignment="Center"  Unchecked="cbManuaSWPSS_Checked"  Checked="cbManuaSWPSS_Checked" />
+                                        <TextBox x:Name="tbManualSWPSS" Height="24" HorizontalContentAlignment="Center" CaretBrush="White"
+                                                 VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Время развёртки, выставленное вручную.Абсолютная или относительная, зависит от ИП" Text="0"
+                                                 Padding="10,1" Margin="20,0,0,0" KeyUp="tbManualSWP_KeyDown" HorizontalAlignment="Left" IsEnabled="False" />
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                         </GroupBox>
                         <Button x:Name="createPoints" Content="РАССЧИТАТЬ" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Margin="11,15,355,10"  Background="{x:Null}"
@@ -156,21 +213,30 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Content="ЧАСТОТА ЦЕНТРА" VerticalAlignment="Top"  Height="26" Foreground="#FFF7F7FC" FontWeight="Bold" 
+                                        <Label Content="ЧАСТОТА ЦЕНТРА" VerticalAlignment="Top"  Height="26" Foreground="#FFCF8282" FontWeight="Bold" 
                                        HorizontalContentAlignment="Right"  VerticalContentAlignment="Center"  />
                                     <Label Content=" MHz" Foreground="White"  HorizontalAlignment="Center" Grid.Column="1"
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" FontSize="10"/>
                                     <TextBox x:Name="tbCenterFrequency" Grid.Row="0" Grid.Column="2" Height="24" HorizontalContentAlignment="Center" IsReadOnly="True"
                                          VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Количество точек измерения в частотном диапазоне" Text="0" Padding="10,1" />
 
-                                    <Label Content="SPAN" Grid.Column="0"  Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24" Foreground="#FFF7F7F8" 
+                                        <Label Content="SPAN" Grid.Column="0"  Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Height="24" Foreground="#FFCF8282" 
                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" />
-                                    <Label Content=" MHz" Foreground="White"  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"
-                                           VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24" FontSize="10"/>
-                                    <TextBox x:Name="tbSpan" Grid.Row="1" Grid.Column="2" Height="24" HorizontalContentAlignment="Center" IsReadOnly="True"
-                                         VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Количество точек измерения в частотном диапазоне" Text="0" />
+                                        <local:FrequencyCtrl x:Name="CtrlSpan"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                                                     Height="24" IsEnabled="False" 
+                                                     VerticalAlignment="Center" VerticalContentAlignment="Center" >
+                                        <local:FrequencyCtrl.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock>SPAN, установленный вручную или рассчитанный автоматически</TextBlock>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="После изменения значений нажмите "/>
+                                                    <TextBlock Text="ENTER" Foreground="Red"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </local:FrequencyCtrl.ToolTip>
+                                    </local:FrequencyCtrl>
                                     <Label Content="КОЛИЧЕСТВО ТОЧЕК" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Height="25"
-                                       Foreground="#FFF8EFED" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                       Foreground="#FFCF8282" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                                     <TextBox x:Name="tbPoints" Grid.Row="2" Grid.Column="2" Height="24" HorizontalContentAlignment="Center" IsReadOnly="True"
                                          VerticalAlignment="Center" VerticalContentAlignment="Center" ToolTip="Количество точек измерения в частотном диапазоне" Text="0" />
 
@@ -179,7 +245,8 @@
                             <GroupBox x:Name ="gbFilter" x:FieldModifier="public" Grid.Row="5" Grid.RowSpan="3"  Foreground="White"
                                    VerticalContentAlignment="Stretch" Opacity="0.9" BorderBrush ="#FF3F3F46"
                                   HorizontalContentAlignment="Center" 
-                                  HorizontalAlignment="Right" BorderThickness="0.3" Margin="15,0,0,0" >
+                                  HorizontalAlignment="Right" BorderThickness="0.3" Margin="50,0,0,0" >
+                                
                                 <GroupBox.Header>
                                     <Label Content="Полоса пропускания фильтров" Foreground="White" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center"
                            Padding="0" FontStyle="Italic"/>
@@ -193,7 +260,9 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="RBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center"
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                                        <local:FrequencyCtrl x:Name="BandWidth" Grid.Row="0" Grid.Column="1"  Height="24" 
+                                            <CheckBox x:Name="cbBandWidth"  HorizontalContentAlignment="Center" Margin="10,0,0,5" ToolTip="Программное управление RBW " 
+                                              Click="cbBandWidth_Click" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
+                                            <local:FrequencyCtrl x:Name="BandWidth" Grid.Row="0" Grid.Column="1"  Height="24" 
                                                      VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137" IsEnabled="False">
                                             <local:FrequencyCtrl.ToolTip>
                                                 <StackPanel>
@@ -205,13 +274,14 @@
                                                 </StackPanel>
                                             </local:FrequencyCtrl.ToolTip>
                                         </local:FrequencyCtrl>
-                                        <CheckBox x:Name="cbBandWidth"  HorizontalContentAlignment="Center" Margin="10,0,0,5" ToolTip="Программное управление RBW " 
-                                              Click="cbBandWidth_Click" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
+                                       
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                                         <Label Content="VBW" Foreground="White" FontWeight="Bold" Margin="0" HorizontalAlignment="Center" 
                                            VerticalAlignment="Center" VerticalContentAlignment="Center" Height="24"/>
-                                        <local:FrequencyCtrl x:Name="Band" Grid.Row="0" Grid.Column="1"  Height="24" 
+                                            <CheckBox x:Name="cbBand"  HorizontalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Программное управление RBW " 
+                                              Click="cbBand_Click" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+                                            <local:FrequencyCtrl x:Name="Band" Grid.Row="0" Grid.Column="1"  Height="24" 
                                                      VerticalAlignment="Center" VerticalContentAlignment="Center" Width="137" IsEnabled="False">
                                             <local:FrequencyCtrl.ToolTip>
                                                 <StackPanel>
@@ -223,8 +293,7 @@
                                                 </StackPanel>
                                             </local:FrequencyCtrl.ToolTip>
                                         </local:FrequencyCtrl>
-                                        <CheckBox x:Name="cbBand"  HorizontalContentAlignment="Center" Margin="10,0,0,0" ToolTip="Программное управление RBW " 
-                                              Click="cbBand_Click" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+                                       
 
                                     </StackPanel>
                                     <Label Grid.Row="2" x:Name="MsgBand" Content="Настроить фильтры на ИП!" Foreground="Red" 
@@ -235,8 +304,24 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-
-                <TabItem Header="ОБРАБОТКА">
+                <TabItem BorderThickness="1" Padding="1">
+                    <TabItem.Header >
+                        <Label Content="  MSG  "  Foreground="Black" Background="#FFDCD7D7" Padding="0" VerticalAlignment="Center"
+                               VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" BorderThickness="1" />
+                    </TabItem.Header>
+                    <Grid Background="#FF3E3E42" Margin="0,0,0,4">
+                        <TextBox x:Name="messageText1" Height="50" Margin="116,6,0,0" TextWrapping="Wrap" Text="СМЕНИТЕ АНТЕННУ ПЕРЕД СМЕНОЙ ДИАПАЗОНА СКАНИРОВАНИЯ" VerticalAlignment="Top"  BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
+                        <TextBox x:Name="messageText2" Height="49" Margin="116,61,0,0" TextWrapping="Wrap" Text="ПРОВЕРЬТЕ НАСТРОЙКУ BANDWIDTH НА ПРИБОРЕ" VerticalAlignment="Top"  BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
+                        <TextBox x:Name="messageText3" Height="48" Margin="116,115,0,0" TextWrapping="Wrap" Text=".." VerticalAlignment="Top"  BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
+                        <CheckBox x:Name="message1Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFEFEFF8" Width="109" Height="15" Margin="2,10,0,0" BorderBrush="#FFF3F3F8" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message2Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF5F5FA" Width="109" Height="15" Margin="2,63,0,0" BorderBrush="#FFFBFBFC" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message3Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF8EFEF" Width="109" Height="15" Margin="2,117,0,0" BorderBrush="#FFF9F9FA" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message1EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFEFEFF8" Width="109" Height="15" Margin="2,30,0,0" BorderBrush="#FFF3F3F8" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message2EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF5F5FA" Width="109" Height="15" Margin="2,83,0,0" BorderBrush="#FFFBFBFC" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                        <CheckBox x:Name="message3EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF8EFEF" Width="109" Height="15" Margin="2,137,0,0" BorderBrush="#FFF9F9FA" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="ОБРАБОТКА" Visibility="Hidden">
                     <Grid Background="#FF3E3E42" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -268,20 +353,6 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="MSG">
-                    <Grid Background="#FF3E3E42" Margin="0,0,0,4">
-                        <TextBox x:Name="messageText1" HorizontalAlignment="Left" Height="50" Margin="116,6,0,0" TextWrapping="Wrap" Text="СМЕНИТЕ АНТЕННУ ПЕРЕД СМЕНОЙ ДИАПАЗОНА СКАНИРОВАНИЯ" VerticalAlignment="Top"  BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
-                        <TextBox x:Name="messageText2" HorizontalAlignment="Left" Height="49" Margin="116,61,0,0" TextWrapping="Wrap" Text="ПРОВЕРЬТЕ НАСТРОЙКУ BANDWIDTH НА ПРИБОРЕ" VerticalAlignment="Top"  BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
-                        <TextBox x:Name="messageText3" HorizontalAlignment="Left" Height="48" Margin="116,115,0,0" TextWrapping="Wrap" Text=".." VerticalAlignment="Top"  BorderBrush="#FF686868" Background="{x:Null}" TextChanged="messageText1_TextChanged"/>
-                        <CheckBox x:Name="message1Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFEFEFF8" Width="109" Height="15" Margin="2,10,0,0" BorderBrush="#FFF3F3F8" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
-                        <CheckBox x:Name="message2Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF5F5FA" Width="109" Height="15" Margin="2,63,0,0" BorderBrush="#FFFBFBFC" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
-                        <CheckBox x:Name="message3Enable" Content="ДЛЯ СИГНАЛА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF8EFEF" Width="109" Height="15" Margin="2,117,0,0" BorderBrush="#FFF9F9FA" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
-                        <CheckBox x:Name="message1EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFEFEFF8" Width="109" Height="15" Margin="2,30,0,0" BorderBrush="#FFF3F3F8" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
-                        <CheckBox x:Name="message2EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF5F5FA" Width="109" Height="15" Margin="2,83,0,0" BorderBrush="#FFFBFBFC" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
-                        <CheckBox x:Name="message3EnableForNoise" Content="ДЛЯ ШУМА" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFF8EFEF" Width="109" Height="15" Margin="2,137,0,0" BorderBrush="#FFF9F9FA" Checked="message1Enable_Checked" Unchecked="message3EnableForNoise_Unchecked"/>
-                    </Grid>
-                </TabItem>
-
             </TabControl>
             <!--<Button x:Name="delete" Content="X" BorderBrush="#FFFF4B00" Foreground="#FFFF4B00" Height="25" Margin="230.624,0,-171,231" Background="{x:Null}" Click="Delete_Click" Grid.Column="2" />-->
             <Button x:Name="showChart" Content="ГРАФИК" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Background="{x:Null}" Click="ShowChart_Click"
@@ -289,7 +360,9 @@
             <Button x:Name="DeleteButton" Content="X" BorderBrush="#FF535050" Foreground="#FFFDFDFE" Height="25" Width="20" 
                     Background="#FF672326" Click="Delete_Click" Grid.Column="2" RenderTransformOrigin="0.6,0.2" HorizontalAlignment="Right" VerticalAlignment="Top" />
             <CheckBox  x:Name="isActiveCheckBox"   IsChecked="True" Checked="isActiveCheckBox_Checked"  Unchecked="isActiveCheckBox_Unchecked" 
-                       Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" />
+                       Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" 
+                       ToolTip="Включение/отключение интервала"/>
         </Grid>
+        </Border>
     </Grid>
 </UserControl>

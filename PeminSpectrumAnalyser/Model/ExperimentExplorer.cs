@@ -20,7 +20,7 @@ namespace PeminSpectrumAnalyser.Model
         public event Action rbSSCheckedEvent, rbDSCheckedEvent,TimeStart,TimeEnd; //изменение выбора режима СС/ДС
         public event Action<string> HardTypeChanged;
         public event Action<int> WriteThreadId, pBarValue,pBarMax;
-        public event Action<bool> StateButtunChart;
+        public event Action<bool,ParametersCtrl> StateButtunChart;
         //---------------------------------------------------------------------
         // Данные эксперимента
         //---------------------------------------------------------------------
@@ -163,7 +163,7 @@ namespace PeminSpectrumAnalyser.Model
             return result;
         }
 
-        public bool ReadSignal(long frequency, long bandWidth, long span, long band)
+        public bool ReadSignal(long frequency, long bandWidth, long span, long band,bool isManualSWP,double ManualSWP)
         {
             AverageType averageType = AverageType.Off;
 
@@ -186,12 +186,12 @@ namespace PeminSpectrumAnalyser.Model
                 Experiment.ExperimentSettings.MeasurementCountForSignal,
                 Experiment.ExperimentSettings.HardwareSettings.SignalTraceType,
                 Experiment.ExperimentSettings.HardwareSettings.SignalAttenuation,
-               //Experiment.ExperimentSettings.HardwareSettings.SignalTraceMode,
-                Experiment.ExperimentSettings.HardwareSettings.CountSignalTraceMode);
+                Experiment.ExperimentSettings.HardwareSettings.CountSignalTraceMode,
+                isManualSWP, ManualSWP);
         }
 
 
-        public bool ReadNoise(long frequency, long bandWidth, long span, long band)
+        public bool ReadNoise(long frequency, long bandWidth, long span, long band, bool isManualSWP, double ManualSWP)
         {
             AverageType averageType = AverageType.Off;
 
@@ -214,8 +214,9 @@ namespace PeminSpectrumAnalyser.Model
                     Experiment.ExperimentSettings.MeasurementCountForNoise,
                     Experiment.ExperimentSettings.HardwareSettings.NoiseTraceType,
                     Experiment.ExperimentSettings.HardwareSettings.NoiseAttenuation,
-                  //  Experiment.ExperimentSettings.HardwareSettings.NoiseTraceMode,
-                    Experiment.ExperimentSettings.HardwareSettings.CountNoiseTraceMode);
+                    Experiment.ExperimentSettings.HardwareSettings.CountNoiseTraceMode,
+                    isManualSWP,
+                    ManualSWP);
         }
 
 
@@ -226,8 +227,9 @@ namespace PeminSpectrumAnalyser.Model
                             int measurementCount,
                             string traceType,
                             long attenuation,
-                            //string traceMode,
-                            long countTraceMode)
+                            long countTraceMode,
+                            bool isManualSWP, 
+                            double ManualSWP)
 
         {
             Reader.HardwareSettings.Frequency = frequency;
@@ -240,9 +242,9 @@ namespace PeminSpectrumAnalyser.Model
             Reader.HardwareSettings.MeasurementCount = measurementCount;
             Reader.HardwareSettings.TraceType = traceType;
             Reader.HardwareSettings.Attenuation = attenuation;
-           //Reader.HardwareSettings.TraceMode = traceMode;
             Reader.HardwareSettings.CountTraceMode = countTraceMode;
-
+            Reader.HardwareSettings.isManualSWP = isManualSWP;
+            Reader.HardwareSettings.ManualSWP = ManualSWP;
             ResultsX = new double[Reader.HardwareSettings.PointsQuantity];
             ResultsY = new double[Reader.HardwareSettings.PointsQuantity];
 
@@ -354,7 +356,9 @@ namespace PeminSpectrumAnalyser.Model
                 if (DataMeasuringType == DataMeasuringType.Signal)
                     SequenceCtrl.Dispatcher.Invoke(() => {
                         MessageWindow messageWindow = new MessageWindow();
-                        messageWindow.Message = intervalSettings.Message1BeforeStartMeasuring;
+                        messageWindow.Message = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString() + "," +
+                                                "Частотный диапазон:" + intervalSettings.FrequencyStart.ToString() + " - " + intervalSettings.FrequencyStop.ToString() + ","+
+                                                intervalSettings.Message1BeforeStartMeasuring;
                         messageWindow.ShowDialog();
                     });
 
@@ -418,9 +422,15 @@ namespace PeminSpectrumAnalyser.Model
                 ShowPollingStatus();
                 WriteThreadId?.Invoke(ThreadId);
                 TimeStart?.Invoke();
-              //  pBarMax?.Invoke(Experiment.Intervals.Count);
+                //количество интервалов измерений
+                int countInt = 0;
+                foreach(var interval in Experiment.Intervals.Where(p => p.isActive))
+                {
+                    countInt += interval.CenterFrequencys.Count;
+                }
+                pBarMax?.Invoke(countInt);
                 int Value = 0;
-                StateButtunChart?.Invoke(false);  //деактивация кнопок График
+                //StateButtunChart?.Invoke(false);  //деактивация кнопок График
                 foreach (Interval currentInterval in Experiment.Intervals)
                 {
                     if (currentInterval.isActive)
@@ -444,7 +454,8 @@ namespace PeminSpectrumAnalyser.Model
                             DataMeasuringState = DataMeasuringState.Clear;
                             return;
                         }
-                        pBarMax?.Invoke(Experiment.Intervals.Count* currentInterval.CenterFrequencys.Count);
+                        StateButtunChart?.Invoke(false,(ParametersCtrl)currentInterval.IntervalSettings.LinkToVisualControl);  //деактивация кнопок График
+                        //pBarMax?.Invoke(Experiment.Intervals.Where(p => p.isActive).Count() * currentInterval.CenterFrequencys.Count);
                         foreach (long currentFrequency in currentInterval.CenterFrequencys)
                         {
 
@@ -487,7 +498,9 @@ namespace PeminSpectrumAnalyser.Model
                                 dataReady = ReadSignal(currentFrequency,
                                     currentInterval.IntervalSettings.BandWidth,
                                     currentInterval.IntervalSettings.Span,
-                                    currentInterval.IntervalSettings.Band);
+                                    currentInterval.IntervalSettings.Band,
+                                    currentInterval.IntervalSettings.isManuaSWPTime,
+                                    currentInterval.IntervalSettings.ManuaSWPTime);
 
                                 if (dataReady)
                                 {
@@ -515,7 +528,9 @@ namespace PeminSpectrumAnalyser.Model
                                 dataReady = ReadNoise(currentFrequency,
                                     currentInterval.IntervalSettings.BandWidth,
                                     currentInterval.IntervalSettings.Span,
-                                    currentInterval.IntervalSettings.Band);
+                                    currentInterval.IntervalSettings.Band,
+                                    currentInterval.IntervalSettings.isManuaSWPTime,
+                                    currentInterval.IntervalSettings.ManuaSWPTime);
 
                                 if (dataReady)
                                 {
@@ -541,6 +556,7 @@ namespace PeminSpectrumAnalyser.Model
                             _LocalPointCount++;
                             Value++;
                             pBarValue?.Invoke(Value);
+                           
                         }
 
                         if (currentInterval.IntervalSettings.isAuto)//только для СС
@@ -557,9 +573,8 @@ namespace PeminSpectrumAnalyser.Model
                             }
 
                         _LocalIntervalCount++;
-                       
+                        StateButtunChart?.Invoke(true, (ParametersCtrl)currentInterval.IntervalSettings.LinkToVisualControl);
                     }
-                    
                 }
                 TimeEnd?.Invoke();
                 DataMeasuringState = DataMeasuringState.Finish;
@@ -581,7 +596,7 @@ namespace PeminSpectrumAnalyser.Model
                 }
                 pBarValue?.Invoke(0);
                 pBarMax?.Invoke(0);
-                StateButtunChart?.Invoke(true);  //активация кнопок График
+              //  StateButtunChart?.Invoke(true);  //активация кнопок График
 
             }
         }

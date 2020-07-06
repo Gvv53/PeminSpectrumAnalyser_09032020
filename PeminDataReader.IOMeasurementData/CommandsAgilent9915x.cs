@@ -31,20 +31,7 @@ namespace IOMeasurementData
           
             Send(":FORMat:DATA ASCii");
 
-            //Send(":SENSe:AVERage ON");
-           // Send(":TRACe1:TYPE CLRW");
-
-            //Устанавливает номер счетчика клемм N для типов трассы Среднее, Макс. Удержание и Мин. Удержание. 
-            //Драйвер использует это значение для установки атрибута AGMXA_ATTR_AVG_NUMBER.
-
-            //Send(":SENSe:AVERage:COUNt 2"); //по умолчанию 100
-            //Send(":SENSe:AVERage ON");
-
-
-
-
-
-            // Send(":TRACe1:TYPE WRITe");
+           
         }
 
         
@@ -57,6 +44,8 @@ namespace IOMeasurementData
                                       long attenuation,
                                       bool preamp,
                                       long countTraceMode,
+                                       bool isManualSWP,
+                                      double ManualSWP,
                                       int errorCount = 0
                                       )
         {
@@ -72,8 +61,7 @@ namespace IOMeasurementData
                 Send(":SENSe:DETector:FUNCtion " + traceDetector);
                 traceType = traceType == "AVERage" ? "AVG" : (traceType == "WRITe" ? "CLRW" : traceType);
                 Send(":TRACe1:TYPE " + traceType);     //тип трассировки
-
-                //Send(":TRACe1:MODE " + traceType);
+              
                 //аттеньюатор
                
                 Send(":SENSe:POWer:ATTenuation:AUTO OFF");
@@ -81,7 +69,7 @@ namespace IOMeasurementData
                
                 //TraceMode
                 Send(":SENSe:AVERage:COUNt " + countTraceMode.ToString());
-                //  Send(":SENSe:AVERage:TYPE " + traceMode);
+
 
                 Send(":SENSe:BANDwidth:AUTO OFF");
                 Send(":SENSe:BANDwidth " + bandWidth.ToString() + " Hz"); //
@@ -89,17 +77,23 @@ namespace IOMeasurementData
                 Send(":SENSe:BANDwidth:VIDeo:AUTO OFF");
                 Send(":SENSe:BANDwidth:VIDeo " + band.ToString() + " Hz");
                 
-                Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");
-
-                //Send(":SENSe:BANDwidth:RESolution:AUTO OFF");
-                //Send(":SENSe:BANDwidth:RESolution" + bandWidth.ToString() + " Hz") ;
-
-              
+                Send(":FREQUENCY:SPAN " + span.ToString() + " Hz");              
 
                 Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz"); //поменяла место               
            
-               // Send(":INSTrument:MEASure OFF");  //мощность измерения
                 Send(":SENSe:POWer:GAIN " +(preamp ? "ON" : "OFF"));
+
+                if (isManualSWP && ManualSWP != 0)
+                {
+                    Send(":SENSe:SWEep:ACQuisition:AUTO OFF");
+                    var cc = Thread.CurrentThread.CurrentCulture;
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    Send(":SENSe:SWEep:ACQuisition " + ((double)ManualSWP ).ToString()); //относительная развёртка 1 - самая быстрая, 5000 - самая медленная
+                    Thread.CurrentThread.CurrentCulture = cc;
+                }
+                else
+                    Send(":SENSe:SWEep:ACQuisition:AUTO ON");
+
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
                 Thread.Sleep(1500);//время д.б.не меньше развёртки

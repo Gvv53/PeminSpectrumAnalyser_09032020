@@ -70,7 +70,9 @@ namespace IOMeasurementData
                                 HardwareSettings.TraceType,
                                 HardwareSettings.Attenuation,
                                 HardwareSettings.Preamp,
-                                HardwareSettings.CountTraceMode
+                                HardwareSettings.CountTraceMode,
+                                HardwareSettings.isManualSWP,
+                                HardwareSettings.ManualSWP
                             )                                                                                                                                )
                         ).Split(',');
 

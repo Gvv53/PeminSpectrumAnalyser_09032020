@@ -21,7 +21,10 @@ namespace IOMeasurementData
                                       long attinuation,
                                       bool preamp,
                                       long countTraceMode,
+                                      bool isManualSWP,
+                                      double ManualSWP,
                                       int errorCount = 0
+                                     
                                       );
 
         public string IP { get; set; }
