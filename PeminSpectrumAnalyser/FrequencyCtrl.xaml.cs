@@ -123,7 +123,7 @@ namespace PeminSpectrumAnalyser
         private void DataTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9 || e.Key == Key.Decimal || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Back || e.Key == Key.Delete ||
-                e.Key == Key.OemComma || e.Key >= Key.D0 && e.Key <= Key.D9)   //завершён ввод
+                e.Key == Key.OemComma || e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key == Key.Enter)   //завершён ввод
             { }// return;
             else
             {

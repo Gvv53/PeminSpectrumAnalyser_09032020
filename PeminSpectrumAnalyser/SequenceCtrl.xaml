@@ -79,7 +79,7 @@
                 BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged" >
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35" />
-                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
+                <Label  Foreground="Gray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,8,0" IsEnabled="False" >
                     Ш
                 </Label>
             </Grid>
@@ -88,7 +88,7 @@
                 BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False"  IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged">
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35"/>
-                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,12,0" IsEnabled="False" >
+                <Label  Foreground="Gray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,8,0" IsEnabled="False" >
                     C
                 </Label>
             </Grid>

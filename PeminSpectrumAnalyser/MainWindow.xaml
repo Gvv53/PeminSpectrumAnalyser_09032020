@@ -7,7 +7,7 @@
         xmlns:Chart="clr-namespace:UnitedTools.Chart;assembly=UnitedTools.Chart" x:Class="PeminSpectrumAnalyser.MainWindow"
         mc:Ignorable="d"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        Title="PEMIN SPECTRUM ANALYSER - Version 09.03.2020"   WindowStartupLocation="CenterOwner" 
+        Title="PEMIN SPECTRUM ANALYSER "   WindowStartupLocation="CenterOwner" 
         Closing="Window_Closing"  d:DesignWidth="1460"  MaxWidth="1460" ResizeMode="CanResize"
         Background="#FF1A1A1A" MaxHeight="1032" d:DesignHeight="832" VerticalAlignment="Top" WindowState="Normal" >
     <Window.Resources>

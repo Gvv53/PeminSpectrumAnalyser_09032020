@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -103,6 +103,16 @@ namespace IOMeasurementData
                 Send(":FREQUENCY:CENTER " + frequency.ToString() + " Hz"); //поменяла место               
 
                 Send(":SENSe:POWer:GAIN " + (preamp ? "ON" : "OFF"));
+                if (isManualSWP && ManualSWP != 0)
+                {
+                    Send(":SENSe:SWEep:TIME:AUTO OFF");
+                    var cc = Thread.CurrentThread.CurrentCulture;
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    Send(":SENSe:SWEep:TIME " + ((double)ManualSWP / 1000).ToString());
+                    Thread.CurrentThread.CurrentCulture = cc;
+                }
+                else
+                    Send(":SENSe:SWEep:TIME:AUTO ON");
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
                 Thread.Sleep(2000);

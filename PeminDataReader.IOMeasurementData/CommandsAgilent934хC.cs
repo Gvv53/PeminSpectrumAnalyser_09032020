@@ -111,6 +111,16 @@ namespace IOMeasurementData
            
                 Send(":INSTrument:MEASure OFF");  //мощность измерения
                 Send(":SENSe:POWer:GAIN " +(preamp ? "ON" : "OFF"));
+                if (isManualSWP && ManualSWP != 0)
+                {
+                    Send(":SENSe:SWEep:TIME:AUTO OFF");
+                    var cc = Thread.CurrentThread.CurrentCulture;
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    Send(":SENSe:SWEep:TIME " + ((double)ManualSWP / 1000).ToString());
+                    Thread.CurrentThread.CurrentCulture = cc;
+                }
+                else
+                    Send(":SENSe:SWEep:TIME:AUTO ON");
                 Send(":INITiate:IMMediate");  //запуск развёртки
                 Send("*WAI");
                 Send(":TRACe:DATA? TRACe1");

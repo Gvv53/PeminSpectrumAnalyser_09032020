@@ -4,6 +4,7 @@ using PeminSpectrumData;
 using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Reflection;
 
 namespace PeminSpectrumAnalyser
 {
@@ -17,6 +18,10 @@ namespace PeminSpectrumAnalyser
         public MainWindow()
         {
             InitializeComponent();
+
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            var buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+            this.Title = this.Title + "  версия " + buildDate;
 
             try
             {

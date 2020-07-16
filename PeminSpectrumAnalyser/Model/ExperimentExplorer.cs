@@ -385,7 +385,8 @@ namespace PeminSpectrumAnalyser.Model
                 if (DataMeasuringType == DataMeasuringType.Noise)
                     SequenceCtrl.Dispatcher.Invoke(() => {
                         MessageWindow messageWindow = new MessageWindow();
-                        messageWindow.Message = intervalSettings.Message1BeforeStartMeasuring;
+                        messageWindow.Message = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString() + "," +
+                                                "Частотный диапазон:" + intervalSettings.FrequencyStart.ToString() + " - " + intervalSettings.FrequencyStop.ToString() + "," + intervalSettings.Message1BeforeStartMeasuring;
                         messageWindow.ShowDialog();
                     });
 
