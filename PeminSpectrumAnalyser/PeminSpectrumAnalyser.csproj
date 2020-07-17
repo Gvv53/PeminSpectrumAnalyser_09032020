@@ -97,11 +97,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DEForProject\DevExpress.Xpf.Themes.Office2016White.v19.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v19.1">
+      <HintPath>..\..\DEForProject\DevExpress.Xpf.Themes.Office2019Colorful.v19.1.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL" />
-    <Reference Include="SharpDX.D3DCompiler, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL" />
-    <Reference Include="SharpDX.Direct3D11, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL" />
-    <Reference Include="SharpDX.DXGI, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />

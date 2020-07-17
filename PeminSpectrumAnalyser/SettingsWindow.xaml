@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PeminSpectrumAnalyser"
         mc:Ignorable="d"
-        Title="НАСТРОЙКИ ПРИЛОЖЕНИЯ" Height="466.333" Width="899" WindowStartupLocation="CenterScreen" Topmost="True" Background="{x:Null}" Foreground="{x:Null}">
+        Title="НАСТРОЙКА ИЗМЕРИТЕЛЬНОГО ПРИБОРА" Height="466.333" Width="899" WindowStartupLocation="CenterScreen" Topmost="True" Background="{x:Null}" Foreground="{x:Null}">
     <Grid Background="#FF1A1A1A" VerticalAlignment="Center" HorizontalAlignment="Left" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
@@ -38,7 +38,7 @@
         <Label Content="ПОДКЛЮЧЕНИЕ" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="391"  ForceCursor="True" 
                FontWeight="Bold" Height="25" FontStyle="Italic" Foreground="LightGray"/>
         <CheckBox x:Name="Emulation"  Grid.Column="3" Grid.ColumnSpan="2" Content="ВКЛЮЧИТЬ ЭМУЛЯЦИЮ СИГНАЛА" HorizontalAlignment="Left" Margin="412,6,0,3"
-                  Foreground="#FF007ACC" FontWeight="Bold" />
+                  Foreground="#FF007ACC" FontWeight="Bold" Visibility="Hidden"/>
         <TextBox x:Name="Address" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="192.168.12.233" VerticalAlignment="Stretch" 
                  Margin="35,0,453,0"  Background="{x:Null}" RenderTransformOrigin="0.159,1.733"  CaretBrush="White"/>
         <Label Content="IP Адрес прибора"  Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top" Width="117" Foreground="#FF8ECFFB"
