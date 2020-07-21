@@ -192,6 +192,13 @@ namespace PeminSpectrumAnalyser
                         cbSpanManualDS.IsChecked = true;
                         SpanManualDS.Value = linkToInterval.IntervalSettings.Span;
                     }
+                    if (linkToInterval.Markers.Count == 1 )
+                    {
+                        if (linkToInterval.Signal.Count >= linkToInterval.Markers[0])
+                           tbSignal.Text = linkToInterval.Signal[linkToInterval.Markers[0]].ToString();
+                        if (linkToInterval.Noise.Count >= linkToInterval.Markers[0])
+                            tbNoise.Text = linkToInterval.Noise[linkToInterval.Markers[0]].ToString();
+                    }
 
                 }
                 this.maxLimitNoise.Text = linkToInterval.IntervalSettings.MaxNoise.ToString();

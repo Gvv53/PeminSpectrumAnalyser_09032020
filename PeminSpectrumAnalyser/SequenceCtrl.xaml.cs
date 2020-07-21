@@ -14,12 +14,7 @@ namespace PeminSpectrumAnalyser
     /// </summary>
     public partial class SequenceCtrl : UserControl
     {
-        //Тактовая частота для ДС
-        public long Ft
-        {
-            set;
-            get;
-        }
+       
         //полосы пропускания фильтра для ДС
         //public long BandWidth_DS { get; set; }
         //public long Band_DS { get; set; }
@@ -288,6 +283,7 @@ namespace PeminSpectrumAnalyser
             intervalParametersCtrl.Interval = interval;
 
             interval.IntervalSettings.LinkToVisualControl = intervalParametersCtrl;
+            rbDS.IsChecked = !interval.IntervalSettings.isAuto;
 
             intervalParametersCtrl.UIFrom(interval);
 
@@ -471,7 +467,7 @@ namespace PeminSpectrumAnalyser
 
             int quantity = int.Parse(HandMode_Quantity.Text);
             long startFrequency = HandMode_Frequency.Value; //тактовая частота для ДС
-            Ft = startFrequency;
+            ExperimentExplorer.Experiment.Ft = startFrequency;
             long shiftFrequency = startFrequency;
             //интервалы по гармоникам тактовой частоты
             if (quantity > 0)
@@ -481,7 +477,7 @@ namespace PeminSpectrumAnalyser
                     shiftFrequency += startFrequency;
                     if ((bool)cbMove.IsChecked && FrequencyMax.Value != 0 && shiftFrequency > FrequencyMax.Value)
                     {
-                        NextSequence?.Invoke(Ft, shiftFrequency);  // интервалы, перенесённые в другой стакан
+                        NextSequence?.Invoke(ExperimentExplorer.Experiment.Ft, shiftFrequency);  // интервалы, перенесённые в другой стакан
                         counter = quantity;
                     }
                 }

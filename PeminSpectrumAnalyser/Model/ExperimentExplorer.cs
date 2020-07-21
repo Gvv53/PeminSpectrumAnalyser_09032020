@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UnitedTools.Chart;
-using PeminSpectrumAnalyser;
+using DevExpress.Xpf.Charts;
 
 namespace PeminSpectrumAnalyser.Model
 {
@@ -80,6 +80,12 @@ namespace PeminSpectrumAnalyser.Model
 
                 SequenceCtrl.ClearIntervalsUIList();
 
+                SequenceCtrl.rbDS.IsChecked = Experiment.Intervals.Count == 0 || !Experiment.Intervals[0].IntervalSettings.isAuto;
+                if ((bool)SequenceCtrl.rbDS.IsChecked) //режим ДС
+                {
+                    SequenceCtrl.HandMode_Frequency.Value = Experiment.Ft;
+                    SequenceCtrl.HandMode_Quantity.Text = Experiment.Intervals.Count.ToString();
+                }
                 if (Experiment.Intervals.Count > 0)
                     for (int counter = 0; counter < Experiment.Intervals.Count; counter++)
                         SequenceCtrl.LoadInterval(Experiment.Intervals[counter]);
@@ -659,6 +665,7 @@ namespace PeminSpectrumAnalyser.Model
                 return;
             }
             ObservableCollection<PointForChart> dataSignal = new ObservableCollection<PointForChart>();
+            int iDS=0; //маркер точки измерения для ДС
             for (int i = 0; i < interval.Frequencys.Count; i++)
             {
                 var point = new PointForChart(interval.Frequencys[i], sourceSignal.Count != 0 ? sourceSignal[i] : 0,
@@ -669,210 +676,226 @@ namespace PeminSpectrumAnalyser.Model
                     
                     point.signal_marker = sourceSignal.Count != 0 ? sourceSignal[i] : 0;
                     point.noise_marker = sourceNoise.Count != 0 ? sourceNoise[i] : 0;
+                    if (!interval.IntervalSettings.isAuto) //ДС
+                        iDS = i;
                 }
                 dataSignal.Add(point);
             }
-            ChartWindow chartWindow = new ChartWindow(dataSignal);
+            SeriesPoint pointUpdated = new SeriesPoint();
+            ChartWindow chartWindow = new ChartWindow(dataSignal,!interval.IntervalSettings.isAuto, pointUpdated); 
             chartWindow.Title = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString();
-            //chartWindow.ShowDialog();
-            chartWindow.Show();
+            chartWindow.ShowDialog();
+            if (iDS != 0 && pointUpdated != null && !String.IsNullOrEmpty(pointUpdated.Argument) && pointUpdated.Value != null) //ДС, мог быть скорректирован
+            {
+                interval.Frequencys[iDS] = double.Parse(pointUpdated.Argument);
+                interval.CenterFrequency = (long)double.Parse(pointUpdated.Argument);
+                interval.CenterFrequencys[0] = (long)double.Parse(pointUpdated.Argument);
+                interval.IntervalSettings.HandCenterFrequency = (long)double.Parse(pointUpdated.Argument);
+
+                interval.Signal[iDS] = pointUpdated.Value;
+                interval.OriginalSignal[iDS] = pointUpdated.Value;
+                //обновление значений на форме
+                ((ParametersCtrl)interval.IntervalSettings.LinkToVisualControl).HandCenterFrequency.Value = (long)interval.Frequencys[iDS];
+                ((ParametersCtrl)interval.IntervalSettings.LinkToVisualControl).tbSignal.Text = pointUpdated.Value.ToString();
+            }
+            //chartWindow.Show();
         } 
        
         //---------------------------------------------------------------------
         // Отображение шума и сигнала
         //---------------------------------------------------------------------
-        public void ShowSignalAndNoise(Interval interval, List<double> sourceSignal, List<double> sourceNoise,
-            Action<double> newSignalShift = null, Action<double> newNoiseShift = null, Action<double> newXShift = null)
-        {
-            if (interval.Frequencys.Count == 0)
-            {
-                MessageBox.Show("Данные для отображения отсутствуют");
-                return;
-            }
+        //public void ShowSignalAndNoise(Interval interval, List<double> sourceSignal, List<double> sourceNoise,
+        //    Action<double> newSignalShift = null, Action<double> newNoiseShift = null, Action<double> newXShift = null)
+        //{
+        //    if (interval.Frequencys.Count == 0)
+        //    {
+        //        MessageBox.Show("Данные для отображения отсутствуют");
+        //        return;
+        //    }
 
-            GraphWindow GraphWindowStatic = new GraphWindow();
-
-
-            GraphWindowStatic.CurrentChart.NewXShift += (value) =>
-            {
-                newXShift?.Invoke(value);
-            };
+        //    GraphWindow GraphWindowStatic = new GraphWindow();
 
 
-            GraphWindowStatic.WindowState = WindowState.Normal;
-            GraphWindowStatic.Topmost = true;
-            GraphWindowStatic.Show();
-
-            double signalShift = 0;
-            double noiseShift = 0;
-            double xScale = 0;
-            double yScale = 0;
-
-            ShowSignalAndNoise(GraphWindowStatic,
-                                interval,
-                                sourceSignal,
-                                sourceNoise,
-                                signalShift,
-                                noiseShift,
-                                yScale,
-                                xScale);
+        //    GraphWindowStatic.CurrentChart.NewXShift += (value) =>
+        //    {
+        //        newXShift?.Invoke(value);
+        //    };
 
 
+        //    GraphWindowStatic.WindowState = WindowState.Normal;
+        //    GraphWindowStatic.Topmost = true;
+        //    GraphWindowStatic.Show();
 
-            GraphWindowStatic.CurrentShiftTuner.TunerSignalShift.NewValue += (value, oldValue) =>
-            {
-                newSignalShift?.Invoke(value);
+        //    double signalShift = 0;
+        //    double noiseShift = 0;
+        //    double xScale = 0;
+        //    double yScale = 0;
 
-                signalShift = value;
-                ShowSignalAndNoise(GraphWindowStatic,
-                                   interval,
-                                   sourceSignal,
-                                   sourceNoise,
-                                   signalShift,
-                                   noiseShift,
-                                   yScale,
-                                   xScale);
-
-                if (GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise)
-                {
-                    double linkedShift = value - oldValue;
-                    GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = false;
-                    GraphWindowStatic.CurrentShiftTuner.TunerNoiseShift.Value = GraphWindowStatic.CurrentShiftTuner.TunerNoiseShift.Value += linkedShift;
-                    GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = true;
-
-                }
-            };
-
-            GraphWindowStatic.CurrentShiftTuner.TunerNoiseShift.NewValue += (value, oldValue) =>
-            {
-                newNoiseShift?.Invoke(value);
-
-                noiseShift = value;
-                ShowSignalAndNoise(GraphWindowStatic,
-                   interval,
-                   sourceSignal,
-                   sourceNoise,
-                   signalShift,
-                   noiseShift,
-                   yScale,
-                   xScale);
-
-                if (GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise)
-                {
-                    double linkedShift = value - oldValue;
-                    GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = false;
-                    GraphWindowStatic.CurrentShiftTuner.TunerSignalShift.Value = GraphWindowStatic.CurrentShiftTuner.TunerSignalShift.Value += linkedShift;
-                    GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = true;
-
-                }
+        //    ShowSignalAndNoise(GraphWindowStatic,
+        //                        interval,
+        //                        sourceSignal,
+        //                        sourceNoise,
+        //                        signalShift,
+        //                        noiseShift,
+        //                        yScale,
+        //                        xScale);
 
 
 
-            };
+        //    GraphWindowStatic.CurrentShiftTuner.TunerSignalShift.NewValue += (value, oldValue) =>
+        //    {
+        //        newSignalShift?.Invoke(value);
 
-            GraphWindowStatic.CurrentShiftTuner.TunerXScale.NewValue += (value, oldValue) =>
-            {
-                xScale = value;
-                ShowSignalAndNoise(GraphWindowStatic,
-                   interval,
-                   sourceSignal,
-                   sourceNoise,
-                   signalShift,
-                   noiseShift,
-                   yScale,
-                   xScale);
-            };
+        //        signalShift = value;
+        //        ShowSignalAndNoise(GraphWindowStatic,
+        //                           interval,
+        //                           sourceSignal,
+        //                           sourceNoise,
+        //                           signalShift,
+        //                           noiseShift,
+        //                           yScale,
+        //                           xScale);
 
-            GraphWindowStatic.CurrentShiftTuner.TunerYScale.NewValue += (value, oldValue) =>
-            {
-                yScale = value;
-                ShowSignalAndNoise(GraphWindowStatic,
-                   interval,
-                   sourceSignal,
-                   sourceNoise,
-                   signalShift,
-                   noiseShift,
-                   yScale,
-                   xScale);
-            };
+        //        if (GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise)
+        //        {
+        //            double linkedShift = value - oldValue;
+        //            GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = false;
+        //            GraphWindowStatic.CurrentShiftTuner.TunerNoiseShift.Value = GraphWindowStatic.CurrentShiftTuner.TunerNoiseShift.Value += linkedShift;
+        //            GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = true;
 
-        }
+        //        }
+        //    };
 
-        public void ShowSignalAndNoise(GraphWindow graphWindowStatic,
-                                       Interval interval,
-                                       List<double> sourceSignal,
-                                       List<double> sourceNoise,
-                                       double signalShift,
-                                       double noiseShift,
-                                       double yShift,
-                                       double xShift)
-        {
-            double maxValue = 0, minValue = 0, maxValueSignal = 0, minValueSignal = 0, maxValueNoise = 0, minValueNoise = 0; ;
+        //    GraphWindowStatic.CurrentShiftTuner.TunerNoiseShift.NewValue += (value, oldValue) =>
+        //    {
+        //        newNoiseShift?.Invoke(value);
 
-            if (sourceSignal.Count != 0)
-            {
-                maxValueSignal = sourceSignal.Max();
-                minValueSignal = sourceSignal.Min();
-            }
-            if (sourceNoise.Count != 0)
-            {
-                maxValueNoise = sourceNoise.Max();
-                minValueNoise = sourceNoise.Min();
-            }
-            maxValue = maxValueSignal == 0 ? maxValueNoise:(maxValueNoise == 0 ? maxValueSignal : Math.Max(maxValueSignal, maxValueNoise));
-            minValue = minValueSignal == 0 ? minValueNoise:(minValueNoise == 0 ? minValueSignal : Math.Min(minValueSignal, minValueNoise));
+        //        noiseShift = value;
+        //        ShowSignalAndNoise(GraphWindowStatic,
+        //           interval,
+        //           sourceSignal,
+        //           sourceNoise,
+        //           signalShift,
+        //           noiseShift,
+        //           yScale,
+        //           xScale);
+
+        //        if (GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise)
+        //        {
+        //            double linkedShift = value - oldValue;
+        //            GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = false;
+        //            GraphWindowStatic.CurrentShiftTuner.TunerSignalShift.Value = GraphWindowStatic.CurrentShiftTuner.TunerSignalShift.Value += linkedShift;
+        //            GraphWindowStatic.CurrentShiftTuner.LinkSignalNoise = true;
+
+        //        }
+
+
+
+        //    };
+
+        //    GraphWindowStatic.CurrentShiftTuner.TunerXScale.NewValue += (value, oldValue) =>
+        //    {
+        //        xScale = value;
+        //        ShowSignalAndNoise(GraphWindowStatic,
+        //           interval,
+        //           sourceSignal,
+        //           sourceNoise,
+        //           signalShift,
+        //           noiseShift,
+        //           yScale,
+        //           xScale);
+        //    };
+
+        //    GraphWindowStatic.CurrentShiftTuner.TunerYScale.NewValue += (value, oldValue) =>
+        //    {
+        //        yScale = value;
+        //        ShowSignalAndNoise(GraphWindowStatic,
+        //           interval,
+        //           sourceSignal,
+        //           sourceNoise,
+        //           signalShift,
+        //           noiseShift,
+        //           yScale,
+        //           xScale);
+        //    };
+
+        //}
+
+        //public void ShowSignalAndNoise(GraphWindow graphWindowStatic,
+        //                               Interval interval,
+        //                               List<double> sourceSignal,
+        //                               List<double> sourceNoise,
+        //                               double signalShift,
+        //                               double noiseShift,
+        //                               double yShift,
+        //                               double xShift)
+        //{
+        //    double maxValue = 0, minValue = 0, maxValueSignal = 0, minValueSignal = 0, maxValueNoise = 0, minValueNoise = 0; ;
+
+        //    if (sourceSignal.Count != 0)
+        //    {
+        //        maxValueSignal = sourceSignal.Max();
+        //        minValueSignal = sourceSignal.Min();
+        //    }
+        //    if (sourceNoise.Count != 0)
+        //    {
+        //        maxValueNoise = sourceNoise.Max();
+        //        minValueNoise = sourceNoise.Min();
+        //    }
+        //    maxValue = maxValueSignal == 0 ? maxValueNoise:(maxValueNoise == 0 ? maxValueSignal : Math.Max(maxValueSignal, maxValueNoise));
+        //    minValue = minValueSignal == 0 ? minValueNoise:(minValueNoise == 0 ? minValueSignal : Math.Min(minValueSignal, minValueNoise));
         
-            graphWindowStatic.Dispatcher.Invoke(DispatcherPriority.Normal, new
-            Action(() =>
-            {
+        //    graphWindowStatic.Dispatcher.Invoke(DispatcherPriority.Normal, new
+        //    Action(() =>
+        //    {
 
-                graphWindowStatic.CurrentChart.YAxisBeginValue = minValue - 15;
-                graphWindowStatic.CurrentChart.YAxisEndValue = maxValue + 15;
+        //        graphWindowStatic.CurrentChart.YAxisBeginValue = minValue - 15;
+        //        graphWindowStatic.CurrentChart.YAxisEndValue = maxValue + 15;
 
-                double xOnePercent = (interval.Frequencys[interval.Frequencys.Count - 1] - interval.Frequencys[0]) / 100;
+        //        double xOnePercent = (interval.Frequencys[interval.Frequencys.Count - 1] - interval.Frequencys[0]) / 100;
 
-                graphWindowStatic.CurrentChart.XAxisBeginValue = interval.Frequencys[0] - xOnePercent * xShift;
-                graphWindowStatic.CurrentChart.XAxisEndValue = interval.Frequencys[interval.Frequencys.Count - 1] + xOnePercent * xShift;
+        //        graphWindowStatic.CurrentChart.XAxisBeginValue = interval.Frequencys[0] - xOnePercent * xShift;
+        //        graphWindowStatic.CurrentChart.XAxisEndValue = interval.Frequencys[interval.Frequencys.Count - 1] + xOnePercent * xShift;
 
-                graphWindowStatic.Title = "ЗАПИСАННЫЕ ДАННЫЕ ДЛЯ ДИАПАЗОНА " +
-                    graphWindowStatic.CurrentChart.XAxisBeginValue / 1000000 + " MHz  -  "
-                    + graphWindowStatic.CurrentChart.XAxisEndValue / 1000000 + " MHz";
-
-
-                double[] frequencys = interval.ConvertXDataForChartView(Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
-                                                                        interval.Frequencys);
-
-                double[] signal = interval.ConvertYDataForChartView(Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
-                                                        sourceSignal);
-
-                double[] noise = interval.ConvertYDataForChartView(Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
-                                        sourceNoise);
+        //        graphWindowStatic.Title = "ЗАПИСАННЫЕ ДАННЫЕ ДЛЯ ДИАПАЗОНА " +
+        //            graphWindowStatic.CurrentChart.XAxisBeginValue / 1000000 + " MHz  -  "
+        //            + graphWindowStatic.CurrentChart.XAxisEndValue / 1000000 + " MHz";
 
 
-                Graph graphSignal = new Graph();
-                graphSignal.PointRadius = 10;
-                graphSignal.Color = new SolidColorBrush(Colors.Red);
+        //        double[] frequencys = interval.ConvertXDataForChartView(Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
+        //                                                                interval.Frequencys);
 
-                Graph graphNoise = new Graph();
-                graphNoise.PointRadius = 10;
-                graphNoise.Color = new SolidColorBrush(Colors.Gray);
+        //        double[] signal = interval.ConvertYDataForChartView(Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
+        //                                                sourceSignal);
 
-                if (signal.Count() > 0)
-                    for (int counter = 0; counter < Experiment.ExperimentSettings.HardwareSettings.PointsQuantity; counter++)
-                        if (counter < frequencys.Count() & counter < signal.Count())
-                            graphSignal.Points.Add(new System.Windows.Point() { X = frequencys[counter], Y = signal[counter] + signalShift });
+        //        double[] noise = interval.ConvertYDataForChartView(Experiment.ExperimentSettings.HardwareSettings.PointsQuantity,
+        //                                sourceNoise);
 
-                if (noise.Count() > 0)
-                    for (int counter = 0; counter < Experiment.ExperimentSettings.HardwareSettings.PointsQuantity; counter++)
-                        if (counter < frequencys.Count() & counter < noise.Count())
-                            graphNoise.Points.Add(new System.Windows.Point() { X = frequencys[counter], Y = noise[counter] + noiseShift });
 
-                graphWindowStatic.CurrentChart.Graphs.Clear();
-                graphWindowStatic.CurrentChart.Graphs.Add(graphSignal);
-                graphWindowStatic.CurrentChart.Graphs.Add(graphNoise);
+        //        Graph graphSignal = new Graph();
+        //        graphSignal.PointRadius = 10;
+        //        graphSignal.Color = new SolidColorBrush(Colors.Red);
 
-                graphWindowStatic.CurrentChart.Draw();
-            }));
-        }
+        //        Graph graphNoise = new Graph();
+        //        graphNoise.PointRadius = 10;
+        //        graphNoise.Color = new SolidColorBrush(Colors.Gray);
+
+        //        if (signal.Count() > 0)
+        //            for (int counter = 0; counter < Experiment.ExperimentSettings.HardwareSettings.PointsQuantity; counter++)
+        //                if (counter < frequencys.Count() & counter < signal.Count())
+        //                    graphSignal.Points.Add(new System.Windows.Point() { X = frequencys[counter], Y = signal[counter] + signalShift });
+
+        //        if (noise.Count() > 0)
+        //            for (int counter = 0; counter < Experiment.ExperimentSettings.HardwareSettings.PointsQuantity; counter++)
+        //                if (counter < frequencys.Count() & counter < noise.Count())
+        //                    graphNoise.Points.Add(new System.Windows.Point() { X = frequencys[counter], Y = noise[counter] + noiseShift });
+
+        //        graphWindowStatic.CurrentChart.Graphs.Clear();
+        //        graphWindowStatic.CurrentChart.Graphs.Add(graphSignal);
+        //        graphWindowStatic.CurrentChart.Graphs.Add(graphNoise);
+
+        //        graphWindowStatic.CurrentChart.Draw();
+        //    }));
+        //}
     }
 }

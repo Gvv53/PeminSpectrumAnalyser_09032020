@@ -174,10 +174,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GraphWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -189,9 +185,6 @@
     <Compile Include="Converters.cs" />
     <Compile Include="FrequencyCtrl.xaml.cs">
       <DependentUpon>FrequencyCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GraphWindow.xaml.cs">
-      <DependentUpon>GraphWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -6,6 +6,12 @@ namespace PeminSpectrumData
     [Serializable]
     public class Experiment
     {
+        //Тактовая частота для ДС
+        public long Ft
+        {
+            set;
+            get;
+        }
         /// <summary>
         /// Описание проводимых измерений
         /// </summary>

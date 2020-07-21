@@ -91,7 +91,7 @@ namespace PeminSpectrumAnalyser
             //разворачивание частот ДС  вр 20м стакане
             unit1.NextSequence += (long Ft, long startFrequence) =>
             {
-                unit2.Ft = unit1.Ft;
+                unit2.ExperimentExplorer.Experiment.Ft = unit1.ExperimentExplorer.Experiment.Ft;
                 unit2.HandMode_Frequency.Value = unit1.HandMode_Frequency.Value;
                 unit2.HandMode_Quantity.Text = unit1.HandMode_Quantity.Text;
                 unit2.rbDS.IsChecked = true;
@@ -102,7 +102,7 @@ namespace PeminSpectrumAnalyser
                 for (int i = unit1.ExperimentExplorer.Experiment.Intervals.Count+1; i <= int.Parse(unit1.HandMode_Quantity.Text); i++)
                 {
                     unit2.AddNewInterval(null, false, startFrequence);
-                    startFrequence += unit2.Ft;
+                    startFrequence += unit2.ExperimentExplorer.Experiment.Ft;
                 }
             };
         }
@@ -168,8 +168,22 @@ namespace PeminSpectrumAnalyser
                 }
                 else
                     unit2.rbDS.IsChecked = true;
+                
                 unit1.ExperimentExplorer.Experiment = Solution.Experiment1;
+
+                if ((bool)unit1.rbDS.IsChecked )
+                {
+                    //тактовая частота в стакане
+                    unit1.HandMode_Frequency.Value = Solution.Experiment1.Ft;
+                    unit1.HandMode_Quantity.Text = Solution.Experiment1.Intervals.Count.ToString();
+                }
                 unit2.ExperimentExplorer.Experiment = Solution.Experiment2;
+                if ((bool)unit2.rbDS.IsChecked)
+                {
+                    //тактовая частота в стакане
+                    unit2.HandMode_Frequency.Value = Solution.Experiment2.Ft;
+                    unit2.HandMode_Quantity.Text = Solution.Experiment2.Intervals.Count.ToString();
+                }
 
                 if (Solution.Experiment1.Intervals.Count > 0)
                 {
@@ -177,13 +191,7 @@ namespace PeminSpectrumAnalyser
                     for (int counter = 0; counter < Solution.Experiment1.Intervals.Count; counter++)
                     {
                         unit1.LoadInterval(Solution.Experiment1.Intervals[counter]);
-                        if ((bool)unit1.rbDS.IsChecked && counter == 0) 
-                        {
-                            //тактовая частота в стаканах по значению частоты 1-м интервале 1-го стакана,иначе ставится по умолчанию=1МГц
-                            unit1.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;   
-                            if ((bool)unit1.cbMove.IsChecked && (bool)unit2.rbDS.IsChecked)
-                               unit2.HandMode_Frequency.Value = Solution.Experiment1.Intervals[counter].IntervalSettings.HandCenterFrequency;
-                        }
+                       
                     }
                 }
                 if (Solution.Experiment2.Intervals.Count > 0)

@@ -10,8 +10,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Linq;
-
-
+using DevExpress.Charts;
+using DevExpress.Xpf.Charts;
+using DevExpress.Data.Mask;
 
 namespace PeminSpectrumAnalyser
 {
@@ -20,13 +21,22 @@ namespace PeminSpectrumAnalyser
     /// </summary>
     public partial class ChartWindow : Window
     {
+        ObservableCollection<PointForChart> dataSignal;
+        SeriesPoint pointUpdated,pointCurrent = new SeriesPoint();
         ViewModelChart vmc = new ViewModelChart();
        //public ChartWindow(ObservableCollection<PointForChart> dataForChart)
-       public ChartWindow(ObservableCollection<PointForChart> dataSignal)
+       public ChartWindow(ObservableCollection<PointForChart> dataSignal,bool isDS,SeriesPoint pointUpdated)
         {
             try
             {
-                InitializeComponent();
+                this.pointUpdated = pointUpdated;
+                InitializeComponent();               
+                if (isDS) //обработчики для изменения точки съёма сигнала
+                {
+                    chart.MouseMove += chart_MouseMove;
+                    //chart.MouseLeave += chart_MouseLeave;
+                    chart.MouseDoubleClick += chart_MouseDoubleClick;
+                }
                 vmc = new ViewModelChart();
                 vmc.dataForChart = dataSignal;
                 vmc.dataForChartCalc = new ObservableCollection<PointForChart>( dataSignal.Where(p => p.noise_marker != 0 || p.signal_marker != 0));
@@ -36,6 +46,47 @@ namespace PeminSpectrumAnalyser
             {
                 MessageBox.Show(e.Message);
                 return;
+            }
+        }
+
+      
+        private void chart_MouseMove(object sender, MouseEventArgs e)
+        {
+            ChartHitInfo hitInfo = chart.CalcHitInfo(e.GetPosition(chart));
+
+            if (hitInfo != null && hitInfo.SeriesPoint != null)
+            {
+                pointCurrent = hitInfo.SeriesPoint;
+            }
+        }
+        private void chart_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //pointSignal = null;
+        }
+
+      
+
+        private void chart_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (System.Windows.Forms.MessageBox.Show("Вы действительно хотите заменить точку съёма измерения?", "", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No)
+            {
+                pointUpdated = null;
+            }
+            else
+            {
+
+                pointUpdated.Argument = pointCurrent.Argument;
+                pointUpdated.Value = pointCurrent.Value;
+                var temp = vmc.dataForChart.Where(p => p.freq == double.Parse(pointCurrent.Argument)).FirstOrDefault();//новая точка измерения на графике
+                if (temp != null)
+                {
+                    vmc.dataForChartCalc[0].signal = temp.signal;
+                    vmc.dataForChartCalc[0].signal_marker = temp.signal;
+                    vmc.dataForChartCalc[0].noise = temp.noise;
+                    vmc.dataForChartCalc[0].noise_marker = temp.noise;
+                    vmc.dataForChartCalc[0].freq = temp.freq;
+                    chart.UpdateData();
+                }
             }
         }
     }
