@@ -291,7 +291,7 @@ namespace PeminSpectrumAnalyser
             }
             finally
             {
-                CurrentSolutionLabel.Content = Solution.SaveSolution(CurrentSolutionLabel.Content.ToString(), copyCount);
+                CurrentSolutionLabel.Content = Solution.SaveSolution_New(CurrentSolutionLabel.Content.ToString(), copyCount);
             }
         }
 

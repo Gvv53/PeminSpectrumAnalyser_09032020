@@ -9,7 +9,7 @@
     <UserControl.Resources>
 
     </UserControl.Resources>
-    <Grid Background="#FF22222A" Margin="0,0,0,0">
+    <Grid Background="#FF22222A">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
@@ -29,7 +29,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -79,7 +79,7 @@
                 BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False" IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged" >
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35" />
-                <Label  Foreground="Gray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,8,0" IsEnabled="False" >
+                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,8,0" IsEnabled="False" >
                     Ш
                 </Label>
             </Grid>
@@ -88,7 +88,7 @@
                 BorderBrush="{x:Null}" Background="{x:Null}" IsEnabled="False"  IsEnabledChanged="ButtonStartSignalNoise_IsEnabledChanged">
             <Grid>
                 <Rectangle Fill= "{StaticResource ButtonImagePlay}" Width="35" Height="35"/>
-                <Label  Foreground="Gray" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,8,0" IsEnabled="False" >
+                <Label  Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,8,0" IsEnabled="False" >
                     C
                 </Label>
             </Grid>
@@ -102,6 +102,9 @@
         <Button Click="ButtonSettings_Click" x:Name="buttonSettings" BorderBrush="{x:Null}" Background="{x:Null}"  Grid.Row="1" Grid.Column="17"  >
             <Rectangle  Fill= "{StaticResource ButtonImageSettings}" Width="35" Height="35" />
         </Button>
+        <CheckBox  x:Name="isActiveCheckBoxDS" Grid.Row="1"  Grid.Column="18" IsChecked="True" Checked="AllInterval_Checked"  Unchecked="AllInterval_Checked" 
+                        HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center"  
+                        ToolTip="Включение/отключение всех интервала" Margin="10.935,12,12.065,0"/>
         <StackPanel Grid.Row="1" Grid.Column="12" Grid.ColumnSpan="4" Orientation="Horizontal">
 
             <RadioButton x:Name="rbSS" Content="СС" Foreground="#FFF0F0F0" VerticalContentAlignment="Center" IsChecked="True"
@@ -146,8 +149,8 @@
                 <!--<GroupBox x:Name="gbRBWVBW" Grid.Row="1"  Header="Фильтры для ДС" Foreground="White" BorderThickness="0.3"  
                           ToolTip="При изменении полос пропускания фильтров значения измерений будут сброшены" Margin="5,0,0,0"
                           HorizontalAlignment="Left" VerticalContentAlignment="Stretch" >-->
-                    <StackPanel  Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
-                        <Label Content="RBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
+                <StackPanel  Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
+                    <Label Content="RBW" Foreground="White"  HorizontalAlignment="Left" VerticalContentAlignment="Center"  Height="24"
                                VerticalAlignment="Center" Padding="5" Margin="10,0,0,0"  />
                     <CheckBox x:Name="cbRBW"  HorizontalContentAlignment="Center" Margin="5,0,0,0" ToolTip="Установить RBW вручную " 
                                   Click="CbRBW_Click" VerticalContentAlignment="Center" VerticalAlignment="Center" />
@@ -184,19 +187,19 @@
                    VerticalContentAlignment="Center" BorderThickness="1">
             <StatusBar.ItemsPanel >
                 <ItemsPanelTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*" />
-                        <ColumnDefinition Width="0.3*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0.5*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                </Grid>
-            </ItemsPanelTemplate>
-        </StatusBar.ItemsPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.3*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" HorizontalContentAlignment="Right" VerticalAlignment="Center" Padding="0" >
                 <Label Foreground="White" Content ="Поток -"/>
             </StatusBarItem>
@@ -214,7 +217,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="5" VerticalAlignment="Center" HorizontalContentAlignment="Stretch">
                 <TextBox x:Name="stbEnd" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-            </StatusBarItem>       
+            </StatusBarItem>
             <StatusBarItem Grid.Column="6" HorizontalContentAlignment="Stretch" VerticalAlignment="Center" Padding="0">
                 <ProgressBar x:Name="pBar" Value="0" Height="16" />
             </StatusBarItem>

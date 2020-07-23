@@ -55,7 +55,7 @@ namespace PeminSpectrumData
             return result;
         }
 
-        public  void ExportToExchangeContract(ExchangeContract exchange, bool magic = false)
+        public void ExportToExchangeContract(ExchangeContract exchange, bool magic = false)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace PeminSpectrumData
 
                         }
 
-                        if(magic)
+                        if (magic)
                         {
                             current.AfterMagic();
                         }
@@ -138,14 +138,10 @@ namespace PeminSpectrumData
                 {
                     try
                     {
-                        //MessageBox.Show("кол.точек маркера-" + current.Markers.Count + Environment.NewLine +
-                        //                "кол.точек сигнала - " + current.Signal.Count + Environment.NewLine +
-                        //                "кол.точек шума - " + current.Noise.Count)                                        ;
-
                         if (current.Markers.Count > 0)
                         {
                             foreach (int position in current.Markers)
-                            {                                
+                            {
                                 if (position < current.Frequencys.Count)
                                     if (current.Frequencys[position] <= current.IntervalSettings.FrequencyStop)
                                     {
@@ -159,12 +155,6 @@ namespace PeminSpectrumData
 
                                         sw.WriteLine(reprotString);
                                     }
-                    //            MessageBox.Show("позиция маркера-" + position.ToString() + Environment.NewLine +
-                    //            "частота - " + (current.Frequencys[position] / 1000000).ToString("F6") + Environment.NewLine +
-                    //"current.IntervalSettings.FrequencyStop - " + (current.IntervalSettings.FrequencyStop / 1000000).ToString("F2").ToString() + Environment.NewLine +
-                    //            "сигнал - " + current.Signal[position].ToString("F2") + Environment.NewLine +
-                    //            "шум - " + current.Noise[position].ToString("F2") + Environment.NewLine +
-                    //            "строка для вывода -" + reprotString);
                             }
 
                         }
@@ -182,12 +172,58 @@ namespace PeminSpectrumData
             {
                 MessageBox.Show("ОШИБКА ЗАПИСИ ФАЙЛА CSV! " + ex.ToString());
             }
-         }
+        }
 
-
-        public string SaveSolution(string oldSolutionName,  int copyCount = 0)
+        public static void ExportToSCV_New(List<List<DataForAllCSV>> dataForCSVList, string fileNamePath)
         {
-            string result = oldSolutionName; 
+            try
+            {
+                FileStream f = new FileStream(fileNamePath, FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(f, Encoding.Unicode);
+
+
+                int rowsCount = dataForCSVList[0].Count; //количество строк в вых файле
+
+                StringBuilder[] rowsString = new StringBuilder[rowsCount];
+                for (int i = 0; i < rowsCount; i++)
+                    rowsString[i] = new StringBuilder();
+                StringBuilder headerString = new StringBuilder();
+                for (int i = 0; i < dataForCSVList.Count; i++)
+                    headerString.Append(@"Freq (MHz):").Append("\t")
+                           .Append(@"Signal: dbMkv").Append("\t")
+                           .Append(@"Noise:  dbMkv").Append("\t")
+                           .Append("\t");
+                sw.WriteLine(headerString);
+
+                foreach (List<DataForAllCSV> dataForCSV in dataForCSVList)
+                {
+                    int rowNumber = 0;
+                    foreach (DataForAllCSV row in dataForCSV)
+                    {
+                        rowsString[rowNumber].Append((row.freq / 1000000).ToString("F6")).Append("\t")
+                                   .Append(row.signal.ToString("F2")).Append("\t")
+                                   .Append(row.noise.ToString("F2")).Append("\t")
+                                   .Append("\t");
+                        rowNumber++;
+                    }
+
+                }
+                //вывод сформированных строк                  
+                foreach (StringBuilder rowString in rowsString)
+                    sw.WriteLine(rowString);
+
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ОШИБКА ПРИ ЗАПИСИ ФАЙЛА CSV" + ex.ToString());
+            }
+        }
+
+
+        public string SaveSolution(string oldSolutionName, int copyCount = 0)
+        {
+            string result = oldSolutionName;
 
             SaveFileDialog fd = new SaveFileDialog();
 
@@ -201,9 +237,6 @@ namespace PeminSpectrumData
                 {
                     SaveToFile(fd.FileName);
                     List<Interval> intervals = new List<Interval>();
-
-
-
                     foreach (var item in Experiment1.Intervals)
                         intervals.Add(item);
 
@@ -251,11 +284,133 @@ namespace PeminSpectrumData
                                     item.MagicOn();
                                     intervals_.Add(item);
                                 }
-                                                                
+
                                 SaveToFile(dirName + "\\" + fileNameShort + "__" + counter.ToString() + ".SOLUTION_PEMIN_DATA");
                                 ExportToSCV(intervals_, dirNameCSV + "\\" + fileNameShort + "__" + counter.ToString() + ".SOLUTION_PEMIN_DATA.CSV");
 
                             }
+
+                            foreach (var item in Experiment1.Intervals)
+                                item.AfterMagic();
+
+                            foreach (var item in Experiment2.Intervals)
+                                item.AfterMagic();
+                        }
+                        finally
+                        {
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ОШИБКА ЗАПИСИ ФАЙЛА ЭКСПЕРИМЕНТА! " + ex.ToString());
+                }
+
+            return result;
+        }
+        public string SaveSolution_New(string oldSolutionName, int copyCount = 0)
+        {
+            string result = oldSolutionName;
+
+            SaveFileDialog fd = new SaveFileDialog();
+
+            fd.InitialDirectory = Experiment1.ExperimentSettings.ExperimentPath;
+            fd.DefaultExt = "SOLUTION_PEMIN_DATA";
+            fd.Filter = "SOLUTION PEMIN DATA FILES (*.SOLUTION_PEMIN_DATA)|*.SOLUTION_PEMIN_DATA";
+            fd.Title = "SAVE SOLUTION PEMIN DATA FILE";
+            //List<List<Interval>> intervalsList = new List<List<Interval>>();
+            List<List<DataForAllCSV>> dataForCSVList = new List<List<DataForAllCSV>>();
+            List<DataForAllCSV> dataForCSV = new List<DataForAllCSV>();
+            if ((bool)fd.ShowDialog())
+                try
+                {
+                    SaveToFile(fd.FileName);
+                    List<Interval> intervals = new List<Interval>();
+
+                    foreach (var item in Experiment1.Intervals)
+                        intervals.Add(item);
+
+                    foreach (var item in Experiment2.Intervals)
+                        intervals.Add(item);
+
+                    // intervalsList.Add(intervals); //добавляем  все интервалы в коллекцию
+                    //данные измерений для вывода
+                    dataForCSV = new List<DataForAllCSV>();
+                    foreach (Interval interval in intervals)
+                        foreach (int position  in interval.Markers)
+                        {
+                            dataForCSV.Add(new DataForAllCSV()
+                            {
+                                freq = interval.Frequencys[position],
+                                signal = position <= interval.Signal.Count ? interval.Signal[position] : 0,
+                                noise = position <= interval.Noise.Count ? interval.Noise[position] : 0
+                            });
+                        }
+                    dataForCSVList.Add(dataForCSV);
+                    string fileNameShort = Path.GetFileNameWithoutExtension(fd.FileName);
+                    string dirName = Path.GetDirectoryName(fd.FileName);
+                    string dirNameCSV = dirName + "\\CSV";
+
+                    if (!Directory.Exists(dirNameCSV))
+                        Directory.CreateDirectory(dirNameCSV);
+
+                    ExportToSCV(intervals, dirNameCSV + "\\" + fileNameShort + ".SOLUTION_PEMIN_DATA.CSV");
+
+
+
+                    result = fd.FileName;
+
+                    if (copyCount > 0)
+                    {
+                        try
+                        {
+                            foreach (var item in Experiment1.Intervals)
+                                item.BeforeMagic();
+
+                            foreach (var item in Experiment2.Intervals)
+                                item.BeforeMagic();
+
+
+                            for (int counter = 0; counter < copyCount; counter++)
+                            {
+                                List<Interval> intervals_ = new List<Interval>();
+
+
+
+                                foreach (var item in Experiment1.Intervals)
+                                {
+                                    item.MagicOn();
+                                    intervals_.Add(item);
+                                }
+
+                                foreach (var item in Experiment2.Intervals)
+                                {
+                                    item.MagicOn();
+                                    intervals_.Add(item);
+                                }
+                                //данные измерений для вывода
+                                dataForCSV = new List<DataForAllCSV>();
+                                foreach (Interval interval in intervals_)
+                                    foreach (int position in interval.Markers)
+                                    {
+                                        dataForCSV.Add(new DataForAllCSV()
+                                        {
+                                            freq = interval.Frequencys[position],
+                                            signal = position <= interval.Signal.Count ? interval.Signal[position] : 0,
+                                            noise = position <= interval.Noise.Count ? interval.Noise[position] : 0
+                                        });
+                                    }
+                                dataForCSVList.Add(dataForCSV);
+
+                                SaveToFile(dirName + "\\" + fileNameShort + "__" + counter.ToString() + ".SOLUTION_PEMIN_DATA");
+                                ExportToSCV(intervals_, dirNameCSV + "\\" + fileNameShort + "__" + counter.ToString() + ".SOLUTION_PEMIN_DATA.CSV");
+
+                            }
+                            //собрали все результаты в одном месте
+                            ExportToSCV_New(dataForCSVList, dirNameCSV + "\\" + fileNameShort + ".ALL_SOLUTION_PEMIN_DATA.CSV");
+
+
 
                             foreach (var item in Experiment1.Intervals)
                                 item.AfterMagic();
@@ -299,5 +454,11 @@ namespace PeminSpectrumData
             }
             return null;
         }
+    }
+    public class DataForAllCSV
+    {
+        public double freq { get; set; }
+        public double signal { get; set; }
+        public double noise { get; set; }
     }
 }

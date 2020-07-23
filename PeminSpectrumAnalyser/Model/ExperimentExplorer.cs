@@ -363,7 +363,8 @@ namespace PeminSpectrumAnalyser.Model
                     SequenceCtrl.Dispatcher.Invoke(() => {
                         MessageWindow messageWindow = new MessageWindow();
                         messageWindow.Message = Experiment.ExperimentSettings.HardwareSettings.HardwareType.ToString() + "," +
-                                                "Частотный диапазон:" + intervalSettings.FrequencyStart.ToString() + " - " + intervalSettings.FrequencyStop.ToString() + ","+
+                                                "Частотный диапазон:" + (intervalSettings.FrequencyStart/1000000).ToString() + "мГц - " + (intervalSettings.FrequencyStop / 1000000).ToString() + "мГц,"+
+                                                Environment.NewLine + 
                                                 intervalSettings.Message1BeforeStartMeasuring;
                         messageWindow.ShowDialog();
                     });

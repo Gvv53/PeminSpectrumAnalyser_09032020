@@ -515,6 +515,22 @@ namespace PeminSpectrumAnalyser
         {
             FrequencyMax.IsEnabled = (bool)cbMove.IsChecked;
         }
+        //вкл/выкл всех интервалов
+        private void AllInterval_Checked(object sender, RoutedEventArgs e)
+        {
+            if (ParametersList == null)
+                return;
+            bool OnOff = (bool)((CheckBox)sender).IsChecked;
+            foreach (ParametersCtrl par in ParametersList.Items)
+            {
+                if (par.Interval.IntervalSettings.isAuto) //СС
+                    par.isActiveCheckBox.IsChecked = OnOff;                    
+                else
+                    par.isActiveCheckBoxDS.IsChecked = OnOff;
+                par.Interval.isActive = OnOff;
+            }
+
+        }
     }
 
 }
