@@ -48,7 +48,7 @@ namespace PeminSpectrumAnalyser
                 case HardwareType.FSH4:
                     Settings.HardwareSettings.PointsQuantity = 631;
                     break;
-                case HardwareType.FSH18:
+                case HardwareType.FSL18:
                     Settings.HardwareSettings.PointsQuantity = 501;
                     break;
 

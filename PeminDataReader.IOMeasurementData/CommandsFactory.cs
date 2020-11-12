@@ -34,10 +34,10 @@ namespace IOMeasurementData
                     hardwareSettings.HardwareDescription = HardwareType.FSH4.ToString();
                     result = new CommandsFSH4();
                     break;
-                case HardwareType.FSH18:
+                case HardwareType.FSL18:
                     hardwareSettings.PointsQuantity = 501;
-                    hardwareSettings.HardwareDescription = HardwareType.FSH18.ToString();
-                    result = new CommandsFSH18();
+                    hardwareSettings.HardwareDescription = HardwareType.FSL18.ToString();
+                    result = new CommandsFSL18();
                     break;
                 default:
                     hardwareSettings.PointsQuantity = 631;

@@ -53,7 +53,7 @@
     <Compile Include="Commands.cs" />
     <Compile Include="CommandsAgilent9915x.cs" />
     <Compile Include="CommandsFactory.cs" />
-    <Compile Include="CommandsFSH18.cs" />
+    <Compile Include="CommandsFSL18.cs" />
     <Compile Include="DataReader.cs" />
     <Compile Include="HardwareSettings.cs" />
     <Compile Include="HardwareType.cs" />
