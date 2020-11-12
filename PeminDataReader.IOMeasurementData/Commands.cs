@@ -54,7 +54,7 @@ namespace IOMeasurementData
 
                     result = true;
                 }
-                catch
+                catch(Exception e)
                 {
                     newClient?.Close();
                     newClient = new TcpClient();

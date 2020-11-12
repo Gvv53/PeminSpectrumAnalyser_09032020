@@ -419,9 +419,6 @@ namespace PeminSpectrumAnalyser
             }
             if (EmulationPrev != ExperimentExplorer.Emulation && ExperimentExplorer.Emulation) //режим эмуляции, выполним переподключение
             {
-                // NewExperiment(); //возврат в исходное состояние
-                //f (ExperimentExplorer.Emulation)
-                //{
                     Disconnect();
                     Connect();
             }
@@ -433,24 +430,7 @@ namespace PeminSpectrumAnalyser
           
             Address = ExperimentExplorer.Emulation ? "РЕЖИМ ЭМУЛЯЦИИ" : ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.IP + ":"+
                                                                         ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.Port.ToString();
-            //ExperimentExplorer.ConnectionStateChanged?.Invoke(ExperimentExplorer.IsConnected);
-            //активность полос фильтра в зависимости от ИП и режима(СС/ДС)
-          // if (ExperimentExplorer.Experiment.ExperimentSettings.HardwareSettings.HardwareType == HardwareType.FSH4)
-                //if ((bool)rbDS.IsChecked)
-                //    gbRBWVBW.IsEnabled = true;
-                //else
-                //    foreach (ParametersCtrl par in ParametersList.Items)
-                //        par.gbFilter.IsEnabled = true;
-
-            //else //Агилент
-            //    if ((bool)rbDS.IsChecked) //ДС
-            //       gbRBWVBW.IsEnabled = false;
-            //    else   //СС
-            //       foreach (ParametersCtrl par in ParametersList.Items)
-            //       {
-            //        par.gbFilter.IsEnabled = true;// false;
-            //          par.MsgBand.Visibility = Visibility;
-            //       }           
+           
         }
   
         private void HandMode_PlusOne_Click(object sender, RoutedEventArgs e)

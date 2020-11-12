@@ -49,6 +49,7 @@
         <ComboBox x:Name="HardwareComboBox" Grid.Row="2" Grid.Column="3" SelectedIndex="0" HorizontalAlignment="Left" Margin="275,0,0,0" 
                   VerticalAlignment="Top" Width="120" Height="25" SelectionChanged="HardwareComboBox_SelectionChanged">
             <ComboBoxItem Content="FSH4"/>
+            <ComboBoxItem Content="FSH18"/>
             <ComboBoxItem Content="Agilent90х0"/>
             <ComboBoxItem Content="Agilent934хC"/>
             <ComboBoxItem Content="Agilent9915x"/>
